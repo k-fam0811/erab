@@ -1,0 +1,2358 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ERABサイバーセキュリティ研修 図解ノート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF1F4; --surface:#FFFFFF; --ink:#1C2433; --muted:#5A6576; --line:#C8D0DA;
+  --k:#C23B2E; --k-soft:#F7E1DE; --s:#24857A; --s-soft:#DCF0EC;
+  --trap:#B97A06; --trap-soft:#FBEFD2;
+  --l3:#3767B0; --l3-soft:#E0E9F7; --l2:#B44C72; --l2-soft:#F6E1E9; --l1:#5E8C3C; --l1-soft:#E5F0DC;
+  --bus:#1C2433;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#131922; --surface:#1C2430; --ink:#E6EBF1; --muted:#9BA7B6; --line:#334050;
+    --k:#F07A6C; --k-soft:#3A2222; --s:#5CC6B8; --s-soft:#183330;
+    --trap:#F2B640; --trap-soft:#3A2F17;
+    --l3:#7FA6E6; --l3-soft:#1E2A3D; --l2:#E58AAE; --l2-soft:#3A2230; --l1:#9CC97A; --l1-soft:#223020;
+    --bus:#E6EBF1; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131922; --surface:#1C2430; --ink:#E6EBF1; --muted:#9BA7B6; --line:#334050;
+  --k:#F07A6C; --k-soft:#3A2222; --s:#5CC6B8; --s-soft:#183330;
+  --trap:#F2B640; --trap-soft:#3A2F17;
+  --l3:#7FA6E6; --l3-soft:#1E2A3D; --l2:#E58AAE; --l2-soft:#3A2230; --l1:#9CC97A; --l1-soft:#223020;
+  --bus:#E6EBF1; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 96px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  font-size:16px;line-height:1.75}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+h1,h2,.unit-title{font-family:"Dela Gothic One","Hiragino Sans","Yu Gothic",sans-serif;font-weight:400;letter-spacing:.02em}
+img{max-width:100%}
+
+/* ===== busbar nav ===== */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar-wrap{max-width:1080px;margin:0 auto;padding:10px 16px 6px;overflow-x:auto}
+.site{font-size:13px;color:var(--muted);margin:0 0 4px}
+nav ol{list-style:none;margin:0;padding:0 0 4px;display:flex;position:relative;min-width:1780px}
+figure.dg{margin:14px 0 4px}
+figure.dg .dgs{overflow-x:auto;-webkit-overflow-scrolling:touch}
+figure.dg svg{display:block;width:100%;height:auto;color:var(--ink)}
+figure.dg figcaption{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.7}
+.dg text{fill:currentColor;font-size:12.5px;font-family:inherit}
+.dg text.b{font-weight:700}
+.dg text.sm{font-size:11px;fill:var(--muted)}
+.dg text.sm2{font-size:11.5px}
+.dg text.halo{paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round}
+.dg text.haloh{paint-order:stroke;stroke:var(--bg);stroke-width:5px;stroke-linejoin:round}
+.dg .bx{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
+.dg .bx.bk{fill:var(--k-soft);stroke:var(--k)}
+.dg .bx.bt{fill:var(--trap-soft);stroke:var(--trap)}
+.dg .bx.bx1{fill:var(--l1-soft);stroke:var(--l1)}
+.dg .bx.bx3{fill:var(--l3-soft);stroke:var(--l3)}
+.dg .bx.mute{stroke-dasharray:5 4}
+.dg .zone{fill:none;stroke:var(--line);stroke-width:1.5;stroke-dasharray:6 5}
+.dg .zone.home{fill:var(--bg);stroke:var(--muted)}
+.dg .ln{stroke:currentColor;stroke-width:1.6;fill:none}
+.dg .ln.lk{stroke:var(--k);stroke-width:2.4}
+.dg .ln.lg{stroke:var(--s);stroke-width:2.4}
+.dg .ln.lt{stroke:var(--trap);stroke-width:2.4}
+.dg .ln.lb{stroke:var(--l3);stroke-width:2}
+.dg .ln.dash{stroke-dasharray:6 4}
+.dg .ln.bus{stroke-width:3}
+.dg text.rk,.rk{fill:var(--k);color:var(--k)}
+.dg text.gk,.gk{fill:var(--s);color:var(--s)}
+.dg text.tk,.tk{fill:var(--trap);color:var(--trap)}
+.dg text.bk,.bk{fill:var(--l3);color:var(--l3)}
+figcaption .rk,figcaption .gk,figcaption .tk,figcaption .bk{font-weight:700}
+.stack.soft .layer{grid-template-columns:160px 1fr;border-width:1px}
+@media (max-width:560px){.stack.soft .layer{grid-template-columns:120px 1fr}}
+body .stack.soft .layer .lbl{color:var(--ink);font-weight:500;font-size:13px;gap:2px}
+.stack.soft .layer .lbl em{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:15px}
+.stack.soft .layer.c1 .lbl{background:var(--l1-soft);border-right:3px solid var(--l1)}
+.stack.soft .layer.c2 .lbl{background:var(--l2-soft);border-right:3px solid var(--l2)}
+.stack.soft .layer.c3 .lbl{background:var(--l3-soft);border-right:3px solid var(--l3)}
+nav li.grp{flex:0 0 auto;display:flex;align-items:flex-start;padding:4px 6px 0 10px;position:relative;z-index:1}
+nav li.grp span{font-size:11px;font-weight:700;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:2px 7px;white-space:nowrap}
+nav.toc{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px 16px;margin:0 0 18px}
+nav.toc .toc-h{margin:0 0 6px;font-size:13px;font-weight:700;color:var(--muted)}
+nav.toc ol{display:block;min-width:0;margin:0;padding:0 0 0 1.4em;columns:2;column-gap:28px;list-style:decimal}
+nav.toc ol::before{display:none}
+nav.toc li{flex:none;text-align:left}
+nav.toc li{font-size:14px;margin:2px 0;break-inside:avoid}
+nav.toc button{background:none;border:0;padding:2px 0;font:inherit;color:var(--l3);text-align:left;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+nav.toc button:focus-visible{outline:2px solid var(--l3);outline-offset:2px;border-radius:4px}
+@media (max-width:640px){nav.toc ol{columns:1}}
+#u-a5 h2[id]{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 110px)}
+.lg-sw{display:inline-block;width:22px;height:14px;border:1.5px solid;border-radius:4px;vertical-align:-2px;margin-right:6px}
+table.mini.gl{min-width:0}
+table.gl td:first-child{white-space:nowrap}
+@media (max-width:640px){
+  table.gl thead{display:none}
+  table.gl,table.gl tbody,table.gl tr,table.gl td{display:block;width:100%}
+  table.gl tr{border-bottom:1px solid var(--line);padding:8px 0}
+  table.gl td{border:0;padding:2px 0}
+  table.gl td:first-child{white-space:normal;font-size:15px}
+  table.gl td:last-child{font-size:13px}
+  table.gl td:last-child::before{content:"詳しく：";color:var(--muted)}
+}
+table.gl a{color:var(--l3)}
+.appx{display:inline-block;font-size:12px;font-weight:700;border:1px solid var(--line);border-radius:6px;padding:1px 8px;margin-bottom:10px;color:var(--muted);background:var(--surface)}
+.sc dl{margin:6px 0 0;display:grid;grid-template-columns:5.5em 1fr;gap:4px 10px;font-size:14px}
+.sc dt{color:var(--muted);font-weight:700;font-size:13px}
+.sc dd{margin:0}
+.sc .who{font-size:12px;font-weight:700;margin-left:6px}
+nav ol::before{content:"";position:absolute;left:18px;right:18px;top:13px;height:4px;background:var(--bus);border-radius:2px}
+nav li{flex:1;text-align:center;position:relative}
+nav a{display:inline-flex;flex-direction:column;align-items:center;gap:4px;color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;padding:0 4px}
+nav a .node{width:30px;height:30px;border-radius:50%;background:var(--surface);border:4px solid var(--bus);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--ink)}
+nav a[aria-current="page"]{color:var(--ink);font-weight:700}
+nav a[aria-current="page"] .node{background:var(--trap);border-color:var(--trap);color:#1C2433;box-shadow:0 0 0 5px var(--trap-soft)}
+nav a:focus-visible{outline:3px solid var(--l3);outline-offset:3px;border-radius:6px}
+
+main{max-width:1080px;margin:0 auto;padding:28px 16px 64px}
+.unit{display:none}
+.unit.on{display:block}
+.unit-head{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:end;margin-bottom:22px}
+.unit-num{font-family:"Dela Gothic One",sans-serif;font-size:72px;line-height:.9;color:var(--trap)}
+.unit-title{font-size:clamp(22px,4vw,34px);line-height:1.3;margin:0}
+.unit-sub{grid-column:2;margin:0;color:var(--muted);font-size:14px}
+
+section.blk{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 20px 22px;margin:0 0 18px}
+section.blk>h2{font-size:20px;margin:0 0 4px;line-height:1.4}
+.lead{margin:0 0 14px;color:var(--muted);font-size:14px}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.g5{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.tile{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--bg)}
+.tile h3{margin:0 0 4px;font-size:16px;line-height:1.45}
+.tile p{margin:0;font-size:14px}
+.tile .when{display:inline-block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:2px}
+.tile.l1{background:var(--l1-soft);border-color:var(--l1)} .tile.l2{background:var(--l2-soft);border-color:var(--l2)} .tile.l3{background:var(--l3-soft);border-color:var(--l3)}
+
+.big{font-family:"Dela Gothic One",sans-serif;font-size:clamp(30px,6vw,46px);line-height:1.1;display:block}
+.big small{font-family:"Zen Kaku Gothic New",sans-serif;font-size:15px;font-weight:700;margin-left:4px}
+.arrowstat{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.arrowstat .from{font-size:22px;color:var(--muted);font-weight:700}
+.arrowstat .arr{font-size:22px;color:var(--muted)}
+
+.pill{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 9px;vertical-align:2px;white-space:nowrap}
+.pk{background:var(--k);color:#fff} .ps{background:var(--s);color:#fff}
+.pt{background:var(--trap);color:#1C2433}
+.pg{background:var(--line);color:var(--ink)}
+
+/* flow (true sequences only) */
+ol.flow{list-style:none;margin:0;padding:0;counter-reset:f;display:grid;gap:8px}
+ol.flow li{counter-increment:f;display:grid;grid-template-columns:38px 1fr;gap:10px;align-items:start;position:relative}
+ol.flow li::before{content:counter(f);width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--surface);display:grid;place-items:center;font-weight:700;font-size:15px}
+ol.flow li:not(:last-child)::after{content:"";position:absolute;left:16px;top:36px;bottom:-8px;width:2px;background:var(--line)}
+ol.flow b{display:block;line-height:1.4;margin-top:5px}
+ol.flow span{font-size:14px;color:var(--muted)}
+ol.flow.h{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+ol.flow.h li{grid-template-columns:1fr;text-align:left}
+ol.flow.h li::after{display:none}
+
+/* layer stack */
+.stack{display:grid;gap:6px}
+.layer{display:grid;grid-template-columns:110px 1fr;border-radius:10px;overflow:hidden;border:2px solid}
+.layer .lbl{color:#fff;font-weight:700;padding:12px;display:flex;flex-direction:column;justify-content:center;line-height:1.3}
+.layer .lbl em{font-style:normal;font-family:"Dela Gothic One",sans-serif;font-size:24px}
+.layer .body{padding:10px 14px;background:var(--surface)}
+.layer .body p{margin:0 0 4px;font-size:14px}
+.layer.c3{border-color:var(--l3)} .layer.c3 .lbl{background:var(--l3)}
+.layer.c2{border-color:var(--l2)} .layer.c2 .lbl{background:var(--l2)}
+.layer.c1{border-color:var(--l1)} .layer.c1 .lbl{background:var(--l1)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .layer .lbl{color:#131922}}
+:root[data-theme="dark"] .layer .lbl{color:#131922}
+
+/* interface chain for ③ */
+.chain{display:grid;gap:8px}
+.link{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:stretch;border:2px solid var(--k);border-radius:12px;background:var(--k-soft);padding:10px 12px}
+.link.sui{border-color:var(--s);background:var(--s-soft)}
+.link .rid{font-family:"Dela Gothic One",sans-serif;font-size:26px;color:var(--k);display:grid;place-items:center}
+.link.sui .rid{color:var(--s)}
+.ends{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-weight:700;margin-bottom:4px}
+.ends .n{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:2px 10px;font-size:14px}
+.ends .w{color:var(--muted)}
+.link p{margin:0;font-size:14px}
+
+/* versus */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.vs>div{padding:14px}
+.vs>div+div{border-left:1px solid var(--line)}
+.vs h3{margin:0 0 6px;font-size:17px}
+.vs dl{margin:0;display:grid;gap:6px}
+.vs dt{font-size:12px;color:var(--muted);font-weight:700}
+.vs dd{margin:0;font-size:14px}
+.vs .a{background:var(--l3-soft)} .vs .b{background:var(--l2-soft)}
+@media (max-width:560px){.vs{grid-template-columns:1fr}.vs>div+div{border-left:0;border-top:1px solid var(--line)}}
+
+/* facility bar */
+.fbar{display:grid;grid-template-columns:1.2fr 1fr 1fr;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.fbar>div{padding:12px;font-size:14px}
+.fbar b{display:block;font-size:15px}
+.fbar .gl{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;background:var(--surface);border:1px solid var(--line)}
+.fbar .f1{background:var(--k-soft)} .fbar .f2{background:var(--bg)} .fbar .f3{background:var(--l3-soft)}
+@media (max-width:560px){.fbar{grid-template-columns:1fr}}
+
+/* penalty bars */
+.pen{display:grid;gap:10px}
+.pen .row{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:center;font-size:14px}
+.pen .track{background:var(--bg);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.pen .fill{background:var(--k);color:#fff;font-weight:700;padding:4px 10px;white-space:nowrap;font-size:13px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pen .fill{color:#131922}}
+:root[data-theme="dark"] .pen .fill{color:#131922}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0 0 0 14px;border-left:3px solid var(--ink);display:grid;gap:10px}
+.tl li{position:relative;padding-left:12px;font-size:14px}
+.tl li::before{content:"";position:absolute;left:-22px;top:6px;width:13px;height:13px;border-radius:50%;background:var(--surface);border:3px solid var(--ink)}
+.tl b{display:inline-block;min-width:76px}
+
+/* nest (ISO terms) */
+.nest{border:2px dashed var(--l3);border-radius:12px;padding:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.nest .cap{width:100%;font-weight:700;color:var(--l3);font-size:14px}
+.nest .step{background:var(--l3-soft);border-radius:8px;padding:8px 12px;font-size:14px;flex:1;min-width:150px}
+.nest .step b{display:block}
+.outside{margin-top:8px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:14px}
+
+/* traps */
+.trap{border:2px solid var(--trap);background:var(--trap-soft);border-radius:14px;padding:16px 18px;margin:0 0 18px}
+.trap h2{font-size:18px;margin:0 0 8px;display:flex;gap:10px;align-items:center}
+.trap h2::before{content:"!";width:28px;height:28px;border-radius:50%;background:var(--trap);color:#1C2433;display:grid;place-items:center;font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700}
+.trap ul{margin:0;padding-left:1.2em}
+.trap li{margin:3px 0;font-size:15px}
+.x{text-decoration:line-through;text-decoration-color:var(--k);text-decoration-thickness:2px;color:var(--muted)}
+.trap.point h2::before{content:"★"}
+.trap.point h3{font-size:15px;margin:12px 0 4px}
+.trap.point h3:first-of-type{margin-top:4px}
+.trap.point .q{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:0 7px;margin-right:6px;background:var(--trap);color:#1C2433;vertical-align:1px}
+
+.inc{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.inc li{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center;font-size:14px;padding:6px 10px;border-radius:8px;background:var(--bg)}
+.inc .y{font-weight:700}
+.t-gen{background:var(--l1);color:#fff} .t-ret{background:var(--l3);color:#fff} .t-td{background:var(--l2);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .t-gen,:root:not([data-theme="light"]) .t-ret,:root:not([data-theme="light"]) .t-td{color:#131922}}
+:root[data-theme="dark"] .t-gen,:root[data-theme="dark"] .t-ret,:root[data-theme="dark"] .t-td{color:#131922}
+
+.scroll{overflow-x:auto}
+table.mini{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+table.mini th,table.mini td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+table.mini th{font-size:13px;color:var(--muted)}
+footer{max-width:1080px;margin:0 auto;padding:0 16px 40px;font-size:12px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.unit.on{animation:in .25s ease-out}@keyframes in{from{opacity:0}to{opacity:1}}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar-wrap">
+    <p class="site">ERABサイバーセキュリティトレーニング 図解ノート</p>
+    <nav aria-label="単元">
+      <ol>
+        <li class="grp"><span>案内</span></li>
+        <li><a href="#home"><span class="node">案</span>はじめに</a></li>
+        <li><a href="#glossary"><span class="node">語</span>用語集</a></li>
+        <li class="grp"><span>研修</span></li>
+        <li><a href="#policy"><span class="node">政</span>政策動向</a></li>
+        <li><a href="#g1"><span class="node">1</span>脅威の現況</a></li>
+        <li><a href="#g2"><span class="node">2</span>規制・GL一覧</a></li>
+        <li><a href="#g3"><span class="node">3</span>ERAB GL</a></li>
+        <li><a href="#g4"><span class="node">4</span>CPSF</a></li>
+        <li><a href="#g5"><span class="node">5</span>リスク分析</a></li>
+        <li><a href="#g6"><span class="node">6</span>関係制度</a></li>
+        <li><a href="#r0"><span class="node">体</span>リスク体感</a></li>
+        <li><a href="#r1"><span class="node">分1</span>GL改定とCCRC</a></li>
+        <li><a href="#r2"><span class="node">分2</span>分析の概要</a></li>
+        <li><a href="#r3"><span class="node">分3</span>対策の選定</a></li>
+        <li><a href="#r4"><span class="node">分4</span>リスクシナリオ</a></li>
+        <li class="grp"><span>Appendix</span></li>
+        <li><a href="#a1"><span class="node">A1</span>CPSF本体</a></li>
+        <li><a href="#a2"><span class="node">A2</span>データMF</a></li>
+        <li><a href="#a3"><span class="node">A3</span>ERAB GL</a></li>
+        <li><a href="#a4"><span class="node">A4</span>SH★2要件</a></li>
+        <li><a href="#a5"><span class="node">A5</span>ERABセキュGL原本</a></li>
+      </ol>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= はじめに ================= -->
+<article class="unit" id="u-home" data-view="home">
+  <div class="unit-head">
+    <div class="unit-num">案</div>
+    <h1 class="unit-title">このページの読み方</h1>
+    <p class="unit-sub">IPA「ERABサイバーセキュリティトレーニング（実務者向けプログラム）」の講義資料と、資源エネルギー庁の政策動向資料を、単元ごとに図解したノート。後半のAppendixは、研修で参照された元の文書のまとめ</p>
+  </div>
+
+  <section class="blk">
+    <h2>そもそも何の話か</h2>
+    <p class="lead">家庭や工場の蓄電池・給湯機・EVなどを束ねて、電力の需給調整に使うビジネスを<strong>ERAB</strong>（エネルギー・リソース・アグリゲーション・ビジネス）という。これまで家の中で閉じていた機器が、外のシステムから遠隔で動かされるようになるので、サイバー攻撃が<strong>停電や機器の異常動作</strong>につながりうる。その対策をまとめたのが「ERABサイバーセキュリティガイドライン」で、この研修はその中身と、リスク分析のやり方を学ぶもの。</p>
+    <figure class="dg"><div class="dgs"><svg viewBox="0 0 820 150" role="img" aria-label="電力会社からアグリゲーターを経て家庭の機器に指令が届き、機器の動きが電力の需給調整になる" style="min-width:640px">
+      <defs><marker id="h0a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:currentColor"/></marker></defs>
+      <rect class="bx" x="10" y="40" width="190" height="60" rx="8"/><text class="b" x="105" y="66" text-anchor="middle">電力会社（送配電）</text><text class="sm" x="105" y="84" text-anchor="middle">需給のバランスを取る</text>
+      <rect class="bx bt" x="315" y="40" width="190" height="60" rx="8"/><text class="b" x="410" y="66" text-anchor="middle">アグリゲーター</text><text class="sm" x="410" y="84" text-anchor="middle">機器を束ねる事業者</text>
+      <rect class="bx" x="620" y="40" width="190" height="60" rx="8"/><text class="b" x="715" y="66" text-anchor="middle">家庭・工場の機器</text><text class="sm" x="715" y="84" text-anchor="middle">蓄電池・給湯機・EVなど</text>
+      <line class="ln" x1="200" y1="62" x2="313" y2="62" marker-end="url(#h0a)"/><text class="sm2" x="256" y="54" text-anchor="middle">「何kW下げて」</text>
+      <line class="ln" x1="505" y1="62" x2="618" y2="62" marker-end="url(#h0a)"/><text class="sm2" x="561" y="54" text-anchor="middle">遠隔で制御</text>
+      <line class="ln" x1="618" y1="84" x2="507" y2="84" marker-end="url(#h0a)"/><line class="ln" x1="313" y1="84" x2="202" y2="84" marker-end="url(#h0a)"/>
+      <text class="sm2" x="256" y="104" text-anchor="middle">実績を報告</text><text class="sm2" x="561" y="104" text-anchor="middle">使用量データ</text>
+      <text class="rk sm2" x="410" y="136" text-anchor="middle">この経路のどこかが攻撃されると、機器の誤動作や電力の需給の乱れにつながる</text>
+    </svg></div><figcaption>ERABの基本の形。アグリゲーターが電力会社の指令を受けて、たくさんの家庭や工場の機器を少しずつ動かし、全体で発電所のように働かせる（VPP）。UCHITASのような機器を束ねるプラットフォームは、この真ん中の部分に関わる</figcaption></figure>
+  </section>
+
+  <section class="blk">
+    <h2>おすすめの読む順番</h2>
+    <div class="grid g2">
+      <div class="tile l3"><h3>初めての人（UCHITASに関わり始めた人）</h3><p><strong>用語集</strong> → <strong>政策動向</strong>（なぜ今DRなのか）→ <strong>③ ERAB GL</strong>（R1〜R6の全体図）→ <strong>リスク体感</strong>（家庭で何が起きうるか）→ <strong>A5 GL原本</strong>の最後の「低圧DRのプラットフォームとして読むと」</p></div>
+      <div class="tile"><h3>研修を受ける人</h3><p>研修の順番どおり、政策動向 → ①〜⑥ → リスク体感 → 分1〜分4。各単元の最後の「ここがポイント」で要点を確認する</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>色と記号の意味</h2>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th>見た目</th><th>意味</th><th>主に出てくる単元</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill pk">勧告</span>・赤い線</td><td>ガイドラインで<strong>実装が必須</strong>のもの</td><td>③、A5、図</td></tr>
+          <tr><td><span class="pill ps">推奨</span>・緑の線</td><td>ガイドラインで<strong>実装を検討すべき</strong>もの</td><td>③、A5、図</td></tr>
+          <tr><td><span class="lg-sw" style="background:var(--l3-soft);border-color:var(--l3)"></span>青の帯</td><td>CPSFの<strong>第3層</strong>（サイバー空間、データ）</td><td>④、分4、A1</td></tr>
+          <tr><td><span class="lg-sw" style="background:var(--l2-soft);border-color:var(--l2)"></span>ピンクの帯</td><td>CPSFの<strong>第2層</strong>（サイバーとフィジカルの境目、転写）</td><td>④、分4、A1</td></tr>
+          <tr><td><span class="lg-sw" style="background:var(--l1-soft);border-color:var(--l1)"></span>緑の帯</td><td>CPSFの<strong>第1層</strong>（企業・組織）</td><td>④、分4、A1</td></tr>
+          <tr><td><span class="lg-sw" style="background:var(--trap-soft);border-color:var(--trap)"></span>黄色の枠</td><td>「ここがポイント」と、特に注意したい点</td><td>全単元</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">記号の注意：「R1〜R6」はERABシステムの<strong>インターフェース</strong>（つなぎ目）の番号。リスク分析編の単元は「<strong>分1〜分4</strong>」と書いて区別している。Appendix（A1〜A5）は研修の問題範囲外の参考資料。</p>
+  </section>
+</article>
+
+<!-- ================= 用語集 ================= -->
+<article class="unit" id="u-glossary" data-view="glossary">
+  <div class="unit-head">
+    <div class="unit-num">語</div>
+    <h1 class="unit-title">用語集</h1>
+    <p class="unit-sub">このページに出てくる略語と専門用語。右端の単元で詳しく扱っている</p>
+  </div>
+
+  <section class="blk">
+    <h2>ビジネスと登場人物</h2>
+    <div class="scroll"><table class="mini gl">
+      <thead><tr><th>用語</th><th>意味</th><th>詳しく</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ERAB</strong></td><td>エネルギー・リソース・アグリゲーション・ビジネス。VPPやDRを使って、送配電・小売・需要家などに調整力や電気代削減などを提供する事業</td><td><a href="#a3">A3</a></td></tr>
+        <tr><td><strong>DR</strong></td><td>デマンドレスポンス。電力の需給に合わせて需要を変えること。<strong>下げDR</strong>は使用を減らす（需要抑制）、<strong>上げDR</strong>は使用を増やす（需要創出）</td><td><a href="#a3">A3</a></td></tr>
+        <tr><td><strong>VPP</strong></td><td>仮想発電所。たくさんの機器を束ねて、1つの発電所のように使うこと</td><td><a href="#a3">A3</a></td></tr>
+        <tr><td><strong>DER / DSR</strong></td><td>分散型エネルギーリソース／需要家側エネルギーリソース。太陽光、蓄電池、EV、給湯機など</td><td><a href="#a3">A3</a></td></tr>
+        <tr><td><strong>ネガワット</strong></td><td>節電した電力量。発電したのと同じ価値として取引される</td><td><a href="#a3">A3</a></td></tr>
+        <tr><td><strong>アグリゲーター</strong></td><td>機器を束ねてDRやVPPを行う事業者。制度上は<strong>特定卸供給事業者</strong>（2022年4月に制度化）。役割によりACとRAに分かれる</td><td><a href="#policy">政策</a></td></tr>
+        <tr><td><strong>AC</strong></td><td>アグリゲーションコーディネーター。送配電や小売と直接取引し、RAが束ねた量をまとめる。送配電と接続する側</td><td><a href="#g3">③</a></td></tr>
+        <tr><td><strong>RA</strong></td><td>リソースアグリゲーター。需要家と契約し、機器を直接制御する側</td><td><a href="#g3">③</a></td></tr>
+        <tr><td><strong>一般送配電事業者（TSO）</strong></td><td>送電線・配電線を持ち、地域の需給バランスを取る会社（各地域の電力会社の送配電部門）</td><td><a href="#g1">①</a></td></tr>
+        <tr><td><strong>小売電気事業者</strong></td><td>需要家に電気を売る会社。DRでは「供給元小売」として調整金の相手にもなる</td><td><a href="#a3">A3</a></td></tr>
+        <tr><td><strong>需要家</strong></td><td>電気を使う人や会社。家庭は「低圧」、工場やビルは「高圧・特高」</td><td><a href="#policy">政策</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="blk">
+    <h2>システムと通信</h2>
+    <div class="scroll"><table class="mini gl">
+      <thead><tr><th>用語</th><th>意味</th><th>詳しく</th></tr></thead>
+      <tbody>
+        <tr><td><strong>簡易指令システム</strong></td><td>送配電事業者がアグリゲーターにDRの指令を出すシステム</td><td><a href="#g3">③</a></td></tr>
+        <tr><td><strong>R1〜R6</strong></td><td>ERABシステムのインターフェース（つなぎ目）の番号。R1が送配電とAC、R5が宅内のGWと機器、R6がクラウドから機器への直接制御</td><td><a href="#g3">③</a></td></tr>
+        <tr><td><strong>OpenADR</strong></td><td>DRの指令をやりとりする国際標準の通信規格。R1で使う。指令を出す側がVTN、受ける側がVEN</td><td><a href="#g3">③</a></td></tr>
+        <tr><td><strong>GW</strong></td><td>ゲートウェイ。家の中のネットワークと外の境目にある機器。ガイドラインではこれが「家の境界」</td><td><a href="#a5">A5</a></td></tr>
+        <tr><td><strong>HEMS / BEMS / EMS</strong></td><td>家庭用／ビル用のエネルギー管理システム。機器の電力を見える化し、まとめて制御する。EMSは総称</td><td><a href="#g3">③</a></td></tr>
+        <tr><td><strong>コントローラー</strong></td><td>機器を制御する役割のもの。家の中（GWの内側）にある場合と、クラウド（GWの外側）にある場合がある</td><td><a href="#a5">A5</a></td></tr>
+        <tr><td><strong>ECHONET Lite</strong></td><td>日本の家電・住宅設備をつなぐ通信規格。HEMSと機器の間（R5）で使われる。標準では電文が暗号化されていない</td><td><a href="#r0">体感</a></td></tr>
+        <tr><td><strong>ECHONET Lite Web API</strong></td><td>クラウド同士で機器の情報や制御をやりとりするための仕様</td><td><a href="#a4">A4</a></td></tr>
+        <tr><td><strong>Matter</strong></td><td>スマートホーム機器の国際標準の通信規格。QRコードで初期設定する</td><td><a href="#a4">A4</a></td></tr>
+        <tr><td><strong>スマートメーター</strong></td><td>30分ごとの使用量を測る電力量計。<strong>Aルート</strong>は送配電へ、<strong>Bルート</strong>は家の中のHEMSへデータを送る経路</td><td><a href="#g4">④</a></td></tr>
+        <tr><td><strong>HAN</strong></td><td>ホームエリアネットワーク。家の中のネットワーク</td><td><a href="#a5">A5</a></td></tr>
+        <tr><td><strong>PaaS</strong></td><td>アプリを動かす基盤をサービスとして提供する形。UCHITASはこの形でパートナーに提供される</td><td><a href="#a2">A2</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="blk">
+    <h2>市場と精算</h2>
+    <div class="scroll"><table class="mini gl">
+      <thead><tr><th>用語</th><th>意味</th><th>詳しく</th></tr></thead>
+      <tbody>
+        <tr><td><strong>調整力</strong></td><td>需給のずれを埋めるために、送配電が使う電源やDR</td><td><a href="#policy">政策</a></td></tr>
+        <tr><td><strong>需給調整市場 / 容量市場</strong></td><td>調整力を取引する市場／将来の供給力（kW）を取引する市場。DRも参加できる</td><td><a href="#policy">政策</a></td></tr>
+        <tr><td><strong>ベースライン</strong></td><td>「DRをしなかったら使っていたはずの量」。実際との差が節電量として評価される</td><td><a href="#a3">A3</a></td></tr>
+        <tr><td><strong>ネガワット調整金</strong></td><td>他社の需要家でDRをしたとき、アグリゲーターがその需要家の小売に払うお金</td><td><a href="#a3">A3</a></td></tr>
+        <tr><td><strong>GC</strong></td><td>ゲートクローズ。実際に電気を使う時間の1時間前の、計画の締め切り</td><td><a href="#a3">A3</a></td></tr>
+        <tr><td><strong>逆潮流</strong></td><td>家や工場から電力系統へ電気が流れること（太陽光や蓄電池の放電など）</td><td><a href="#r4">分4</a></td></tr>
+        <tr><td><strong>系統</strong></td><td>発電所から需要家までをつなぐ電力ネットワーク全体</td><td><a href="#g1">①</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="blk">
+    <h2>セキュリティの制度と枠組み</h2>
+    <div class="scroll"><table class="mini gl">
+      <thead><tr><th>用語</th><th>意味</th><th>詳しく</th></tr></thead>
+      <tbody>
+        <tr><td><strong>勧告 / 推奨</strong></td><td>ガイドラインで実装が必須のもの／実装を検討すべきもの</td><td><a href="#g3">③</a></td></tr>
+        <tr><td><strong>標準対策要件 / 詳細対策要件</strong></td><td>ガイドラインが示す最低限の要件／各事業者が自分のシステムに合わせて作る具体的な要件</td><td><a href="#a5">A5</a></td></tr>
+        <tr><td><strong>CPSF</strong></td><td>経済産業省の「サイバー・フィジカル・セキュリティ対策フレームワーク」。社会を三層で捉えて対策を整理する</td><td><a href="#g4">④</a></td></tr>
+        <tr><td><strong>JC-STAR</strong></td><td>IoT製品のセキュリティのラベル制度（IPA）。★1・★2はメーカーの自己宣言、★3・★4は第三者の評価</td><td><a href="#g6">⑥</a></td></tr>
+        <tr><td><strong>ISMAP</strong></td><td>政府が求める水準を満たしたクラウドを登録する制度</td><td><a href="#g6">⑥</a></td></tr>
+        <tr><td><strong>NIST CSF</strong></td><td>米国のサイバーセキュリティ・フレームワーク。識別・防御・検知・対応・復旧（2.0で統治を追加）</td><td><a href="#g2">②</a></td></tr>
+        <tr><td><strong>CRA / NIS2</strong></td><td>EUのサイバーレジリエンス法（デジタル製品が対象）／ネットワーク・情報システム指令（重要分野の事業者が対象）</td><td><a href="#g2">②</a></td></tr>
+        <tr><td><strong>JVN iPedia</strong></td><td>IPAが公開している脆弱性対策情報のデータベース</td><td><a href="#a5">A5</a></td></tr>
+        <tr><td><strong>電力制御システムセキュリティGL</strong></td><td>日本電気協会のガイドライン。電気事業法の技術基準の解釈として、発電・送配電の制御システムに適用</td><td><a href="#g2">②</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</article>
+
+<!-- ================= 政策動向 ================= -->
+<article class="unit" id="u-policy" data-view="policy">
+  <div class="unit-head">
+    <div class="unit-num">政</div>
+    <h1 class="unit-title">ERABに関連する政策動向</h1>
+    <p class="unit-sub">資源エネルギー庁 新エネルギーシステム課（2026年9月）</p>
+  </div>
+
+  <section class="blk">
+    <h2>なぜ分散型リソース（DER）が要るのか</h2>
+    <p class="lead">エネルギーシステムを揺さぶる「5D」。答えは、DERで脱炭素なフレキシビリティを確保すること。</p>
+    <div class="grid g5">
+      <div class="tile"><h3>Depopulation</h3><p>人口減少。インフラ老朽化</p></div>
+      <div class="tile"><h3>De-carbonization</h3><p>脱炭素。再エネの主力電源化</p></div>
+      <div class="tile"><h3>De-centralization</h3><p>分散化。DERの価格低下、レジリエンス</p></div>
+      <div class="tile"><h3>Deregulation</h3><p>制度改革。小売全面自由化、発送電分離</p></div>
+      <div class="tile"><h3>Digitalization</h3><p>デジタル化。IoT、AIで電力需要も増える</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile"><span class="big">約3<small>倍</small></span><p>先進国の短期フレキシビリティ必要量。2035年は2024年の約3倍（IEA STEPS）</p></div>
+      <div class="tile"><span class="big">約50<small>%</small></span><p>2035年の短期フレキシビリティのうち、蓄電池とDRが担う割合</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>アグリゲーターは増えている</h2>
+    <p class="lead">2022年4月の特定卸供給事業制度の創設以降。新電力系が約6割。</p>
+    <div class="grid g2">
+      <div class="tile"><p>事業者数</p><div class="arrowstat"><span class="from">46社</span><span class="arr">▶</span><span class="big">145<small>社</small></span></div><p>2022年 → 2026年5月</p></div>
+      <div class="tile"><p>合計供給能力</p><div class="arrowstat"><span class="from">約3.6GW</span><span class="arr">▶</span><span class="big">約6.1<small>GW</small></span></div><p>2022年 → 2026年5月</p></div>
+      <div class="tile"><p>容量市場の発動指令電源（DRを含む）</p><span class="big">639<small>万kW</small></span><p>2029年度向けメインオークション</p></div>
+      <div class="tile"><p>電源Ⅰ′のDR落札（2023年度向け）</p><span class="big">252.2<small>万kW</small></span><p>全体落札量の7割弱</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>市場の開放スケジュール</h2>
+    <ul class="tl">
+      <li><b>2021年度</b>需給調整市場が順次開設（三次②から）</li>
+      <li><b>2022年度</b>特定卸供給事業（アグリゲーター）ライセンス、FIP、配電事業ライセンス</li>
+      <li><b>2024年度</b>容量市場が開始（一次・二次①②も）</li>
+      <li><b>2025年度</b>次世代スマートメーター運用開始、IoTルート</li>
+      <li><b>2026年度</b>需給調整市場で<strong>低圧小規模リソース</strong>と<strong>機器個別計測</strong>が解禁</li>
+      <li><b>2027年度〜</b>スマメIoTルートのDR、ラボ実証の後にフィールド実証</li>
+    </ul>
+  </section>
+
+  <section class="blk">
+    <h2>規模で施策が違う</h2>
+    <div class="vs">
+      <div class="a">
+        <h3>特高・高圧（工場等）</h3>
+        <dl>
+          <dt>しくみ</dt><dd>2022年度の改正省エネ法で「電気の需要の最適化」。<strong>DR実施日数の報告が義務</strong>、実績値と設備は任意</dd>
+          <dt>実績（2024年度分）</dt><dd>約14,700件中 約3,200件（約22%）がDR実施。平均37.7日</dd>
+          <dt>支援</dt><dd>IoT化支援（補助率1/2以内）</dd>
+        </dl>
+      </div>
+      <div class="b">
+        <h3>低圧（家庭・小規模オフィス）</h3>
+        <dl>
+          <dt>課題</dt><dd>1件あたりのDR量が小さく、人の手作業では無理</dd>
+          <dt>答え</dt><dd>「DRready」環境。機器に遠隔制御を標準搭載、制御できる事業者、市場での活用</dd>
+          <dt>支援</dt><dd>家庭用蓄電池の導入支援（2022年度〜）</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>DRreadyとセキュリティ</h2>
+    <div class="grid g2">
+      <div class="tile"><span class="when">2024年6月 DRready勉強会</span><h3>要件整理済み</h3><p>ヒートポンプ給湯機、家庭用蓄電池、ハイブリッド給湯機、家庭用燃料電池。次はEV充電器・充放電器</p></div>
+      <div class="tile"><span class="when">DRready要件案のセキュリティ</span><h3>JC-STAR★1以上 → ★2へ</h3><p>スマートホーム分野★2の要件がIPAで確定次第、DRready機器に★2を求める方向</p></div>
+      <div class="tile l3"><h3>ERABレベル</h3><p>ERABサイバーセキュリティGLに準拠（2017年初版、2025年5月にVer3.0）</p></div>
+      <div class="tile l2"><h3>機器レベル</h3><p>電力固有の特性を踏まえ、JC-STAR★2以上の基準を整備</p></div>
+    </div>
+    <p class="lead" style="margin-top:12px">ERABガイドライン（セキュリティではない方）：2015年策定、2025年11月改定。機器個別計測、低圧向けベースライン、便益調整、小売との標準フォーマット。</p>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要ワード</h3>
+    <ul>
+      <li><strong>5D</strong>：Depopulation（人口減少）、De-carbonization（脱炭素）、De-centralization（分散化）、Deregulation（制度改革）、Digitalization（デジタル化）</li>
+      <li><strong>特定卸供給事業者</strong>＝アグリゲーター。2022年4月に制度創設、2026年5月時点で145社・約6.1GW</li>
+      <li><strong>DRready</strong>：機器に遠隔制御を標準搭載する環境。セキュリティはJC-STAR★1以上で、★2へ引き上げる方向</li>
+      <li><strong>改正省エネ法</strong>：特高・高圧の事業者に義務なのは<strong>DR実施日数</strong>の報告だけ</li>
+      <li><strong>2026年度</strong>：需給調整市場で低圧小規模リソースと機器個別計測が解禁</li>
+      <li>ERABガイドライン（2015年、2025年11月改定）とERABセキュリティGL（2017年、Ver3.0は2025年5月）は<strong>別物</strong></li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= ① ================= -->
+<article class="unit" id="u-g1" data-view="g1">
+  <div class="unit-head">
+    <div class="unit-num">1</div>
+    <h1 class="unit-title">電力分野のサイバー脅威の現況</h1>
+    <p class="unit-sub">IPA 産業サイバーセキュリティセンター</p>
+  </div>
+
+  <section class="blk">
+    <h2>電力システムのプレイヤー</h2>
+    <p class="lead">アグリゲーターは、他の事業者とつながりながらリソースを束ねる立場。</p>
+    <div class="grid g3">
+      <div class="tile"><h3>発電事業者</h3><p>火力、再エネで発電</p></div>
+      <div class="tile"><h3>一般送配電事業者</h3><p>託送、インバランス調整。アグリゲーターへDR指令</p></div>
+      <div class="tile l2"><h3>特定卸供給事業者（アグリゲーター）</h3><p>リソースを束ね、VPPやDRを提供</p></div>
+      <div class="tile"><h3>小売電気事業者</h3><p>需要家へ供給。供給力確保と説明の義務</p></div>
+      <div class="tile"><h3>市場・広域機関</h3><p>広域機関、卸電力取引市場、需給調整市場</p></div>
+      <div class="tile"><h3>需要家</h3><p>特高、高圧、低圧、分散電源・蓄電池</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>12の事例</h2>
+    <p class="lead">色は主な攻撃対象。<span class="pill t-gen">発電</span> <span class="pill t-ret">小売</span> <span class="pill t-td">送配電</span></p>
+    <ul class="inc">
+      <li><span class="y">2019</span><span>米国電力網への初の攻撃。FWのWeb画面の既知脆弱性でFWが再起動（NERCが教訓レポート）</span><span class="pill t-gen">発電</span></li>
+      <li><span class="y">2019</span><span>南ア City Power。ランサムでプリペイド電力が止まり停電。25万人以上</span><span class="pill t-ret">小売</span></li>
+      <li><span class="y">2020</span><span>ムンバイ停電。系統監視制御システムへのマルウェアの可能性</span><span class="pill t-td">送配電</span></li>
+      <li><span class="y">2021</span><span>米DMEA。約90%のシステム停止、20〜25年分のデータ破損</span><span class="pill t-td">送配電</span></li>
+      <li><span class="y">2022</span><span>Viasat KA-SAT。独の風力7,800基超が遠隔制御不能</span><span class="pill t-gen">発電</span></li>
+      <li><span class="y">2022</span><span>印 Tata Power。Hiveが従業員情報、設計図、暗号鍵情報を漏洩</span><span class="pill t-gen">発電</span></li>
+      <li><span class="y">2023</span><span>デンマーク22事業者。Zyxel FWの脆弱性。アイランドモード運用</span><span class="pill t-gen">発電</span></li>
+      <li><span class="y">2023</span><span>スロベニアHSE。アクセス権削除。身代金要求なし</span><span class="pill t-gen">発電</span></li>
+      <li><span class="y">2023</span><span>モントリオールCESM。LockBit。復旧に約1週間、支払い拒否</span><span class="pill t-td">送配電</span></li>
+      <li><span class="y">2024</span><span>コンテック太陽光監視機器。約800台が不正送金の踏み台。PoC公開済みの脆弱性</span><span class="pill t-gen">発電</span></li>
+      <li><span class="y">2025</span><span>カナダ Nova Scotia Power。ランサム。スマメデータが送れず請求停止</span><span class="pill t-gen">発電</span></li>
+      <li><span class="y">2025</span><span>国内電力会社。接続機器の設定不備で社員情報が流出の可能性</span><span class="pill t-gen">発電</span></li>
+    </ul>
+  </section>
+
+  <section class="blk">
+    <h2>事例から見える共通パターン</h2>
+    <div class="grid g3">
+      <div class="tile"><h3>入口は境界機器</h3><p>FW、VPN、接続機器の既知脆弱性や設定ミス</p></div>
+      <div class="tile"><h3>規模を問わずランサム</h3><p>大手も地域協同組合も狙われる</p></div>
+      <div class="tile"><h3>ITが止まると電気も止まる</h3><p>課金や請求の停止が停電や業務停止につながる</p></div>
+    </div>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要ワード</h3>
+    <ul>
+      <li>侵入口の多くは<strong>境界機器</strong>（FW、VPN、接続機器）の既知の脆弱性と設定ミス</li>
+      <li><strong>City Power</strong>（南ア、小売）：ランサムウェアでプリペイド電力が止まり、ITの被害が停電につながった</li>
+      <li><strong>Viasat KA-SAT</strong>：ドイツの風力発電7,800基超が遠隔制御できなくなった</li>
+      <li><strong>コンテック</strong>：太陽光の監視機器約800台が不正送金の踏み台に。出力制御機能がなく系統への影響はなし</li>
+      <li><strong>デンマーク22事業者</strong>：Zyxel製FWの脆弱性。アイランドモードで運用し、停電はなし</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= ② ================= -->
+<article class="unit" id="u-g2" data-view="g2">
+  <div class="unit-head">
+    <div class="unit-num">2</div>
+    <h1 class="unit-title">電力分野のセキュリティ規制・ガイドライン</h1>
+    <p class="unit-sub">誰に、どのGLが効くのか</p>
+  </div>
+
+  <section class="blk">
+    <h2>発電設備は区分でGLが変わる</h2>
+    <div class="fbar">
+      <div class="f1"><b>電気事業の用に供する電気工作物</b>発電量合計 10,000kW超の発電所等<br><span class="gl">電力制御システムGL</span></div>
+      <div class="f2"><b>自家用電気工作物</b>上の2つ以外<br><span class="gl">自家用GL（内規）</span></div>
+      <div class="f3"><b>一般用電気工作物</b>太陽光50kW未満、風力20kW未満<br><span class="gl">系統連系技術要件</span></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>国内ガイドライン</h2>
+    <div class="grid g2">
+      <div class="tile"><span class="when">2016年策定 → 2025年2月改定</span><h3>電力制御システムセキュリティGL</h3><p>日本電気協会。電事法第39条の技術基準の解釈。重要度S/A/B/C。重要度で扱いが変わるのは<strong>ログの取得</strong>と<strong>入退管理</strong>。多層防御。スマメと原子力は対象外</p></div>
+      <div class="tile"><span class="when">2022年6月10日公開、10月1日義務化</span><h3>自家用GL（内規）</h3><p>ほぼ全部が推奨。区分A〜C。<strong>区分Aだけ</strong>7項目が勧告</p></div>
+      <div class="tile"><span class="when">2020年10月</span><h3>系統連系技術要件</h3><p>3対策。①接続点の保護、②マルウェア対策、③責任者と緊急連絡先の通知（③だけ既設も速やかに）</p></div>
+      <div class="tile"><span class="when">2021年2月</span><h3>小売電気事業者GL</h3><p>経営GLを踏襲した重要10項目。計画の改ざんや不正入札もリスクに含む</p></div>
+      <div class="tile l2"><span class="when">2022年4月</span><h3>特定卸供給事業の指針</h3><p>変更命令・業務改善命令の処分基準。電力制御GLの勧告＋ERAB GL <strong>Ver2.0</strong>の勧告。組織、文書、事故対応も含む</p></div>
+      <div class="tile"><span class="when">2024年3月</span><h3>リスク点検ガイド＋可視化ツール</h3><p>可視化ツールはExcel。各GLへの準拠も確認できる</p></div>
+      <div class="tile"><span class="when">2024年3月 → 2025年6月</span><h3>サプライチェーン提言 → 手引き</h3><p>電力サブWG。委託先の責任範囲、調達時のセキュリティ仕様、廃止段階までの機器管理</p></div>
+      <div class="tile"><span class="when">Ver3.0</span><h3>サイバーセキュリティ経営GL</h3><p>3原則と重要10項目。セキュリティは「コスト」ではなく「投資」</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>海外の規制・標準</h2>
+    <div class="grid g2">
+      <div class="tile"><span class="when">米国 規制</span><h3>NERC CIP</h3><p>連邦電力法215条/215A条。13文書。罰金1千万ドルの事例。数値が細かい（パッチ評価35日、警報15分、ログ90日、停止24時間、15カ月ごと）</p></div>
+      <div class="tile"><span class="when">米国 NIST</span><h3>NISTIR 7628</h3><p>スマートグリッド向け。トップダウンとボトムアップの2手法、5ステップ。アグリゲーターも対象</p></div>
+      <div class="tile"><span class="when">米国 DoE</span><h3>ES-C2M2</h3><p>10ドメイン、37目標、312プラクティス。MILは全部達成した場合のみ認定</p></div>
+      <div class="tile"><span class="when">米国 NIST 2024年</span><h3>CSF 2.0</h3><p>コア、ティア、プロファイル。コアに「統治（Govern）」を追加</p></div>
+      <div class="tile"><span class="when">国際標準</span><h3>ISO/IEC 27019</h3><p>27002にエネルギー向けの項目を追加。PLC、スマメ、保護リレーも対象</p></div>
+      <div class="tile"><span class="when">EU 2023年1月発効</span><h3>NIS2指令</h3><p>電力は必須分野。DER事業者も対象。ドイツは3年ごとの監査</p></div>
+      <div class="tile"><span class="when">EU 2024年12月施行</span><h3>CRA</h3><p>デジタル製品全般。2026年9月11日から報告義務、2027年12月11日から全面適用。輸入業者や販売業者も対象</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>EUの罰則の上限（売上比）</h2>
+    <p class="lead">固定額と売上比の、いずれか高い方。</p>
+    <div class="pen">
+      <div class="row"><span>CRA</span><div class="track"><div class="fill" style="width:100%">1,500万€ または 2.5%</div></div></div>
+      <div class="row"><span>NIS2 必須分野</span><div class="track"><div class="fill" style="width:80%">1,000万€ または 2%</div></div></div>
+      <div class="row"><span>NIS2 重要分野</span><div class="track"><div class="fill" style="width:56%">700万€ または 1.4%</div></div></div>
+    </div>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li><strong>電力制御システムセキュリティGL</strong>：重要度S/A/B/Cで勧告・推奨の扱いが変わるのは<strong>ログの取得</strong>と<strong>入退管理</strong>。電気事業法第39条の技術基準の解釈で、2025年2月にサプライチェーン管理などを強化</li>
+      <li><strong>特定卸供給事業の指針</strong>：技術対策だけでなく、組織体制、文書化、インシデント報告も含む。電力制御GLとERAB GL Ver2.0の勧告で構成</li>
+      <li><strong>小売電気事業者GL</strong>：Web改ざんや個人情報漏えいだけでなく、<strong>需給・供給計画の改ざん</strong>など安定供給に関わるリスクも対象。経営GLを踏襲した重要10項目</li>
+      <li><strong>CRA</strong>：経済事業者にはメーカーだけでなく<strong>輸入業者と販売業者</strong>も含む。PLCやSCADAも対象。罰則は1,500万€または売上の2.5%</li>
+    </ul>
+    <h3>重要ワード</h3>
+    <ul>
+      <li><strong>勧告的事項</strong>＝実施すべき事項、<strong>推奨的事項</strong>＝実施の要否と方法を事業者が判断する事項</li>
+      <li>設備区分：10,000kW超は電力制御GL、太陽光50kW未満・風力20kW未満は系統連系技術要件</li>
+      <li>NIS2：必須分野1,000万€または2%。NERC CIP：米国の規制で13文書</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= ③ ================= -->
+<article class="unit" id="u-g3" data-view="g3">
+  <div class="unit-head">
+    <div class="unit-num">3</div>
+    <h1 class="unit-title">ERABサイバーセキュリティガイドライン</h1>
+    <p class="unit-sub">2017年初版、2025年5月にVer3.0。各事業者が「自らの責任で」講じる最低限の要求事項</p>
+  </div>
+
+  <section class="blk">
+    <h2>勧告と推奨</h2>
+    <div class="grid g2">
+      <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><h3><span class="pill pk">勧告</span> 実装が必須</h3><p>例：脆弱性対策情報・脅威情報の<strong>利用者への通知</strong>と<strong>共有への協力</strong>。系統ネットワークへの影響拡散のリスク管理</p></div>
+      <div class="tile" style="background:var(--s-soft);border-color:var(--s)"><h3><span class="pill ps">推奨</span> 実装を検討</h3><p>例：機密性・完全性・可用性の3要件に留意したシステム設計</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>6つのインターフェース</h2>
+    <p class="lead">共通対策：ホワイトリスト等による通信先の制限、認証、暗号化、不要ポートの閉塞。<strong>R5だけ全部が推奨。</strong></p><figure class="dg"><div class="dgs"><svg viewBox="0 0 820 480" role="img" aria-label="ERABシステムの6つのインターフェース。送配電からAC、RA、GW、機器へとつながり、R5だけが推奨" style="min-width:680px"><defs><marker id="f1a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:currentColor"/></marker><marker id="f1r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--k)"/></marker><marker id="f1g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--s)"/></marker><marker id="f1t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--trap)"/></marker><marker id="f1b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--l3)"/></marker></defs><rect class="zone" x="10" y="10" width="800" height="272" rx="10"/><text class="sm" x="22" y="30" text-anchor="start">需要家の外（事業者のシステム・クラウド）</text><rect class="zone home" x="10" y="300" width="800" height="170" rx="10"/><text class="sm" x="22" y="320" text-anchor="start">需要家宅（需要家側GWの内側）</text><rect class="bx" x="40" y="44" width="210" height="50" rx="8"/><text class="b" x="145.0" y="66.0" text-anchor="middle">簡易指令システム</text><text class="sm" x="145.0" y="82.0" text-anchor="middle">一般送配電事業者</text><rect class="bx" x="570" y="44" width="210" height="50" rx="8"/><text class="b" x="675.0" y="66.0" text-anchor="middle">小売電気事業者</text><text class="sm" x="675.0" y="82.0" text-anchor="middle">小売のシステム</text><rect class="bx" x="40" y="170" width="210" height="50" rx="8"/><text class="b" x="145.0" y="192.0" text-anchor="middle">AC</text><text class="sm" x="145.0" y="208.0" text-anchor="middle">アグリゲーションコーディネーター</text><rect class="bx" x="305" y="170" width="210" height="50" rx="8"/><text class="b" x="410.0" y="192.0" text-anchor="middle">RA</text><text class="sm" x="410.0" y="208.0" text-anchor="middle">リソースアグリゲーター</text><rect class="bx" x="570" y="170" width="210" height="50" rx="8"/><text class="b" x="675.0" y="192.0" text-anchor="middle">サードパーティのコントローラー</text><text class="sm" x="675.0" y="208.0" text-anchor="middle">機器メーカーのクラウドなど</text><rect class="bx" x="200" y="336" width="210" height="46" rx="8"/><text class="b" x="305.0" y="356.0" text-anchor="middle">GW / HEMS</text><text class="sm" x="305.0" y="372.0" text-anchor="middle">宅内のゲートウェイ</text><rect class="bx" x="110" y="420" width="120" height="36" rx="8"/><text class="b" x="170.0" y="442.0" text-anchor="middle">給湯機</text><rect class="bx" x="250" y="420" width="120" height="36" rx="8"/><text class="b" x="310.0" y="442.0" text-anchor="middle">蓄電池</text><rect class="bx" x="600" y="420" width="160" height="36" rx="8"/><text class="b" x="680.0" y="442.0" text-anchor="middle">EV充電器</text><line class="ln lk" x1="145" y1="94" x2="145" y2="168" marker-end="url(#f1r)"/><text class="rk b" x="155" y="128" text-anchor="start">R1</text><text class="sm" x="155" y="144" text-anchor="start">発動指令・実績（OpenADR）</text><line class="ln lk" x1="250" y1="195" x2="303" y2="195" marker-end="url(#f1r)"/><text class="rk b" x="277" y="186" text-anchor="middle">R3</text><line class="ln lk" x1="450" y1="170" x2="620" y2="96" marker-end="url(#f1r)"/><text class="rk b" x="548" y="124" text-anchor="start">R2</text><line class="ln" x1="515" y1="195" x2="568" y2="195" marker-end="url(#f1a)"/><text class="sm" x="542" y="186" text-anchor="middle">連携</text><line class="ln lk" x1="370" y1="220" x2="320" y2="334" marker-end="url(#f1r)"/><text class="rk b" x="336" y="286" text-anchor="end">R4</text><line class="ln lk dash" x1="610" y1="220" x2="400" y2="334" marker-end="url(#f1r)"/><text class="rk sm2 halo" x="578" y="274" text-anchor="start">R4（GW経由）</text><line class="ln lg" x1="270" y1="382" x2="180" y2="418" marker-end="url(#f1g)"/><line class="ln lg" x1="310" y1="382" x2="310" y2="418" marker-end="url(#f1g)"/><text class="gk b" x="222" y="404" text-anchor="end">R5</text><text class="gk sm2 haloh" x="320" y="404" text-anchor="start">ECHONET Lite等</text><line class="ln lk" x1="700" y1="220" x2="690" y2="418" marker-end="url(#f1r)"/><text class="rk b" x="706" y="330" text-anchor="start">R6</text><text class="sm" x="706" y="346" text-anchor="start">GWを通らず</text><text class="sm" x="706" y="360" text-anchor="start">機器へ直接</text></svg></div><figcaption>ERABシステムの全体図。<span class="rk">赤＝勧告</span>、<span class="gk">緑＝推奨</span>。家の境界（GW）の内側の区間R5だけが推奨。サードパーティのコントローラーを経由する場合、<strong>GWにつなぐならR4</strong>、<strong>機器に直接つなぐならR6</strong>になる</figcaption></figure>
+    <div class="chain">
+      <div class="link"><div class="rid">R1</div><div><div class="ends"><span class="n">送配電（簡易指令システム）</span><span class="w">⇄</span><span class="n">AC</span><span class="pill pk">勧告</span></div><p>OpenADR。送配電の要求事項に準拠。不特定多数のネットワークと原則分離、接続点の最小化と防御。ACはRAの品質に責任</p><p style="margin-top:6px;padding:8px 10px;background:var(--surface);border:1px solid var(--line);border-radius:8px"><strong>OpenADRとは</strong>：Open Automated Demand Responseの略。DRの指令を自動でやりとりするための、双方向の通信の標準規格。仕組みはクライアント・サーバー型で、指令を出すサーバー側が<strong>VTN</strong>（Virtual Top Node、ここでは送配電の簡易指令システム）、受けるクライアント側が<strong>VEN</strong>（Virtual End Node、ここではAC）。やりとりするのはDRイベント（発動指令）、レポート（実績報告）など。2002年、カリフォルニア電力危機をきっかけに米国ローレンス・バークレー国立研究所で研究が始まり、現在は<strong>OpenADR Alliance</strong>が標準化と認証を担う（2.0と3.0の仕様がある）。国際規格は<strong>IEC 62746-10-1</strong>（2014年にPAS、2018年に規格化）。日本では、経済産業省の「デマンドレスポンス・インタフェース仕様書（1.0版）」がOpenADR 2.0のProfile Aを参照し、その後、簡易指令システムの共通基盤の通信仕様は<strong>OpenADR 2.0b</strong>に準拠するとされた（東京電力パワーグリッド、2017年10月）。標準のセキュリティは<strong>TLS 1.2とサーバー・クライアント両方の証明書</strong>。家の中の機器制御（R5）で使うECHONET Liteとは役割が違う</p></div></div>
+      <div class="link"><div class="rid">R2</div><div><div class="ends"><span class="n">小売電気事業者</span><span class="w">⇄</span><span class="n">AC / RA</span><span class="pill pk">勧告</span></div><p>小売側にもガイドライン準拠と、別途定義した要件への準拠を求める</p></div></div>
+      <div class="link"><div class="rid">R3</div><div><div class="ends"><span class="n">AC</span><span class="w">⇄</span><span class="n">RA</span><span class="pill pk">勧告</span></div><p>RAはガイドライン＋<strong>ACが別途定義した</strong>要件に準拠</p></div></div>
+      <div class="link"><div class="rid">R4</div><div><div class="ends"><span class="n">RA</span><span class="w">⇄</span><span class="n">GW / HEMS・BEMS</span><span class="pill pk">勧告</span></div><p>JC-STAR★1以上。管理組織を特定でき、脆弱性対策を設計できるプロトコル。コントローラーが需要家側GWの内側か外側かで分類</p></div></div>
+      <div class="link sui"><div class="rid">R5</div><div><div class="ends"><span class="n">GW / EMS</span><span class="w">⇄</span><span class="n">制御対象機器</span><span class="pill ps">推奨</span></div><p>ECHONET Lite、BACnetなど。中身はR4に近いが<strong>全部推奨</strong>。既設やリソース制約のある機器は「IoT開発におけるセキュリティ設計の手引き」を参照</p></div></div>
+      <div class="link"><div class="rid">R6</div><div><div class="ends"><span class="n">RA（またはサードパーティのコントローラー）</span><span class="w">⇄</span><span class="n">制御対象機器</span><span class="pill pk">勧告</span></div><p>Ver3.0で追加。ECHONET Lite、Matter、独自規格で直接制御。JC-STAR★1以上</p></div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>対策の9ステップ <span class="pill pk">勧告</span></h2>
+    <ol class="flow h">
+      <li><div><b>全体構成と責任分界点</b></div></li>
+      <li><div><b>守る情報・機能・資産</b></div></li>
+      <li><div><b>想定される脅威</b></div></li>
+      <li><div><b>リスク分析</b><span>資産ベース＋攻撃シナリオベース</span></div></li>
+      <li><div><b>対策候補</b><span>ベストプラクティス</span></div></li>
+      <li><div><b>対策の選定</b><span>脅威、被害、<strong>コスト</strong>も考慮</span></div></li>
+      <li><div><b>実装の検証</b><span>第三者監査、教育</span></div></li>
+      <li><div><b>事故対応の設計・訓練</b></div></li>
+      <li><div><b>脆弱性の文書化とRAとの共有</b></div></li>
+    </ol>
+    <p class="lead" style="margin-top:12px">あわせて勧告：準拠を確認できない相手とは相互接続を中止、なりすまし・改ざん・マルウェア対策。</p>
+  </section>
+
+  <section class="blk">
+    <h2>誰がどのレベルに準拠するか</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>簡易指令システム</h3><p>電力制御GL</p></div>
+      <div class="tile"><h3>AC</h3><p>本GL。簡易指令との接続部は電力制御GL＋送配電が定義した要件<strong>も</strong></p></div>
+      <div class="tile"><h3>RA</h3><p>本GL＋ACが定義した要件<strong>も</strong></p></div>
+      <div class="tile"><h3>機器・GW</h3><p>JC-STAR★1以上</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>クラウド、詳細対策、PDCA</h2>
+    <div class="grid g3">
+      <div class="tile l3"><h3>クラウド（3.7）</h3><p>ISMAP登録なら<strong>適合確認だけ</strong>省略できる。ガイダンス参照、強固な認証基盤、管理用端末の制限は引き続き必要</p></div>
+      <div class="tile l3"><h3>詳細対策要件（3.8）</h3><p>4フェーズ：抑止、内部防御・情報保護、侵入・攻撃検知、被害把握・事業継続。＋標的型、物理との複合など</p></div>
+      <div class="tile l3"><h3>運用（4.1）</h3><p>経営層の責任。PDCA。管理責任組織と管理者。文書化と報告、教育・訓練。<strong>過剰投資は避け必要十分に</strong></p></div>
+    </div>
+    <p class="lead" style="margin-top:12px">監視・対応体制で最低限担うもの：脆弱性確認、設定ミス確認、システム異常確認（事業者間の共有を含む）。</p>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li><strong>位置付け</strong>：最低限の要求事項で、事業者が<strong>自らの責任で</strong>対策を講じる。【勧告】＝実装必須、【推奨】＝実装を検討。脆弱性対策情報は<strong>利用者へ通知</strong>する</li>
+      <li><strong>基本方針</strong>：系統ネットワークへの影響拡散のリスク管理は【勧告】。脆弱性・脅威情報の共有も【勧告】。RAもACも、本GL<strong>に加えて</strong>相手が別途定義した要件にも準拠する</li>
+      <li><strong>対策手順</strong>：脅威レベル、被害レベルに加えて<strong>コスト</strong>も考慮して選定。準拠を確認できない相手とは相互接続を中止。リスク分析は資産ベースと攻撃シナリオベース</li>
+      <li><strong>インターフェース</strong>：R1は不特定多数のネットワークと原則分離、接続点の最小化と防御（勧告）。推奨は<strong>R5だけ</strong>で、R6は勧告。別途要件を定義するのは<strong>AC</strong></li>
+      <li><strong>クラウド</strong>：ISMAP登録サービスで省略できるのは<strong>適合確認だけ</strong>。管理者の認証や管理用端末の制限は必要</li>
+    </ul>
+    <h3>重要ワード</h3>
+    <ul>
+      <li>AC＝アグリゲーションコーディネーター、RA＝リソースアグリゲーター</li>
+      <li>R1はOpenADR。R4〜R6の機器はJC-STAR★1以上</li>
+      <li>詳細対策要件の4フェーズ：抑止、内部防御・情報保護、侵入・攻撃検知、被害把握・事業継続</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= ④ ================= -->
+<article class="unit" id="u-g4" data-view="g4">
+  <div class="unit-head">
+    <div class="unit-num">4</div>
+    <h1 class="unit-title">サイバー・フィジカル・セキュリティ対策フレームワーク（CPSF：Cyber/Physical Security Framework）</h1>
+    <p class="unit-sub">経済産業省 2019年4月 Ver1.0。Society 5.0の「バリュークリエイションプロセス」のリスクを捉えるモデル</p>
+  </div>
+
+  <section class="blk">
+    <h2>三層構造</h2>
+    <p class="lead">上ほどサイバー、下ほど組織。番号と中身の組み合わせを覚える。</p>
+    <div class="stack">
+      <div class="layer c3"><div class="lbl"><em>第3層</em>データ</div><div class="body"><p><strong>サイバー空間のつながり</strong>における、データの信頼性</p><p>守る機能：送受信、加工・分析、保管</p><p>例：サーバー、ルーター、オープンデータ</p><p>対策：暗号化、データ提供者の信頼性確認</p></div></div>
+      <div class="layer c2"><div class="lbl"><em>第2層</em>転写</div><div class="body"><p><strong>フィジカルとサイバーのつながり</strong>における、正確に「転写」する機能の信頼性</p><p>例：センサー、アクチュエーター、<strong>スマートメーター</strong>、監視カメラ、3Dプリンタ</p><p>対策：接続相手の認証、安全なIoT機器の導入</p></div></div>
+      <div class="layer c1"><div class="lbl"><em>第1層</em>組織</div><div class="body"><p><strong>企業間のつながり</strong>における、組織のマネジメントの信頼性</p><p>例：社員、企業のIT資産、<strong>組織内のデータ</strong></p><p>対策：マネジメントルールの徹底、役割分担</p></div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>3部構成</h2>
+    <div class="grid g3">
+      <div class="tile"><h3>第Ⅰ部 コンセプト</h3><p>リスク源を整理するモデル（三層構造）</p></div>
+      <div class="tile"><h3>第Ⅱ部 ポリシー</h3><p>リスク源の整理と対策要件の提示</p></div>
+      <div class="tile"><h3>第Ⅲ部 メソッド</h3><p>対策要件を種類ごとに整理</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>リスクマネジメントの4ステップ</h2>
+    <ol class="flow">
+      <li><div><b>分析対象の明確化</b><span>三層構造で構成要素を把握</span></div></li>
+      <li><div><b>想定インシデントと事業被害レベルの設定</b><span>各層の機能を脅かす事象から整理</span></div></li>
+      <li><div><b>リスク分析の実施</b><span>添付Bでリスク源（脅威・脆弱性）を抽出</span></div></li>
+      <li><div><b>リスク対応の実施</b><span>回避、低減、移転、保有から選ぶ</span></div></li>
+    </ol>
+  </section>
+
+  <section class="blk">
+    <h2>全ステップで考える4つの観点</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>ステークホルダーとの関係</h3><p>マルチステークホルダー。直接関与していない企業も含めて洗い出す</p></div>
+      <div class="tile"><h3>IoT機器による融合</h3><p>転写する方向と、解析結果がフィジカル空間に影響する方向の<strong>両方</strong>。セーフティとセキュリティの担当者が対話</p></div>
+      <div class="tile"><h3>組織を跨ぐデータ</h3><p>取得元が分かるよう一覧化。インシデント時の取引先への説明手順を<strong>事前に</strong>作る</p></div>
+      <div class="tile"><h3>各層の信頼性の基点</h3><p><strong>複数の観点</strong>で対策。第1層は契約、第2層は機器のライフサイクル</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>リスク対応の4つ</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>回避</h3><p>機能を削除する、別の方法に変える</p></div>
+      <div class="tile" style="background:var(--s-soft);border-color:var(--s)"><h3>低減</h3><p>対策を講じる。<strong>添付Bの対策要件はここ用</strong></p></div>
+      <div class="tile"><h3>移転</h3><p>保険、他社製品への置き換え</p></div>
+      <div class="tile"><h3>保有</h3><p>小さいリスクや、機会を取るために受け入れる</p></div>
+    </div>
+    <p class="lead" style="margin-top:12px">添付C：NIST CSFを参考にカテゴリー分け。対策例はBasic、Advanced、High-Advancedの3段階。主体はO（組織）、S（システム）、O/S。NIST SP 800-171などとの対応表つき。</p>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li><strong>CPSFの目的</strong>：付加価値を創造する活動（バリュークリエイションプロセス）のリスクを捉えるモデルを作り、対策の全体像を整理すること。他の選択肢はIoTセキュリティGL、クラウドのGL、経営GLの説明だった</li>
+      <li><strong>三層構造</strong>：第3層はデータだけでなく、データを送受信・保管するモノ・システムも分析対象。第1層には組織内のデータも入る</li>
+      <li><strong>リスク対応</strong>：回避、低減、移転、保有から選ぶ。添付Bの対策要件は「低減」を選んだ場合のもの</li>
+      <li><strong>4つの観点</strong>：解析結果がフィジカル空間に影響する方向も考える。インシデント時の対応手順は事前に作る。対策は複数の観点で。直接関与していない企業も含めて洗い出す</li>
+    </ul>
+    <h3>重要ワード</h3>
+    <ul>
+      <li>CPSF＝Cyber/Physical Security Framework（経済産業省、2019年4月Ver1.0）</li>
+      <li><strong>第3層＝データ</strong>、<strong>第2層＝転写</strong>（スマメ、センサー）、<strong>第1層＝組織</strong></li>
+      <li>マルチステークホルダーアプローチ</li>
+      <li>添付C：NIST CSFでカテゴリー分け。Basic、Advanced、High-Advancedの3段階。主体はO、S、O/S</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= ⑤ ================= -->
+<article class="unit" id="u-g5" data-view="g5">
+  <div class="unit-head">
+    <div class="unit-num">5</div>
+    <h1 class="unit-title">制御システムのセキュリティリスク分析</h1>
+    <p class="unit-sub">IPA「制御システムのセキュリティリスク分析ガイド」第2版（2026年4月版）の概要</p>
+  </div>
+
+  <section class="blk">
+    <h2>情報システムと制御システム</h2>
+    <div class="vs">
+      <div class="a"><h3>情報システム</h3><dl>
+        <dt>重視するもの</dt><dd>情報の管理、漏えい防止（機密性）</dd>
+        <dt>守る対象</dt><dd>情報</dd>
+        <dt>サポート期間</dt><dd>3〜5年</dd>
+        <dt>再起動</dt><dd>許容されることが多い</dd>
+        <dt>被害</dt><dd>情報漏えい、データ消失</dd>
+      </dl></div>
+      <div class="b"><h3>制御システム</h3><dl>
+        <dt>重視するもの</dt><dd>継続して安全に稼働すること（可用性）</dd>
+        <dt>守る対象</dt><dd>モノ（設備・製品）、サービス（連続稼働）</dd>
+        <dt>サポート期間</dt><dd><strong>10〜20年</strong></dd>
+        <dt>再起動</dt><dd>許容されないことが多い。24時間365日</dd>
+        <dt>被害</dt><dd>設備損傷、人的被害、環境汚染、生産停止</dd>
+      </dl></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>事例</h2>
+    <div class="grid g2">
+      <div class="tile"><span class="when">2019年 標的型</span><h3>アルミ製造企業</h3><p>取引先を装うメールから侵入。40か国160拠点。損失65〜77億円</p></div>
+      <div class="tile"><span class="when">2018年 ばらまき型</span><h3>半導体製造企業</h3><p><strong>持ち込んだ製造用ツール</strong>がWannaCry亜種に感染。3日停止、190億円</p></div>
+      <div class="tile"><span class="when">2021年5月</span><h3>米パイプライン</h3><p>被害は<strong>情報系</strong>。予防的に6日停止。身代金440万ドル</p></div>
+      <div class="tile"><span class="when">2020年</span><h3>ムンバイ停電、独病院</h3><p>約2時間の広域停電。病院はランサムによる初の死者と考えられる</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>用語（ISO/IEC 27000）</h2>
+    <div class="nest">
+      <span class="cap">リスクアセスメント＝この3つのプロセス全体</span>
+      <div class="step"><b>リスク特定</b>発見、認識、記述</div>
+      <div class="step"><b>リスク分析</b>特質を理解し、レベルを決める</div>
+      <div class="step"><b>リスク評価</b>基準と比べ、受容できるか決める</div>
+    </div>
+    <div class="outside"><b>リスク対応</b>（アセスメントの外）：リスクを修正する</div>
+  </section>
+
+  <section class="blk">
+    <h2>2つの詳細リスク分析</h2>
+    <p class="lead">IPAのガイドは「ガイドライン」ではなく、手法の解説書（ガイドブック）。</p>
+    <div class="vs">
+      <div class="a"><h3>資産ベース</h3><dl>
+        <dt>やり方</dt><dd>全資産を、各脅威について漏れなく評価</dd>
+        <dt>リスク値</dt><dd>資産の重要度 × 脅威レベル × 脆弱性レベル（対策レベルと双対）</dd>
+        <dt>向く攻撃</dt><dd><strong>ばらまき型、無差別</strong></dd>
+        <dt>強み</dt><dd>網羅的。機器ごとの対策を一覧化</dd>
+        <dt>弱み</dt><dd>事業被害を想定しにくい</dd>
+      </dl></div>
+      <div class="b"><h3>事業被害ベース</h3><dl>
+        <dt>やり方</dt><dd>被害シナリオを想定し、攻撃ツリーで評価</dd>
+        <dt>リスク値</dt><dd>脅威Lv × 対策Lv × 事業被害Lv</dd>
+        <dt>向く攻撃</dt><dd><strong>標的型、意図的</strong></dd>
+        <dt>強み</dt><dd>攻撃ルート上で抑止策を検討、最終被害を回避</dd>
+        <dt>弱み</dt><dd>想定外の事象が抜け漏れる</dd>
+      </dl></div>
+    </div>
+    <ol class="flow h" style="margin-top:14px">
+      <li><div><b>侵入口</b><span>例：業務端末</span></div></li>
+      <li><div><b>経由</b><span>不正アクセス</span></div></li>
+      <li><div><b>攻撃拠点</b><span>不正コマンド</span></div></li>
+      <li><div><b>攻撃対象</b><span>装置破壊、暴走</span></div></li>
+    </ol>
+  </section>
+
+  <section class="blk">
+    <h2>リスク分析の4つのアプローチ</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>ベースライン</h3><p>汎用的。事業被害に直結しない</p></div>
+      <div class="tile"><h3>非形式的</h3><p>経験的。体系化が難しい</p></div>
+      <div class="tile" style="background:var(--l3-soft);border-color:var(--l3)"><h3>詳細リスク分析</h3><p>工数が大きい。ガイドはここの明確な手法を示す</p></div>
+      <div class="tile"><h3>組み合わせ</h3><p>工数が膨大</p></div>
+    </div>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li><strong>リスク値の決め方</strong>：資産ベースは重要度×脅威レベル×脆弱性レベル。事業被害ベースは<strong>脅威Lv×対策Lv×事業被害Lv</strong>で、被害の大きさだけでは決まらない。どちらもまず守る資産群、回避したい事業被害をはっきりさせる</li>
+      <li><strong>制御システムの特徴</strong>：<strong>人的被害や環境汚染</strong>が起こりうる。守るのはモノとサービス。可用性を最優先し、再起動は許容されないことが多い。社内のネットワークと必ず分離されているとは限らない</li>
+    </ul>
+    <h3>重要ワード</h3>
+    <ul>
+      <li>資産ベース＝<strong>ばらまき型・無差別</strong>向き、事業被害ベース＝<strong>標的型・意図的</strong>向き</li>
+      <li>リスクアセスメント＝リスク特定＋リスク分析＋リスク評価（リスク対応は含まない）</li>
+      <li>IPAのリスク分析ガイドは「ガイドライン」ではなく手法の解説書（ガイドブック）</li>
+      <li>制御システムの技術サポート期間は10〜20年</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= ⑥ ================= -->
+<article class="unit" id="u-g6" data-view="g6">
+  <div class="unit-head">
+    <div class="unit-num">6</div>
+    <h1 class="unit-title">ERAB GLと関係する制度</h1>
+    <p class="unit-sub">Ver3.0は対策要求事項のレベルでJC-STARとISMAPに連携している</p>
+  </div>
+
+  <section class="blk">
+    <h2>2つの制度はどこを担うか</h2>
+    <div class="vs">
+      <div class="a"><h3>JC-STAR（機器）</h3><dl>
+        <dt>根拠</dt><dd>2024年8月、経産省「IoT製品に対するセキュリティ適合性評価制度構築方針」</dd>
+        <dt>目的</dt><dd>IoT製品のセキュリティ機能を共通の物差しで評価・可視化</dd>
+        <dt>ERAB GLでの位置</dt><dd>R4 <span class="pill pk">勧告</span> R5 <span class="pill ps">推奨</span> R6 <span class="pill pk">勧告</span><br>新たに導入するIoT製品は★1以上。★2の詳細要件が決まれば★2以上が望ましい</dd>
+      </dl></div>
+      <div class="b"><h3>ISMAP（クラウド）</h3><dl>
+        <dt>正式名称</dt><dd>Information system Security Management and Assessment Program＝政府情報システムのためのセキュリティ評価制度（読みはイスマップ）</dd>
+        <dt>根拠</dt><dd>2020年6月運用開始。政府のクラウド調達の水準を確保</dd>
+        <dt>対象になる場面</dt><dd>ACのシステム。RAのシステムと、需要家側GWの<strong>外側</strong>にあるRAやサードパーティのコントローラー。機器データをクラウドに保存する場合</dd>
+        <dt>ERAB GLでの位置</dt><dd>3.7.3項 <span class="pill pk">勧告</span><br>マルウェア対策、個人情報管理、監視・対応体制への適合を確認。ISMAP登録サービスなら確認を省略できる</dd>
+      </dl></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>JC-STARの4つのレベル</h2>
+    <p class="lead">★1と★2は自己適合宣言、★3と★4は第三者評価。</p>
+    <div class="grid g2">
+      <div class="tile"><span class="when">自己適合宣言</span><h3>★1</h3><p>全IoT製品に共通する最低限の要件</p></div>
+      <div class="tile"><span class="when">自己適合宣言</span><h3>★2</h3><p>製品類型ごとの特徴を考慮し、★1に基本的な要件を追加</p></div>
+      <div class="tile l3"><span class="when">独立した第三者が評価</span><h3>★3 ／ ★4</h3><p>政府機関、重要インフラ、自治体、大企業などの重要なシステム向け。★1・★2に汎用的な要件を追加</p></div>
+      <div class="tile"><span class="when">現状（スライド時点）</span><h3>進捗</h3><p>★1は2025年3月25日から受付、2026年3月末で80社199申請に発行。★3は通信機器とネットワークカメラの要件を2026年6月公開。★2スマートホームは今秋に要件公開と受付開始の予定</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>ラベルを取れるIoT製品の条件</h2>
+    <div class="grid g2">
+      <div class="tile"><p>機器が含まれている（ラベルは機器に付く）</p></div>
+      <div class="tile"><p>IPでデータを送受信できる</p></div>
+      <div class="tile"><p>直接でも間接でも、インターネットにつながる可能性がある</p></div>
+      <div class="tile"><p>購入後にアップデート以外の方法でセキュリティ機能を追加しにくい</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>★1・★2のラベル付与の流れ</h2>
+    <p class="lead">IPAはチェックリストの<strong>形式確認</strong>だけ。根拠の証跡は求めない。</p>
+    <ol class="flow h">
+      <li><div><b>IPAが要件と評価手順を公開</b></div></li>
+      <li><div><b>ベンダーが自己評価</b><span>チェックリスト作成</span></div></li>
+      <li><div><b>IPAへラベル申請</b></div></li>
+      <li><div><b>IPAと経産省が確認、受理</b></div></li>
+      <li><div><b>申請手数料を支払う</b></div></li>
+      <li><div><b>IPAがラベルを付与</b></div></li>
+      <li><div><b>ベンダーが宣伝に使う</b></div></li>
+      <li><div><b>調達者が選んで買う</b></div></li>
+    </ol>
+  </section>
+
+  <section class="blk">
+    <h2>★1で求められること</h2>
+    <div class="grid g3">
+      <div class="tile"><h3>識別・認証・アクセス制御</h3><p>推測しやすいデフォルトパスワードの禁止、総当たり攻撃への防御</p></div>
+      <div class="tile"><h3>脆弱性対策・ソフト更新</h3><p>アップデート機能、分かりやすい手順、更新前の完全性確認</p></div>
+      <div class="tile"><h3>インターフェースへの論理的アクセス</h3><p>不要で危険なインターフェースの無効化</p></div>
+      <div class="tile"><h3>データ保護</h3><p>保存データと通信の暗号化。廃棄・転売時の削除機能</p></div>
+      <div class="tile"><h3>レジリエンス向上</h3><p>停電やネットワーク停止から復旧しても認証情報や設定が初期化されない</p></div>
+      <div class="tile"><h3>ベンダーの情報提供</h3><p>脆弱性開示ポリシーの公開、サポート期限、アップデート方針の文書化</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>ISMAPのしくみ</h2>
+    <ol class="flow h">
+      <li><div><b>監査機関リストの監査機関が監査</b><span>管理基準に基づく</span></div></li>
+      <li><div><b>ISMAPかISMAP-LIUのリストに登録</b></div></li>
+      <li><div><b>政府機関がリストから調達</b></div></li>
+    </ol>
+    <div class="stack soft" style="margin-top:14px">
+      <div class="layer c1"><div class="lbl"><em>統治</em>経営陣</div><div class="body"><p><strong>ガバナンス基準</strong>：評価、指示、モニタ、コミュニケーション</p></div></div>
+      <div class="layer c2"><div class="lbl"><em>運営</em>管理者</div><div class="body"><p><strong>マネジメント基準</strong>：計画、実行、点検、処置、リスクコミュニケーション</p></div></div>
+      <div class="layer c3"><div class="lbl"><em>実務</em>業務実施者</div><div class="body"><p><strong>管理策基準</strong>：取り得る管理策。ERAB GLの勧告（マルウェア対策、個人情報管理、監視・対応体制）を含むので、登録サービスなら満たしたとみなされる</p></div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>今後考慮すべき法制度</h2>
+    <p class="lead">ERAB GLの対策要求事項には明示されていないもの。</p>
+    <div class="grid g2">
+      <div class="tile"><span class="when">2025年5月23日公布、1年6月以内に施行</span><h3>サイバー対処能力強化法・同整備法</h3><p>令和7年法律第42号・第43号。<strong>基幹インフラ事業者</strong>に、導入した電子計算機の届出、インシデント報告、脆弱性対応の強化（第42条）。通信情報の利用、アクセス・無害化措置、内閣サイバー官の新設も</p></div>
+      <div class="tile"><span class="when">国家サイバー統括室</span><h3>サイバーインフラ事業者GL</h3><p>ソフトウェアの開発・供給・運用に関わる事業者向け。<strong>5カテゴリ、19の要求事項</strong>：セキュアな設計・開発・供給・運用、ライフサイクル管理と透明性、残存する脆弱性の速やかな対処、人材・プロセス・技術の整備、ステークホルダー間の関係強化。顧客側の役割（6）も別にある</p></div>
+    </div>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li><strong>JC-STAR</strong>：★1と★2はベンダーの<strong>自己適合宣言</strong>。ERAB GLとの連携箇所は<strong>R4・R5・R6の3つ</strong>。2025年3月25日に受付開始したのは★1だけ。ラベル取得の条件は<strong>4つ</strong></li>
+      <li><strong>ISMAP</strong>：申請者はISMAP監査機関リストの監査機関の監査を受ける。管理基準は<strong>3つ</strong>（ガバナンス、マネジメント、管理策）。需要家側GWの外側にあるサードパーティのコントローラーも対象</li>
+      <li><strong>サイバーインフラ事業者</strong>：ソフトウェアの<strong>開発・供給・運用</strong>に関わる事業者。サイバー対処能力強化法は2025年5月23日公布、1年6月以内に施行</li>
+    </ul>
+    <h3>重要ワード</h3>
+    <ul>
+      <li>ISMAP＝Information system Security Management and Assessment Program</li>
+      <li>★3・★4は独立した第三者が評価。IPAは★1・★2で証跡を求めない</li>
+      <li>管理基準の担い手：ガバナンス＝経営陣、マネジメント＝管理者、管理策＝業務実施者</li>
+      <li>サイバーインフラ事業者GL：5カテゴリ、19要求事項</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= リスク体感 ================= -->
+<article class="unit" id="u-r0" data-view="r0">
+  <div class="unit-head">
+    <div class="unit-num">体</div>
+    <h1 class="unit-title">ERABシステムのリスクの体感</h1>
+    <p class="unit-sub">リスク分析編のはじめに。神奈川工科大学スマートハウス研究センターの模擬環境でのデモ5本</p>
+  </div>
+
+  <section class="blk">
+    <h2>5本に共通すること</h2>
+    <div class="grid g3">
+      <div class="tile"><h3>舞台はすべてECHONET Lite</h3><p>家庭（EV充電器、エアコン、電動雨戸、給湯機）と店舗（業務用ショーケース、業務用エアコン）</p></div>
+      <div class="tile"><h3>入口は宅内・構内LAN</h3><p>無線LANルーター、有線LANポート、同じネットワーク上の機器</p></div>
+      <div class="tile"><h3>攻撃者は外部だけではない</h3><p>④は需要家自身、⑤は悪意のない実装が原因</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>5つのシナリオ</h2><figure class="dg"><div class="dgs"><svg viewBox="0 0 820 364" role="img" aria-label="体感動画の5つのシナリオの侵入口。ルーターの設定不備、有線ポートへの中継器、偽スマートメーター、EMSの過剰な要求" style="min-width:680px"><defs><marker id="f3a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:currentColor"/></marker><marker id="f3r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--k)"/></marker><marker id="f3g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--s)"/></marker><marker id="f3t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--trap)"/></marker><marker id="f3b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--l3)"/></marker></defs><rect class="bx" x="430" y="12" width="160" height="36" rx="8"/><text class="b" x="510.0" y="34.0" text-anchor="middle">インターネット</text><rect class="zone home" x="10" y="66" width="800" height="290" rx="10"/><text class="sm" x="22" y="84" text-anchor="start">需要家宅・店舗</text><rect class="bx" x="30" y="92" width="160" height="44" rx="8"/><text class="b" x="110.0" y="111.0" text-anchor="middle">EMS①</text><text class="sm" x="110.0" y="127.0" text-anchor="middle">ECHONET Liteコントローラー</text><rect class="bx" x="70" y="172" width="120" height="38" rx="8"/><text class="b" x="130.0" y="188.0" text-anchor="middle">EMS②</text><text class="sm" x="130.0" y="204.0" text-anchor="middle">別サービス</text><rect class="bx" x="430" y="92" width="160" height="44" rx="8"/><text class="b" x="510.0" y="118.0" text-anchor="middle">無線LANルーター</text><rect class="bx bk" x="620" y="92" width="170" height="44" rx="8"/><text class="b" x="705.0" y="111.0" text-anchor="middle">② 無線LAN中継器</text><text class="sm" x="705.0" y="127.0" text-anchor="middle">有線ポートに不正接続</text><rect class="bx bk" x="230" y="172" width="170" height="44" rx="8"/><text class="b" x="315.0" y="191.0" text-anchor="middle">④ 偽スマートメーター</text><text class="sm" x="315.0" y="207.0" text-anchor="middle">需要家自身が設置</text><rect class="bx bk" x="620" y="172" width="170" height="44" rx="8"/><text class="b" x="705.0" y="191.0" text-anchor="middle">②③ 攻撃者のPC</text><text class="sm" x="705.0" y="207.0" text-anchor="middle">ECHONET Liteエミュレーター</text><rect class="bx bk" x="620" y="12" width="170" height="36" rx="8"/><text class="b" x="705.0" y="34.0" text-anchor="middle">① 外部の攻撃者</text><line class="ln" x1="510" y1="48" x2="510" y2="90" marker-end="url(#f3a)"/><line class="ln lk dash" x1="650" y1="48" x2="596" y2="96" marker-end="url(#f3r)"/><text class="rk sm2" x="500" y="62" text-anchor="end">初期SSID・弱いパスワード</text><line class="ln" x1="190" y1="114" x2="430" y2="114" marker-end="url(#f3a)" marker-start="url(#f3a)"/><line class="ln lk" x1="590" y1="114" x2="618" y2="114" marker-end="url(#f3r)"/><line class="ln lk" x1="705" y1="136" x2="705" y2="170" marker-end="url(#f3r)" marker-start="url(#f3r)"/><line class="ln" x1="510" y1="136" x2="510" y2="266"/><line class="ln bus" x1="50" y1="266" x2="770" y2="266"/><text class="sm haloh" x="410" y="258" text-anchor="middle">宅内LAN（ECHONET Liteの電文は暗号化なし）</text><line class="ln" x1="125" y1="266" x2="125" y2="298" marker-end="url(#f3a)"/><rect class="bx" x="40" y="300" width="170" height="38" rx="8"/><text class="b" x="125.0" y="323.0" text-anchor="middle">エアコン</text><line class="ln" x1="315" y1="266" x2="315" y2="298" marker-end="url(#f3a)"/><rect class="bx" x="230" y="300" width="170" height="38" rx="8"/><text class="b" x="315.0" y="323.0" text-anchor="middle">電動雨戸</text><line class="ln" x1="505" y1="266" x2="505" y2="298" marker-end="url(#f3a)"/><rect class="bx" x="420" y="300" width="170" height="38" rx="8"/><text class="b" x="505.0" y="323.0" text-anchor="middle">給湯機</text><line class="ln" x1="695" y1="266" x2="695" y2="298" marker-end="url(#f3a)"/><rect class="bx" x="610" y="300" width="170" height="38" rx="8"/><text class="b" x="695.0" y="323.0" text-anchor="middle">EV充電器</text><line class="ln lk dash" x1="50" y1="136" x2="50" y2="264" marker-end="url(#f3r)"/><text class="rk sm2" x="58" y="240" text-anchor="start">⑤ 秒単位の要求</text><line class="ln" x1="130" y1="210" x2="130" y2="264" marker-end="url(#f3a)"/><line class="ln lk dash" x1="230" y1="186" x2="194" y2="138" marker-end="url(#f3r)"/><text class="rk sm2" x="315" y="166" text-anchor="middle">偽のデマンド値</text><line class="ln" x1="315" y1="216" x2="315" y2="266"/><line class="ln lk dash" x1="705" y1="216" x2="705" y2="264" marker-end="url(#f3r)"/><text class="rk sm2" x="698" y="244" text-anchor="end">電文を盗み見て操作</text></svg></div><figcaption>5つのシナリオが宅内のどこから入るか。①はルーターの設定不備、②③は有線ポートにつないだ中継器と攻撃者のPC、④は需要家自身が置いた偽のスマートメーターがEMSに偽の値を送る、⑤は攻撃者がおらずEMS①の秒単位の要求で機器が応答できなくなる。どれも、宅内LANを流れるECHONET Liteの電文が暗号化されていないことが前提になっている</figcaption></figure>
+    <div class="grid g2">
+      <div class="tile sc"><h3>① 無線LANルーターの脆弱性を突いた不正制御<span class="who pill pg">外部</span></h3><dl>
+        <dt>攻撃対象</dt><dd>ECHONET Lite機器</dd>
+        <dt>流れ</dt><dd>初期SSIDや推測できるパスワードのルーターに侵入 → 電文を解析して機器を特定 → 不正操作</dd>
+        <dt>脆弱性</dt><dd>ルーターの設定不備</dd>
+        <dt>被害</dt><dd>エアコンの不適切な温度設定などで住人の健康に影響</dd>
+        <dt>対策</dt><dd>SSIDとパスワードの変更。ECHONET Liteで通信できるサブネットの限定</dd>
+      </dl></div>
+      <div class="tile sc"><h3>② 無線LAN中継器の不正接続（家庭）<span class="who pill pg">外部・物理侵入</span></h3><dl>
+        <dt>攻撃対象</dt><dd>ECHONET Lite機器</dd>
+        <dt>流れ</dt><dd>宅内に物理侵入し有線LANポートに中継器 → ECHONET Liteエミュレーターを接続 → 電文を解析 → 不正操作</dd>
+        <dt>脆弱性</dt><dd>物理的脆弱性、<strong>電文が暗号化されていない</strong>、攻撃者PCを検知できない</dd>
+        <dt>被害</dt><dd>電動雨戸やブラインドを開けられ、不正侵入や盗難</dd>
+        <dt>対策</dt><dd>ルーターの物理的保護、不正接続の抑止、サブネットの限定</dd>
+      </dl></div>
+      <div class="tile sc"><h3>③ 無線LAN中継器の不正接続（店舗）<span class="who pill pg">外部・物理侵入</span></h3><dl>
+        <dt>攻撃対象</dt><dd>ECHONET Lite機器</dd>
+        <dt>流れ</dt><dd>②と同じ手口を店舗のバックヤードで</dd>
+        <dt>脆弱性</dt><dd>②と同じ</dd>
+        <dt>被害</dt><dd>ショーケースや業務用エアコンの温度を変えられ、商品の品質が損なわれる</dd>
+        <dt>対策</dt><dd>②の対策＋<strong>バックヤードへの物理侵入対策</strong></dd>
+      </dl></div>
+      <div class="tile sc" style="background:var(--trap-soft);border-color:var(--trap)"><h3>④ スマートメーターのなりすまし<span class="who pill pt">需要家自身</span></h3><dl>
+        <dt>攻撃対象</dt><dd><strong>コントローラー</strong></dd>
+        <dt>流れ</dt><dd>需要家がエミュレーターを接続 → スマメのふりをして偽のデマンド値を送信 → コントローラーが受理</dd>
+        <dt>脆弱性</dt><dd>ECHONET Liteのプロトコル脆弱性、不正なデマンド値を検知できない</dd>
+        <dt>被害</dt><dd>不正なDRインセンティブで<strong>事業者が金銭的損害</strong></dd>
+        <dt>対策</dt><dd>コントローラーで不正を検知する仕組み（認証、接続制限）、DRコマンドのログ取得・解析</dd>
+      </dl></div>
+      <div class="tile sc" style="background:var(--trap-soft);border-color:var(--trap)"><h3>⑤ サービスフラッド<span class="who pill pt">悪意なき実装</span></h3><dl>
+        <dt>攻撃対象</dt><dd>ECHONET Lite機器</dd>
+        <dt>流れ</dt><dd>EMS①が給湯機やEV充電器に秒単位でリクエスト → 機器は仕様どおり不可応答 → EMS②も状態を取れない</dd>
+        <dt>脆弱性</dt><dd>過度なリクエスト実装、処理能力の足りない機器</dd>
+        <dt>被害</dt><dd>EMSサービスが使えない、機器を操作できない</dd>
+        <dt>対策</dt><dd>リクエスト頻度の適正化</dd>
+      </dl></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>攻撃ステップの型（①〜③）</h2>
+    <ol class="flow h">
+      <li><div><b>宅内・構内LANに入る</b><span>ルーターの設定不備、または物理的に中継器を接続</span></div></li>
+      <li><div><b>ECHONET Lite電文を盗み見る</b><span>平文なので読める</span></div></li>
+      <li><div><b>機器を特定する</b></div></li>
+      <li><div><b>不正に操作・制御する</b></div></li>
+      <li><div><b>物理的な被害</b><span>健康、侵入・盗難、商品品質</span></div></li>
+    </ol>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要ワード</h3>
+    <ul>
+      <li>5本とも舞台は<strong>ECHONET Lite</strong>機器（神奈川工科大学スマートハウス研究センターの模擬環境）</li>
+      <li>①：初期SSIDのまま、推測できるパスワードなど<strong>ルーターの設定不備</strong></li>
+      <li>②③：<strong>無線LAN中継器</strong>の不正接続と<strong>ECHONET Liteエミュレーター</strong>。電文が暗号化されていない。③は店舗のバックヤード</li>
+      <li>④：<strong>需要家自身</strong>がスマメになりすまし、偽のデマンド値を送る。攻撃対象はコントローラー、損害は事業者</li>
+      <li>⑤：<strong>サービスフラッド</strong>。悪意なき実装が原因で、対策はリクエスト頻度の適正化</li>
+      <li>共通の対策：ECHONET Liteで通信できる<strong>サブネットの限定</strong></li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= リスク分析編① ================= -->
+<article class="unit" id="u-r1" data-view="r1">
+  <div class="unit-head">
+    <div class="unit-num">分1</div>
+    <h1 class="unit-title">ERAB GLの改定とCCRC技術報告書</h1>
+    <p class="unit-sub">Ver3.0はどうやって作られたか、実装するときに何を参照するか</p>
+  </div>
+
+  <section class="blk">
+    <h2>セキュリティの3層ピラミッド</h2>
+    <p class="lead">3つの観点を相互に連携させ、PDCAで回す。</p>
+    <div class="stack soft">
+      <div class="layer c3"><div class="lbl"><em>上層</em>フレームワーク・標準</div><div class="body"><p><strong>CPSF</strong>（Cyber/Physical Security Framework＝経産省「サイバー・フィジカル・セキュリティ対策フレームワーク」。④で学んだ三層構造のもの）、NIST CSF（Cybersecurity Framework）、ISO/IECのIS・SRD</p></div></div>
+      <div class="layer c2"><div class="lbl"><em>中層</em>規制・ガイドライン</div><div class="body"><p>特定卸供給事業の指針、ERABサイバーセキュリティGL</p></div></div>
+      <div class="layer c1"><div class="lbl"><em>下層</em>実装すべき対策</div><div class="body"><p>国際的な枠組みと規制に沿った評価と対策。ここで参照するのが<strong>CCRC技術報告書</strong></p></div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>国際標準化（IEC SyC SE）</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>IEC SyC SE（システム委員会スマートエネルギー）</h3><p>スマートエネルギー・スマートグリッドのシステムレベル標準化。委員長はPascal TERRIEN（フランス）</p></div>
+      <div class="tile"><h3>WG2（ERAB）</h3><p>コンビーナは<strong>梅嶋真樹</strong>氏（慶應SFC研究所）。IEC SRD 63443-1（システムアーキテクチャとサービスシナリオ）、63443-2（リスク評価と対応）</p></div>
+      <div class="tile"><h3>SGAM（IEC SRD 63200）</h3><p>スマートエネルギー分野のエンティティ間の相互作用（主に情報交換）をモデル化する<strong>3次元</strong>アーキテクチャフレームワーク。ERABもこの上に位置づけられる</p></div>
+      <div class="tile"><h3>IEC</h3><p>170か国以上、専門家3万人、国際規格1万件以上の非営利団体</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Ver3.0の改定プロセス</h2>
+    <p class="lead">IPA、梅嶋氏（CCRC）、エネルギーリソースアグリゲーション事業協会（ERA）、エコーネットコンソーシアムの意見を聞きながら検討。</p>
+    <ol class="flow">
+      <li><div><b>ERABシステムのリバイス</b><span>複数事業者による遠隔制御、クラウドなどコントローラーの設置環境の多様化、物理GWを介さない遠隔制御など、新しいユースケースを整理</span></div></li>
+      <li><div><b>リスクシナリオの作成</b><span>新しいユースケースで想定される脅威を洗い出す</span></div></li>
+      <li><div><b>リスク値の算定</b><span>IPA「制御システムのセキュリティリスク分析ガイド 第2版」で、資産ベースと事業被害ベースの両方</span></div></li>
+      <li><div><b>リスクに応じた必要対策の検討</b><span>CPSF（サイバー・フィジカル・セキュリティ対策フレームワーク）との紐づけで対策要件の候補を抽出し、Ver2.0と照らし合わせて評価</span></div></li>
+      <li><div><b>ERAB GL改訂案</b></div></li>
+    </ol>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="tile" style="background:var(--s-soft);border-color:var(--s)"><h3>対策要件を選ぶ2つの観点</h3><p>①各リスクシナリオの脅威に<strong>対処できるか</strong><br>②<strong>経済合理性</strong>が認められるか</p></div>
+      <div class="tile"><h3>道具の分担</h3><p>リスク分析はIPAのリスク分析ガイド、対策の検討はCPSF</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>追加されたリスクシナリオ 58件</h2>
+    <div class="grid g2">
+      <div>
+        <p class="lead">脅威の内訳（上位）</p>
+        <div class="pen">
+          <div class="row"><span>不正アクセス</span><div class="track"><div class="fill" style="width:100%">15件</div></div></div>
+          <div class="row"><span>マルウェア感染</span><div class="track"><div class="fill" style="width:47%">7件</div></div></div>
+          <div class="row"><span>設定ミス</span><div class="track"><div class="fill" style="width:40%">6件</div></div></div>
+          <div class="row"><span>なりすまし</span><div class="track"><div class="fill" style="width:27%">4件</div></div></div>
+          <div class="row"><span>DoS/DDoS</span><div class="track"><div class="fill" style="width:27%">4件</div></div></div>
+          <div class="row"><span>中間者攻撃</span><div class="track"><div class="fill" style="width:27%">4件</div></div></div>
+        </div>
+        <p class="lead" style="margin-top:8px">ほかにランサムウェア、災害・障害（各3）、総当たり、フィッシング、Web改ざん、内部者、セキュリティ機能の設定不備（各2）、誤操作、製造時のマルウェア混入（各1）。</p>
+      </div>
+      <div>
+        <p class="lead">リスクレベル（A＝非常に高い 〜 D＝低い）</p>
+        <div class="grid g2">
+          <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><span class="big">26<small>件 A（45%）</small></span></div>
+          <div class="tile"><span class="big">28<small>件 B（48%）</small></span></div>
+        </div>
+        <p class="lead" style="margin-top:8px">C 3件（5%）、D 1件（2%）。<strong>9割超がAかB。</strong></p>
+        <p class="lead">インターフェース別</p>
+        <div class="pen">
+          <div class="row"><span>R3 クラウド・サーバ側</span><div class="track"><div class="fill" style="width:100%">41件（A19 B18）</div></div></div>
+          <div class="row"><span>R5 需要家の機器側</span><div class="track"><div class="fill" style="width:37%">15件（A6 B9）</div></div></div>
+          <div class="row"><span>R4 需要家の機器側</span><div class="track"><div class="fill" style="width:9%">2件</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>CPSFの6つの構成要素</h2>
+    <p class="lead">バリュークリエイションプロセスは動的なので、資産を固定的に捉えず抽象化する。セキュリティ対策を講じる最小単位。</p>
+    <div class="grid g3">
+      <div class="tile l1"><h3>ソシキ</h3><p>プロセスに参加する企業・団体・組織</p></div>
+      <div class="tile l1"><h3>ヒト</h3><p>ソシキに属する人、プロセスに直接参加する人</p></div>
+      <div class="tile l2"><h3>モノ</h3><p>ハードウェア、ソフトウェアとその部品。操作する機器も含む</p></div>
+      <div class="tile l3"><h3>データ</h3><p>フィジカル空間で集めた情報と、共有・分析・シミュレーションで加工した情報</p></div>
+      <div class="tile l1"><h3>プロシージャ</h3><p>目的を達成するための一連の活動の手続き</p></div>
+      <div class="tile l2"><h3>システム</h3><p>目的を実現するためにモノで構成される仕組み・インフラ</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>CCRC技術報告書</h2>
+    <p class="lead">慶應義塾大学サイバー文明研究センター。2021年10月公表、Ver3.0を踏まえて改定中。CPSFと整合する形で、ERABの技術的対策のリファレンスを提供。</p>
+    <div class="vs">
+      <div class="a"><h3>4.8 推奨セキュリティ対策（表7）</h3><dl>
+        <dt>中身</dt><dd>推奨事項の一覧。2021年版は<strong>51項目</strong>、改定版で増える予定</dd>
+        <dt>対応表</dt><dd>CPSFの対策要件ID、NIST CSF 1.1と<strong>2.0</strong>のサブカテゴリID</dd>
+        <dt>例</dt><dd>GW（ERABコントローラー）とDERにIDを持たせる。GWの物理改ざんを防ぐ（TPMの搭載など）</dd>
+      </dl></div>
+      <div class="b"><h3>4.9 CPSF準拠の推奨対策（表8）</h3><dl>
+        <dt>中身</dt><dd>ERAB GL <strong>Ver3.0の対策項目</strong>に対応させ、CPSFの6構成要素に準拠した技術的対策の例</dd>
+        <dt>レベル</dt><dd>High-Advanced、Advanced、Basicの3段階</dd>
+        <dt>例</dt><dd>CPS.AM-1：スマメ、DER、負荷、ERABコントローラーを含む資産を特定し、一覧を文書化する</dd>
+      </dl></div>
+    </div>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li><strong>改定プロセス</strong>：リスク評価の根拠は<strong>IPA「制御システムのセキュリティリスク分析ガイド 第2版」</strong>。有識者や業界団体の意見は改定全体を通して聴いたもので、リスク評価の根拠ではない</li>
+      <li><strong>CCRC技術報告書</strong>：作成は<strong>慶應義塾大学サイバー文明研究センター</strong>（経産省ではない）。Ver3.0の対策要件を満たす対策を検討するときの参考情報。表8は<strong>CPSFの6構成要素</strong>に準拠（NIST CSFではない）</li>
+    </ul>
+    <h3>重要ワード</h3>
+    <ul>
+      <li>リバイスした新ユースケース：複数事業者による遠隔制御、コントローラーの設置環境の多様化（クラウド）、物理GWを介さない遠隔制御</li>
+      <li>対策要件の選定基準：脅威に対処できるか、<strong>経済合理性</strong>があるか</li>
+      <li>追加リスクシナリオ58件。9割超がリスクレベルAかB</li>
+      <li>表7：推奨事項（2021年版は51項目）とCPSF・NIST CSFのIDの対応</li>
+      <li>SGAM（3次元）、IEC SRD 63443、WG2コンビーナは梅嶋真樹氏</li>
+      <li>6構成要素：ソシキ、ヒト、モノ、データ、プロシージャ、システム</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= リスク分析編② ================= -->
+<article class="unit" id="u-r2" data-view="r2">
+  <div class="unit-head">
+    <div class="unit-num">分2</div>
+    <h1 class="unit-title">ERABシステムのリスク分析概要</h1>
+    <p class="unit-sub">標準対策要件（ERAB GL）を踏まえて、実運用に耐える詳細対策要件を作るまでの全体像</p>
+  </div>
+
+  <section class="blk">
+    <h2>なぜリスク分析が要るのか</h2>
+    <div class="grid g2">
+      <div class="tile l3"><h3>標準対策要件</h3><p>ERABサイバーセキュリティGL。全事業者に共通する最低限</p></div>
+      <div class="tile l2"><h3>詳細対策要件</h3><p>各事業者が自らの<strong>事業とシステムの特性</strong>を考慮したリスク分析で作る。実運用に耐えるもの</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>3.6項の9ステップと、この講義での位置づけ <span class="pill pk">勧告</span></h2>
+    <ol class="flow">
+      <li><div><b>全体構成と責任分界点を明確化</b><span>複数事業者が密接に関わるので、構成要素の特性を把握して、データ・通信・システムの分界点を決める（R1〜R6の構成図）</span></div></li>
+      <li><div><b>守る情報・機能・資産を明確化</b><span>リスク分析の前提。<strong>情報資産台帳</strong>や<strong>データフロー図</strong>の形で行う例がある</span></div></li>
+      <li><div><b>想定される脅威を明確化</b><span>Step3〜5がリスク分析の中心</span></div></li>
+      <li><div><b>資産ベース＋攻撃シナリオベースでリスク分析</b></div></li>
+      <li><div><b>対策の候補（ベストプラクティス）を明確化</b></div></li>
+      <li><div><b>実装する対策を選定</b><span>脅威レベル、被害レベル、コスト等</span></div></li>
+      <li><div><b>実装を検証</b><span>第三者監査（認証を含む）や教育プログラム。PDCAで継続的に改善</span></div></li>
+      <li><div><b>事故対応を設計・運用・訓練</b><span>攻撃が<strong>起きる前提</strong>で計画と訓練</span></div></li>
+      <li><div><b>脆弱性を特定・文書化し、RAと共有</b><span>緊急度の高い情報をRAと共有する体制</span></div></li>
+    </ol>
+  </section>
+
+  <section class="blk">
+    <h2>Step3〜6：リスク評価の手法</h2>
+    <p class="lead">扱うリスク（資産のリスク、攻撃シナリオが成立するリスクなど）で手法は変わる。このプログラムは、サイバーフィジカルシステムに向く<strong>CPSF</strong>（サイバー・フィジカル・セキュリティ対策フレームワーク）を使う方法を解説する。</p>
+    <p class="lead">その他の代表的なリスクアセスメント規格</p>
+    <div class="grid g3">
+      <div class="tile"><h3>ISO/IEC 31000、31010</h3><p>リスクマネジメントの枠組みとプロセス。<strong>31010</strong>にデルファイ法、ハザード分析法、シナリオ分析法、事業影響度分析法などの技法</p></div>
+      <div class="tile"><h3>ISO/IEC 27005</h3><p>31000の枠組みに沿い、<strong>情報セキュリティ</strong>リスクに適したプロセス。ISMS（27001）と同じ27000シリーズ</p></div>
+      <div class="tile"><h3>ISO/IEC 12100</h3><p><strong>機械類の安全</strong>のためのリスクアセスメント。機械の制限と危険源の同定を経てリスクを見積もる</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Step7・8で参照されるもの</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>サイバーセキュリティ経営GL</h3><p>3原則と重要10項目をPDCA（Plan、Do、Check、Act）で回す図</p></div>
+      <div class="tile"><h3>NIST CSF 1.1</h3><p>5機能：識別（ID）、防御（PR）、検知（DE）、対応（RS）、復旧（RC）</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Step9：なぜ脆弱性をRAと共有するのか</h2>
+    <div class="grid g2">
+      <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><h3>問題</h3><p>ERABシステムは<strong>1つのシステムとして全体管理されていない</strong>。特定の機器で起きたインシデントが全体に波及しうる</p></div>
+      <div class="tile" style="background:var(--s-soft);border-color:var(--s)"><h3>答え</h3><p>各事業者は<strong>自らが管理主体</strong>の資産の脆弱性情報を把握し、<strong>緊急度の高い</strong>ものをRAと共有する体制を作る。サイバーインフラ事業者GLの責務ともつながる</p></div>
+    </div>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li><strong>Step9</strong>：ERABは1つのシステムとして全体管理されて<strong>いない</strong>。各事業者が<strong>自分が管理主体の資産</strong>の脆弱性を把握し、<strong>緊急度の高い情報</strong>をRAと共有する</li>
+      <li><strong>Step1・2・7・8</strong>：Step1は責任分界点、Step2は情報資産台帳やデータフロー図、Step7・8はPDCAによる効果検証と、攻撃が起きる前提の計画・訓練</li>
+      <li><strong>Step3〜6</strong>：リスク分析は資産ベースと攻撃シナリオベースの<strong>両方</strong>。対策の選定では<strong>コスト</strong>も考慮。サイバーフィジカルシステムに合った評価手法を選ぶ。流れは脅威の特定 → リスク評価 → 対策の選定</li>
+    </ul>
+    <h3>重要ワード</h3>
+    <ul>
+      <li><strong>標準対策要件</strong>（ERAB GL）と、各事業者が作る<strong>詳細対策要件</strong></li>
+      <li>ISO/IEC 31000（枠組み）、31010（技法集）、27005（情報セキュリティ）、12100（機械安全）</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= リスク分析編③ ================= -->
+<article class="unit" id="u-r3" data-view="r3">
+  <div class="unit-head">
+    <div class="unit-num">分3</div>
+    <h1 class="unit-title">ERABシステムの対策選定手法</h1>
+    <p class="unit-sub">9ステップのうちStep5（対策候補の明確化）とStep6（実装する対策の選定）。使う道具はCPSF（サイバー・フィジカル・セキュリティ対策フレームワーク）の添付Bと添付C</p>
+  </div>
+
+  <section class="blk">
+    <h2>添付Bと添付Cは何をつなぐか</h2>
+    <div class="vs">
+      <div class="a"><h3>添付B</h3><dl>
+        <dt>名前</dt><dd>リスク源と対策要件の対応関係</dd>
+        <dt>つなぐもの</dt><dd><strong>リスク源 → 対策要件</strong></dd>
+        <dt>中身</dt><dd>各層のインシデントにつながりうるリスク源を「<strong>脅威</strong>」と「<strong>脆弱性</strong>」で整理。インシデントを起こすものと、被害を拡大させるものの両方</dd>
+      </dl></div>
+      <div class="b"><h3>添付C</h3><dl>
+        <dt>名前</dt><dd>対策要件に応じたセキュリティ対策例</dd>
+        <dt>つなぐもの</dt><dd><strong>対策要件 → 対策例</strong></dd>
+        <dt>中身</dt><dd>対策要件ごとの具体的な対策例。レベルはBasic、Advanced、High-Advanced。主体はO（組織）、S（システム）、O/S。諸外国のガイドラインとの対応も</dd>
+      </dl></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Step4からStep6までの流れ</h2><figure class="dg"><div class="dgs"><svg viewBox="0 0 820 160" role="img" aria-label="添付Bでリスク源から対策要件を引き、同じ対策要件IDで添付Cの対策例につなぐ" style="min-width:660px"><defs><marker id="f4a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:currentColor"/></marker><marker id="f4r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--k)"/></marker><marker id="f4g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--s)"/></marker><marker id="f4t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--trap)"/></marker><marker id="f4b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--l3)"/></marker></defs><rect class="bx" x="10" y="52" width="130" height="56" rx="8"/><text class="b" x="75.0" y="77.0" text-anchor="middle">Step4の結果</text><text class="sm" x="75.0" y="93.0" text-anchor="middle">リスク分析</text><rect class="zone" x="160" y="22" width="300" height="104" rx="10"/><text class="b" x="172" y="40" text-anchor="start">添付B</text><rect class="bx" x="175" y="52" width="125" height="56" rx="8"/><text class="b" x="237.5" y="77.0" text-anchor="middle">リスク源</text><text class="sm" x="237.5" y="93.0" text-anchor="middle">脅威・脆弱性</text><rect class="bx bt" x="320" y="52" width="125" height="56" rx="8"/><text class="b" x="382.5" y="77.0" text-anchor="middle">対策要件</text><text class="sm" x="382.5" y="93.0" text-anchor="middle">CPS.○○-番号</text><rect class="zone" x="490" y="22" width="190" height="104" rx="10"/><text class="b" x="502" y="40" text-anchor="start">添付C</text><rect class="bx bt" x="500" y="52" width="75" height="56" rx="8"/><text class="b" x="537.5" y="77.0" text-anchor="middle">対策要件</text><text class="sm" x="537.5" y="93.0" text-anchor="middle">同じID</text><rect class="bx" x="590" y="52" width="80" height="56" rx="8"/><text class="b" x="630.0" y="77.0" text-anchor="middle">対策例</text><text class="sm" x="630.0" y="93.0" text-anchor="middle">3レベル</text><rect class="bx" x="700" y="52" width="110" height="56" rx="8"/><text class="b" x="755.0" y="77.0" text-anchor="middle">Step6で選ぶ</text><text class="sm" x="755.0" y="93.0" text-anchor="middle">頻度×被害</text><line class="ln" x1="140" y1="80" x2="173" y2="80" marker-end="url(#f4a)"/><line class="ln" x1="300" y1="80" x2="318" y2="80" marker-end="url(#f4a)"/><line class="ln" x1="575" y1="80" x2="588" y2="80" marker-end="url(#f4a)"/><line class="ln" x1="670" y1="80" x2="698" y2="80" marker-end="url(#f4a)"/><line class="ln lt" x1="445" y1="80" x2="498" y2="80" marker-end="url(#f4t)"/><text class="tk b" x="472" y="146" text-anchor="middle">IDで突き合わせる</text><path class="ln lt" d="M382,108 C382,140 537,140 537,108" style="fill:none"/></svg></div><figcaption>Step4の結果を添付Bのリスク源に当てはめ、そこに紐づく<strong>対策要件ID</strong>を引く。同じIDで添付Cを引くと対策例が出てくる。最後に、リスク源ごとの頻度と被害の点数を見て実装する対策を選ぶ</figcaption></figure>
+    <ol class="flow">
+      <li><div><b>リスク源に当てはめる</b><span>Step5の準備。Step4のリスク分析の結果が、<strong>添付B</strong>のどのリスク源に該当するか検討</span></div></li>
+      <li><div><b>対策要件を確認する</b><span><strong>添付B</strong>で、そのリスク源に紐づく対策要件の当たりを付ける</span></div></li>
+      <li><div><b>対策候補を明確化する（Step5）</b><span><strong>添付C</strong>の対策例をベストプラクティスとして使う</span></div></li>
+      <li><div><b>リスクの大きさを明確化する</b><span>添付Bのリスク源を、Step4の結果（<strong>頻度</strong>と<strong>被害</strong>）と照らし合わせる</span></div></li>
+      <li><div><b>実装する対策を選定する（Step6）</b><span>リスクの大きさを考慮して、添付Cで出した候補から選ぶ</span></div></li>
+    </ol>
+  </section>
+
+  <section class="blk">
+    <h2>リスクの大きさの出し方（例）</h2>
+    <p class="lead">添付Bのリスク源の右に「リスク評価」列を足して、事業者が点数を付ける。</p>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th>リスク源（脅威・脆弱性）</th><th>頻度</th><th>被害</th><th>対策要件</th><th>対策要件ID</th></tr></thead>
+        <tbody>
+          <tr><td>例：セキュリティに関わるマネジメントが実行されていない</td><td>3</td><td>3</td><td>資産の重要度に応じた優先順位づけ、サプライチェーン上の役割の明確化など</td><td>CPS.AM-6 など</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li><strong>添付B</strong>：脅威・脆弱性だけでなく<strong>対策要件</strong>も整理されている。Step4の結果から考慮すべきリスク源を特定するのに使う。脆弱性はソシキ・ヒト・モノなど構成要素ごと。セキュリティインシデントはリスク源ではない</li>
+      <li><strong>添付C</strong>：<strong>対策要件をキー</strong>にして添付Bのリスク源と紐づく。対策例は3段階（High-Advancedを含む）。NIST SP 800-171、800-53、ISO/IEC 27001などとの対応がある。対策例は<strong>参考</strong>で、必ずこの中から選ぶ義務はない</li>
+    </ul>
+    <h3>重要ワード</h3>
+    <ul>
+      <li>添付B＝リスク源と対策要件、添付C＝対策要件と対策例</li>
+      <li>リスクの大きさ＝<strong>頻度</strong>と<strong>被害</strong>。点数を付けるのは事業者自身</li>
+      <li>対策例の主体：O（組織）、S（システム）、O/S（組織及びシステム）</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= リスク分析編④ ================= -->
+<article class="unit" id="u-r4" data-view="r4">
+  <div class="unit-head">
+    <div class="unit-num">分4</div>
+    <h1 class="unit-title">ERABシステムで想定されるリスクシナリオ</h1>
+    <p class="unit-sub">CPSF（サイバー・フィジカル・セキュリティ対策フレームワーク）の三層構造に沿った標準ユースケース。表は「機能 → インシデント → 脅威 → リスクシナリオ」の順</p>
+  </div>
+
+  <section class="blk">
+    <h2>ERABの構成要素を三層に置くと</h2>
+    <div class="stack">
+      <div class="layer c3"><div class="lbl"><em>第3層</em>サイバー</div><div class="body"><p>DRシステム（VTNサーバ、VENサーバ）、需給システム（TSO）、スマメシステム、RA制御・認証・インセンティブ処理サーバ、気象情報サーバ。Aルートもここ</p></div></div>
+      <div class="layer c2"><div class="lbl"><em>第2層</em>転写</div><div class="body"><p>スマートメーター、<strong>GW/EMSコントローラー</strong>、発電設備の制御装置。Bルートもここ</p></div></div>
+      <div class="layer c1"><div class="lbl"><em>第1層</em>組織</div><div class="body"><p>電力会社、需要家（工場・ビル等）、アグリゲーター、関連情報提供者。発電機、生産設備、照明・空調、蓄電池、センサーなどもこの層に描かれる</p></div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>第1層：企業間のつながり</h2>
+    <p class="lead">守る機能：平時のリスク管理体制、インシデント時の事業継続、製品・サービスの品質</p>
+    <div class="grid g2">
+      <div class="tile l1"><h3>情報の漏えい</h3><p>標的型メールで情報端末が<strong>Emotet</strong>等に感染し、証明書やパスワードが窃取される</p></div>
+      <div class="tile l1"><h3>データの改ざん</h3><p>窃取した情報でDRシステムに侵入し、電力消費量を改ざんして不正にインセンティブを得る</p></div>
+      <div class="tile l1"><h3>システム停止</h3><p>リモート保守用の<strong>VPN機器の脆弱性</strong>からランサムウェア。TSOのDR指令を中継できなくなる</p></div>
+      <div class="tile l1"><h3>法制度違反</h3><p>電気事業法、個人情報保護法、市場の要求サービスレベルへの違反（脅威はAll threats）</p></div>
+      <div class="tile l1"><h3>事業継続の失敗</h3><p>TSO、AC・RA、需要家の間で<strong>インシデント情報が共有されず</strong>、正常動作前提のDR指令に応答できない。取引先から自社の機密が漏れる</p></div>
+      <div class="tile l1"><h3>品質の劣化</h3><p>悪意ある<strong>需要家</strong>がスマメのなりすまし機器でデマンド値を偽装し、不正なDRインセンティブを受け取る（体感動画の④）</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>第2層：フィジカルとサイバーのつながり</h2>
+    <p class="lead">守る機能：物理事象をデジタルに変えて送る機能と、受け取ったデータでモノを制御する機能の<strong>双方</strong></p>
+    <div class="grid g2">
+      <div class="tile l2"><h3>機器のなりすまし</h3><p>機器に細工して正規機器になりすまし、間違った発電制御結果を報告、サーバの脆弱性を探索</p></div>
+      <div class="tile l2"><h3>中間者攻撃で逆潮流</h3><p>リソース機器への不正指令で、生産設備の異常動作、空調停止、<strong>蓄電池の放電による逆潮流</strong></p></div>
+      <div class="tile l2"><h3>ボットネット化</h3><p>外から入れるメンテナンスポートと<strong>弱いパスワード</strong>で大量の機器が乗っ取られ、DRシステムへDDoS</p></div>
+      <div class="tile l2"><h3>一帯の逆潮流</h3><p>流出した証明書でアグリゲーターになりすまし、EMSや<strong>ECHONET Liteコントローラ</strong>に大量の蓄電池を放電させる指令</p></div>
+      <div class="tile l2"><h3>誤ったデータで調整力がずれる</h3><p>盗難・改造された機器が誤った使用量やDR結果を送り、データの完全性が損なわれる</p></div>
+      <div class="tile l2"><h3>製造時のバックドア</h3><p>コントローラーの製造時に仕掛けられたバックドアでファームウェアが不正更新され乗っ取られる</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>第3層：サイバー空間のつながり</h2>
+    <p class="lead">守る機能：データの加工・分析、保管、送受信</p>
+    <div class="grid g2">
+      <div class="tile l3"><h3>DDoSで通信不能</h3><p>アグリゲーターのシステムがDDoSを受け、TSOやリソース側GWと通信できない</p></div>
+      <div class="tile l3"><h3>攻撃がなくても止まる</h3><p>主要な<strong>クラウドサービスの障害</strong>でDRサーバやIoT機器が機能停止</p></div>
+      <div class="tile l3"><h3>集中管理機能の乗っ取り</h3><p>IoT機器の集中管理機能が侵入され、ボットネット化や、機器が危険な動作をして<strong>人体に危害</strong></p></div>
+      <div class="tile l3"><h3>クラウドの設定不備</h3><p>クラウドストレージのアクセス制限不備で、証明書やパスワードが窃取される</p></div>
+      <div class="tile l3"><h3>他社経由の漏えい</h3><p>他社のDRシステムへの侵入や、機器の<strong>リバースエンジニアリング</strong>で、自社のAPIアクセスキーや接続用シークレットが漏れる</p></div>
+      <div class="tile l3"><h3>指令値の改ざん</h3><p>AC→RA、RA→リソースの指令が中間者攻撃で改ざんされる。不正なペイロードでDR制御サーバが異常な制御要請を送る</p></div>
+      <div class="tile l3"><h3>個人情報の漏えい</h3><p>DRサーバへの侵入で需要家のID、パスワード、個人情報が漏れる</p></div>
+      <div class="tile l3"><h3>悪意のない設定ミス</h3><p>状態取得電文の<strong>送信頻度の設定ミス</strong>で機器がオーバーフローし、応答できなくなる（体感動画の⑤）</p></div>
+    </div>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li><strong>第1層</strong>：影響は自組織だけではない。自組織のインシデントで<strong>他組織</strong>が、他組織のインシデントで<strong>自組織</strong>が事業を続けられなくなる。DoSやランサムウェアでの停止、Emotetによる窃取、インシデント情報が共有されずDR指令に応答できない、も第1層</li>
+      <li><strong>第2層</strong>：リソース機器への中間者攻撃で蓄電池を放電させ逆潮流、ボットネット化した機器からDRシステムへDDoS、コマンドインジェクションで設備を停止。<strong>アグリゲーターのシステムがDDoSを受ける</strong>のは第3層</li>
+      <li><strong>第3層</strong>：IoT機器の集中管理機能が乗っ取られ、機器が危険な動作をして<strong>人体に危害</strong>を加えるシナリオもある。指令値の改ざん＝送受信、不正ペイロードで異常な制御要請＝加工・分析、個人情報の漏えい＝保管</li>
+    </ul>
+    <h3>重要ワード</h3>
+    <ul>
+      <li>見分け方：機器が乗っ取られて物理的に動くなら<strong>第2層</strong>、サーバやクラウドが止まる・データが漏れるなら<strong>第3層</strong>、組織間の管理・共有・法令なら<strong>第1層</strong></li>
+      <li>どのシナリオがどの層か。スマメのなりすましによる不正インセンティブは<strong>第1層</strong>（品質の劣化）、送信頻度の設定ミスは<strong>第3層</strong>（送受信）</li>
+      <li>GW/EMSコントローラーとスマメは<strong>第2層</strong>、DRサーバやクラウドは<strong>第3層</strong></li>
+      <li>第2層の機能は「読み取って送る」と「受け取って制御する」の<strong>双方</strong></li>
+      <li>攻撃でなくてもリスクになる：クラウド障害、通信キャリア障害、設定ミス、品質の低い機器</li>
+      <li>蓄電池を不正に放電させると<strong>逆潮流</strong>。物理的な系統への影響</li>
+      <li>評価は発生頻度と被害の大きさで行い、対策の優先度を決める</li>
+      <li>第3層の守る機能：加工・分析、保管、送受信。第2層：読み取って送る、受け取って制御するの双方</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= Appendix A1 CPSF本体 ================= -->
+<article class="unit" id="u-a1" data-view="a1">
+  <span class="appx">Appendix：研修の問題範囲外の参考資料</span>
+  <div class="unit-head">
+    <div class="unit-num">A1</div>
+    <h1 class="unit-title">CPSF本体（Ver1.0）</h1>
+    <p class="unit-sub">経済産業省 商務情報政策局 サイバーセキュリティ課「サイバー・フィジカル・セキュリティ対策フレームワーク」平成31年4月18日。副題は「Society5.0における新たなサプライチェーン（バリュークリエイションプロセス）の信頼性の確保に向けて」。研修④とリスク分析編（分1〜分4）で使った元文書（262ページ）</p>
+  </div>
+
+  <section class="blk">
+    <h2>なぜ作られたか</h2>
+    <div class="grid g3">
+      <div class="tile"><h3>Society5.0とConnected Industries</h3><p>サイバー空間とフィジカル空間を融合させ、データの「つながり」から付加価値を生む。これまで取引のなかった主体も巻き込んだ、柔軟で動的なサプライチェーンができる</p></div>
+      <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><h3>攻撃の起点が広がる</h3><p>ネットワーク化されたサプライチェーン上に攻撃起点が拡散する。攻撃側は起点を得る機会が増え、防御側が守るべき範囲は急激に広がる</p></div>
+      <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><h3>被害がフィジカルに及ぶ</h3><p>両空間が相互に作用するので、サイバー攻撃がフィジカル空間に及ぼす影響も大きくなり、被害が甚大になりうる</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>期待される効果と3つの特徴</h2>
+    <div class="grid g2">
+      <div class="tile l3"><h3>効果1：信頼性の確保</h3><p>セキュリティ対策を実行して、バリュークリエイションプロセスの信頼性を確保する</p></div>
+      <div class="tile l3"><h3>効果2：競争力の強化</h3><p>製品・サービスのセキュリティ品質を<strong>差別化要因（価値）</strong>にまで高める</p></div>
+    </div>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="tile"><h3>特徴①：現場で使える</h3><p>第Ⅰ部で目指す姿の概念を示すだけでなく、第Ⅱ部・第Ⅲ部で、事業者が方針を確認して対策を実装できる<strong>オペレーションレベル</strong>の内容にする</p></div>
+      <div class="tile"><h3>特徴②：コストとの関係が分かる</h3><p>中小企業も含めて実際に対策できるよう、リスク源と対策の関係を明確にする。<strong>リスクベース</strong>で対策を選ぶことで、セキュリティレベルを保ったままコストを圧縮できるようにする</p></div>
+      <div class="tile"><h3>特徴③：国際的な整合</h3><p>ISO/IEC 27001やNIST CSFなどとの整合を確保し、対比表（添付D）を用意。国内の取組が海外でも一定水準を満たすこと、またその逆を示せる。各国の認証制度との相互承認も見据える</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>本文と添付の構成、どこを何に使うか</h2>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th>部分</th><th>中身</th><th>使い道</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第Ⅰ部 コンセプト</strong></td><td>三層構造と6つの構成要素。各層のリスク源と対応方針。信頼性の確保の考え方</td><td>考え方の土台</td></tr>
+          <tr><td><strong>第Ⅱ部 ポリシー</strong></td><td>リスクマネジメントの4ステップ。リスク源と対策要件の対応関係</td><td rowspan="3">リスク源の洗い出し</td></tr>
+          <tr><td>添付A ユースケース</td><td>各業界の代表的なユースケースを三層構造に当てはめた例</td></tr>
+          <tr><td>添付B リスク源と対策要件</td><td>想定インシデント、脅威、6要素ごとの脆弱性、対策要件</td></tr>
+          <tr><td><strong>第Ⅲ部 メソッド</strong></td><td>対策要件（20カテゴリー）と対策例集の見方</td><td rowspan="2">ポリシー策定と対策の実装</td></tr>
+          <tr><td>添付C 対策例</td><td>対策要件ごとの対策例（3レベル）、実施主体、参照規格</td></tr>
+          <tr><td>添付D 海外規格との対応</td><td>NIST、ISO/IECなど主要規格との対比表</td><td>国際的な説明</td></tr>
+          <tr><td>添付E 用語集</td><td>用語の定義</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">リスク源の洗い出しで、従来のリスクアセスメントに比べて新たに見えるようになるとしているのは4点：①マルチステークホルダーの関係性、②両空間の融合で起こりうる新たなインシデント（安全性を含む）、③組織を跨ぐデータの流通の仕方、④各層の信頼性の基点。研修で出た「4つの観点」と同じもの。</p>
+  </section>
+
+  <section class="blk">
+    <h2>層ごとにリスク源の捉え方が違う</h2>
+    <div class="stack">
+      <div class="layer c3"><div class="lbl"><em>第3層</em>データ</div><div class="body"><p>データが適切に扱われ信頼できることが前提。直接関与していなくても<strong>データの流通や取扱いに関わる主体</strong>が役割を担う。例えば、ある区分のデータは、扱う者全員が同じ対策を講じる必要がある</p></div></div>
+      <div class="layer c2"><div class="lbl"><em>第2層</em>転写</div><div class="body"><p>サイバーとフィジカルの境界での正確な転写機能が要点。そのためには直接関与するA社だけでなく、A社の転写機能を担う<strong>システムの構成品を供給・構築する企業</strong>の協力が不可欠</p></div></div>
+      <div class="layer c1"><div class="lbl"><em>第1層</em>組織</div><div class="body"><p>信頼性の基点は企業（組織）のマネジメント。対策は各組織のマネジメントを中心に実施される</p></div></div>
+    </div>
+    <p class="lead" style="margin-top:10px">第2層と第3層で、直接関与しない企業も対策に参加する必要が生まれる。これが<strong>マルチステークホルダーアプローチ</strong>。</p>
+  </section>
+
+  <section class="blk">
+    <h2>信頼性を確保する3つの仕組み</h2>
+    <p class="lead">各層の基点となる構成要素のセキュリティを各主体が確保すれば、プロセス全体が守られる。そのために必要なのが次の3つ。</p>
+    <ol class="flow">
+      <li><div><b>信頼の創出</b><span>セキュリティ要件を満たすモノ・データを生成し、記録を残す。要件を満たして生成されたことを<strong>自己確認</strong>するか、<strong>第三者が認証</strong>する</span></div></li>
+      <li><div><b>信頼の証明</b><span>生成した主体以外も照会できる<strong>信頼性リスト</strong>を作り管理する（統合管理型台帳でも、ブロックチェーンなどの分散台帳でもよい）。リストを照会して信頼できるか確認する</span></div></li>
+      <li><div><b>信頼のチェーンの構築と維持</b><span>創出と証明を繰り返して信頼関係をつなぎ、<strong>トレーサビリティ</strong>を確保する。チェーンへの外部攻撃の検知・防御、レジリエンスの強化</span></div></li>
+    </ol>
+    <p class="lead" style="margin-top:10px">プロセスは動的に組み変わるので、個々の構成要素だけでなく、その関係性まで追跡できる多層的なアプローチが必要、としている。JC-STARのラベル（自己宣言、第三者評価）やISMAPのリストは、この「創出」と「証明」を制度にしたものと読める。</p>
+  </section>
+
+  <section class="blk">
+    <h2>6つの構成要素ごとの脆弱性の例</h2>
+    <p class="lead">脆弱性＝一つ以上の脅威に付け込まれる可能性のある、資産または管理策の弱点。それぞれ「要素そのものの弱点」と「要素に対する管理策の弱点」の2つがある。</p>
+    <div class="grid g3">
+      <div class="tile l1"><h3>ソシキ</h3><p>体制に不備がある（セキュリティ担当者がいないなど）。企業や事業部単位の方針・ポリシーに不備がある</p></div>
+      <div class="tile l1"><h3>ヒト</h3><p>従業員が自分のセキュリティ上の役割と責任を理解していない。教育の内容が求められる役割と責任に対応していない</p></div>
+      <div class="tile l2"><h3>モノ</h3><p>モノの<strong>耐タンパー性</strong>が不足している。自組織が管理するモノの管理策に弱点がある</p></div>
+      <div class="tile l3"><h3>データ</h3><p>保護すべきデータが<strong>平文のまま保管</strong>されている。受信したデータの確認に弱点がある</p></div>
+      <div class="tile l1"><h3>プロシージャ</h3><p>セキュリティ事象が起きたときの対応手順に不備がある。定められた手順が守られていない</p></div>
+      <div class="tile l2"><h3>システム</h3><p>異常をすばやく検知し対処する仕組みがない。対処すべき脆弱性が放置されている</p></div>
+    </div>
+    <p class="lead" style="margin-top:10px">同じモノでも、プロセスによって別の要素として評価するのが適切な場合がある。PCやサーバは「システム」だけでなく「モノ」として、ソフトウェアは「プロシージャ」「データ」「モノ」のそれぞれとして評価することがある。</p>
+  </section>
+
+  <section class="blk">
+    <h2>事業被害レベルの決め方</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>参照できるもの</h3><p>IPA「制御システムのセキュリティリスク分析ガイド 第2版」の「4.3 事業被害と事業被害レベル」、NISC「サイバー攻撃による重要インフラサービス障害等の深刻度評価基準（初版）」（2018年）</p></div>
+      <div class="tile"><h3>やること</h3><p>インシデントを具体化したら、事業への影響と大きさを割り当てる。インシデントごとに影響度のスコアを付けると、優先順位を付けたリスク対応ができる</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>対策要件の20カテゴリー</h2>
+    <p class="lead">IDは「CPS.」で始まる。並びはNIST CSFの5機能に沿う。括弧内は本文に出てくる対策要件IDの数（数え上げ）で、合計104。</p>
+    <div class="grid g5">
+      <div class="tile l1"><h3>識別</h3><p>AM 資産管理（7）<br>BE ビジネス環境（3）<br>GV ガバナンス（4）<br>RA リスク評価（6）<br>RM リスク管理戦略（2）<br>SC サプライチェーンリスク管理（11）</p></div>
+      <div class="tile l3"><h3>防御</h3><p>AC 認証・アクセス制御（9）<br>AT 意識向上・トレーニング（3）<br>DS データセキュリティ（15）<br>IP 保護のプロセスと手順（10）<br>MA 保守（2）<br>PT 保護技術（3）</p></div>
+      <div class="tile l2"><h3>検知</h3><p>AE 異変とイベント（5）<br>CM 継続的モニタリング（7）<br>DP 検知プロセス（4）</p></div>
+      <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><h3>対応</h3><p>RP 対応計画（4）<br>CO 伝達（3）<br>AN 分析（3）<br>MI 低減（1）</p></div>
+      <div class="tile" style="background:var(--s-soft);border-color:var(--s)"><h3>復旧</h3><p>IM 改善（2）</p></div>
+    </div>
+    <p class="lead" style="margin-top:10px">最も多いのはDS（データセキュリティ）とSC（サプライチェーン）。CPSFがデータとサプライチェーンを重視していることが数にも表れている。</p>
+  </section>
+
+  <section class="blk">
+    <h2>添付C（対策例集）の読み方</h2>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th>列</th><th>中身</th></tr></thead>
+        <tbody>
+          <tr><td>対策要件ID・対策要件</td><td>CPS.AM-1など</td></tr>
+          <tr><td>対策例</td><td>&lt;High-Advanced&gt; &lt;Advanced&gt; &lt;Basic&gt; の3レベル</td></tr>
+          <tr><td>対策例を実行する主体</td><td>S（技術的手法でシステムが実装）、O（非技術的手法でヒトなど組織が実装）、O/S（両方ありうる）。表記はNIST SP 800-53 Rev.5に従う</td></tr>
+          <tr><td>参照ガイドライン</td><td>NIST SP 800-171、NIST SP 800-53、ISO/IEC 27001、IEC 62443 との対応</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile"><h3>レベルの考え方</h3><p>国際規格の階層化された管理策をベースに、<strong>導入・運用コスト</strong>と<strong>対象スコープ</strong>（自組織内だけか、他組織も巻き込むか）で並べている。High-Advancedを実装するなら、AdvancedとBasicもカバーしておく必要がある</p></div>
+      <div class="tile"><h3>どのレベルを選ぶか</h3><p>CPS.AM-5やCPS.BE-2で割り当てた、事業・業務・システムの<strong>重要度</strong>を見て必要なレベルを決める。Basicが「（該当なし）」の要件は、リソースが厳しいときや重要度が高くないときは優先度が必ずしも高くない、という意味</p></div>
+    </div>
+    <p class="lead" style="margin-top:12px">重要度の付け方の例（IPA「中小企業の情報セキュリティ対策ガイドライン 第3版」より）</p>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th></th><th>2</th><th>1</th><th>0</th></tr></thead>
+        <tbody>
+          <tr><td><strong>機密性</strong></td><td>法律で安全管理が義務、守秘義務や限定提供データの対象、漏えいで取引先・顧客に大きな影響、営業秘密</td><td>漏えいで業務に大きな影響</td><td>漏えいしても業務にほぼ影響なし</td></tr>
+          <tr><td><strong>完全性</strong></td><td>法律で安全管理が義務、改ざんで自社に深刻な影響または取引先・顧客に大きな影響</td><td>改ざんで業務に大きな影響</td><td>改ざんされてもほぼ影響なし</td></tr>
+          <tr><td><strong>可用性</strong></td><td>使えなくなると自社に深刻な影響または取引先・顧客に大きな影響</td><td>使えなくなると事業に大きな影響</td><td>使えなくなってもほぼ影響なし</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">産業用制御システムなどでは、安全性（セーフティ）、環境、衛生への影響も評価に加える必要がある。対策例はあくまで一例で、載っていない対策で要件を満たしてもよい。</p>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li>目的は2つ：プロセスの<strong>信頼性の確保</strong>と、セキュリティ品質を<strong>差別化要因</strong>にして競争力を高めること</li>
+      <li>添付はA〜Eの5つ。研修で使ったのはBとCで、<strong>添付D</strong>が海外規格との対比表</li>
+      <li>信頼性は「<strong>創出 → 証明 → チェーン</strong>」で確保する。自己確認・第三者認証、照会できる信頼性リスト、トレーサビリティ</li>
+      <li>対策要件は20カテゴリー。対策要件ID（CPS.○○-番号）が、CCRC技術報告書やERAB GLとの対応を取るときの共通キーになる</li>
+      <li>対策例のレベルは<strong>コストとスコープ</strong>で分けられ、どれを選ぶかは<strong>資産の重要度</strong>で決める</li>
+      <li>第3層（データ）を掘り下げたのが次のA2「データマネジメント・フレームワーク」</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= Appendix A2 DMF ================= -->
+<article class="unit" id="u-a2" data-view="a2">
+  <span class="appx">Appendix：研修の問題範囲外の参考資料</span>
+  <div class="unit-head">
+    <div class="unit-num">A2</div>
+    <h1 class="unit-title">データマネジメント・フレームワーク（Ver1.1）</h1>
+    <p class="unit-sub">経済産業省 商務情報政策局 サイバーセキュリティ課「協調的なデータ利活用に向けたデータマネジメント・フレームワーク ～データによる価値創造の信頼性確保に向けた新たなアプローチ」。Ver1.0は2022年4月8日、Ver1.1は2024年2月28日（ユースケースA-5を追加）</p>
+  </div>
+
+  <section class="blk">
+    <h2>CPSFとの関係と、この文書の考え方</h2>
+    <div class="grid g3">
+      <div class="tile l3"><h3>第3層の具体化</h3><p>CPSFの第3層（サイバー空間のつながり）のデータの信頼性を、<strong>データを軸</strong>に掘り下げたもの。生成・取得から廃棄までのライフサイクル全体を扱う</p></div>
+      <div class="tile l2"><h3>第2層にも及ぶ</h3><p>データが生まれる場所は、第3層ではなく第2層に属する場合があるとしている（センサーやスマートメーターなど）</p></div>
+      <div class="tile l1"><h3>主体は1つではない</h3><p>データに関与する主体は同一・単一ではない。データが移っても同じようにセキュリティが確保されるよう、主体間で必要な調整を図る</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>3つの要素：属性・場・イベント</h2>
+    <p class="lead">データマネジメント＝「データの<strong>属性</strong>が<strong>場</strong>における<strong>イベント</strong>により生成・変化・維持されるプロセス」を管理すること。3要素でデータの置かれた状態を見える化し、どんなリスクがあり何をすべきかを分かるようにする。</p>
+    <div class="grid g3">
+      <div class="tile l3"><h3>属性</h3><p>データが持つ性質。どのカテゴリーか、どんな機密性が要るか、誰が権利を行使できるか</p></div>
+      <div class="tile l1"><h3>場</h3><p>データに対して特定の規範を共有する範囲。法令、組織の規則、組織間の契約など</p></div>
+      <div class="tile l2"><h3>イベント</h3><p>属性を生成・変化・維持する作用</p></div>
+    </div>
+    <p class="lead" style="margin-top:12px"><strong>3つは互いに影響し合う。</strong></p>
+    <div class="grid g3">
+      <div class="tile"><h3>イベント → 属性</h3><p>個人情報が「匿名加工」というイベントを経て匿名加工情報に変わる</p></div>
+      <div class="tile"><h3>場 → 属性</h3><p>場の要求によって属性の内容が決まる部分がある</p></div>
+      <div class="tile"><h3>場 → イベント</h3><p>場が特定のイベントを要求する。例として、電気事業者がデータを提供する場合に行うべき加工処理が定められていることが挙げられている</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>イベントの5つの区分</h2>
+    <ol class="flow h">
+      <li><div><b>生成・取得</b><span>センサー計測などの自動的な手段、人手の入力。なりすましによる転写の失敗、システム障害による停止などがリスク</span></div></li>
+      <li><div><b>加工・利用</b><span>付加価値を生む作用。データの一部の項目やレコードを取り除くのも加工で、廃棄とは区別する</span></div></li>
+      <li><div><b>移転・提供</b><span>組織間だけでなく、機器間（サーバとクライアント）も含む。複製されて移転元にも残るのが普通。国・地域、組織の単位で手続きを整理する</span></div></li>
+      <li><div><b>保管</b></div></li>
+      <li><div><b>廃棄</b></div></li>
+    </ol>
+  </section>
+
+  <section class="blk">
+    <h2>「場」の整理：4つのカテゴリー</h2>
+    <p class="lead">場には、国・地域の法令（域外適用される他国の法令を含む）、組織の規則、契約のほか、特定のコミュニティで暗黙に共有されている共通認識や、デジタルプラットフォームの利用規約も含まれる。法令の観点を漏らさないための整理の例が次の4つ。</p>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th>目的</th><th>場の例</th><th>場が決める属性の例</th></tr></thead>
+        <tbody>
+          <tr><td><strong>パーソナルデータの保護</strong></td><td>個人情報保護法、GDPR、個人が同意した利用目的</td><td>カテゴリー（個人情報、匿名加工情報）、データ権利者、データ管理主体</td></tr>
+          <tr><td><strong>知的財産（営業秘密を含む）の保護</strong></td><td>不正競争防止法、著作権法、主体間の契約（NDAなど）</td><td>カテゴリー（営業秘密、限定提供データ）、開示範囲、権利者</td></tr>
+          <tr><td><strong>機微技術の管理</strong></td><td>外為法、米国輸出管理規則</td><td>カテゴリー（輸出管理対象技術）、開示範囲</td></tr>
+          <tr><td><strong>適切な社会機能の維持</strong></td><td>金融商品取引法（インサイダー取引）、各種の守秘義務</td><td>開示範囲</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">別の分け方として、法制度を「情報を管理する事業者に<strong>管理責任を課す類型</strong>」（個人情報保護法など）と「<strong>不正行為者に法的責任を問う類型</strong>」（不正競争防止法の営業秘密保護など）に分ける整理も紹介されている。</p>
+  </section>
+
+  <section class="blk">
+    <h2>「属性」の8つの項目</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>カテゴリー</h3><p>個人情報・匿名加工情報、営業秘密・限定提供データなど、法令上の位置づけ。場と連動して特別なイベントを求められることが多い</p></div>
+      <div class="tile"><h3>開示範囲</h3><p>契約や組織内規則も含めた開示範囲。組織内でも、国・地域間の移転や米国輸出規制の「みなし輸出」に当たると、制限が何重にもかかる</p></div>
+      <div class="tile"><h3>利用目的</h3><p>個人情報やライセンスなど、法令で利用目的が制限されるもの。主体を転々としても、その範囲内で扱う必要がある</p></div>
+      <div class="tile"><h3>データ管理主体</h3><p>その時点でデータに責任を負う主体。データが流通するにつれて移り変わる。<strong>クラウド利用や処理の委託では曖昧になりやすい</strong></p></div>
+      <div class="tile"><h3>データ権利者</h3><p>管理主体とは別に権利を持つ主体（個人情報なら本人）。データが他の主体に移っても権利は残る。同意の取り下げ、ライセンス、設計データや稼働状況データなど</p></div>
+      <div class="tile"><h3>価値（重要度）</h3><p>事業上の価値。機密性・完全性・可用性が損なわれたときの影響度を評価し、その最大のものを取る方法がある</p></div>
+      <div class="tile"><h3>媒体・保存先</h3><p>電子媒体、PC、モバイル端末、社内サーバ、社外サーバ（クラウド）など。求められる水準を保てる保存先を管理する</p></div>
+      <div class="tile"><h3>利用期限</h3><p>法律や契約で決まる利用期限、廃棄や返還の義務。期限を過ぎても使える状態になっていないかを管理する</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>ERABに当てはめると</h2>
+<figure class="dg"><div class="dgs"><svg viewBox="0 0 820 262" role="img" aria-label="電力データが需要家宅からRA、小売・送配電へ渡るたびに場と管理主体が変わり、需要家は権利者として残る" style="min-width:680px"><defs><marker id="f8a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:currentColor"/></marker><marker id="f8r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--k)"/></marker><marker id="f8g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--s)"/></marker><marker id="f8t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--trap)"/></marker><marker id="f8b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--l3)"/></marker></defs><rect class="bx" x="20" y="30" width="230" height="54" rx="8"/><text class="b" x="135.0" y="54.0" text-anchor="middle">生成・取得</text><text class="sm" x="135.0" y="70.0" text-anchor="middle">機器やスマメが電力を測る</text><rect class="bx" x="295" y="30" width="230" height="54" rx="8"/><text class="b" x="410.0" y="54.0" text-anchor="middle">加工・利用</text><text class="sm" x="410.0" y="70.0" text-anchor="middle">束ねてDR量を計算</text><rect class="bx" x="570" y="30" width="230" height="54" rx="8"/><text class="b" x="685.0" y="54.0" text-anchor="middle">移転・提供</text><text class="sm" x="685.0" y="70.0" text-anchor="middle">実績を報告・精算</text><text class="sm" x="135" y="20" text-anchor="middle">需要家宅</text><text class="sm" x="410" y="20" text-anchor="middle">プラットフォーム（RA）</text><text class="sm" x="685" y="20" text-anchor="middle">AC・小売・送配電</text><line class="ln" x1="250" y1="57" x2="293" y2="57" marker-end="url(#f8a)"/><line class="ln" x1="525" y1="57" x2="568" y2="57" marker-end="url(#f8a)"/><rect class="bx bx1" x="20" y="104" width="230" height="40" rx="8"/><text class="sm2" x="30" y="129" text-anchor="start">場：需要家との約款、個人情報保護法</text><rect class="bx bx1" x="295" y="104" width="230" height="40" rx="8"/><text class="sm2" x="305" y="129" text-anchor="start">場：事業者間の契約、ERABのGL</text><rect class="bx bx1" x="570" y="104" width="230" height="40" rx="8"/><text class="sm2" x="580" y="129" text-anchor="start">場：市場の要綱、電気事業法</text><rect class="bx bx3" x="20" y="160" width="230" height="40" rx="8"/><text class="sm2" x="30" y="185" text-anchor="start">属性　管理主体：RA（取得した時点）</text><rect class="bx bx3" x="295" y="160" width="230" height="40" rx="8"/><text class="sm2" x="305" y="185" text-anchor="start">属性　管理主体：RA</text><rect class="bx bx3" x="570" y="160" width="230" height="40" rx="8"/><text class="sm2" x="580" y="185" text-anchor="start">属性　管理主体：受け取った事業者</text><rect class="bx bt" x="20" y="216" width="780" height="36" rx="8"/><text class="b" x="410" y="239" text-anchor="middle">データ権利者：需要家（どこへ渡っても権利は残る）</text></svg></div><figcaption>データマネジメント・フレームワークの3要素をERABに当てはめた例（場や管理主体の中身は契約次第で変わる）。データが渡るたびに<strong>場</strong>（守るべきルール）と<strong>管理主体</strong>が変わるが、<strong>権利者</strong>の需要家はずっと残る。同意の取り下げなどは、どの段階でも効いてくる</figcaption></figure>
+  </section>
+
+  <section class="blk">
+    <h2>リスク分析の4ステップ</h2>
+    <p class="lead">後のステップで漏れに気づいたら前に戻ってよい（不可逆ではない）。</p>
+    <ol class="flow">
+      <li><div><b>データ処理フロー（イベント）を可視化</b><span>生成・取得から廃棄までの大まかな流れ。粒度は目的に合わせる。社内ネットワークのサーバ・クライアント間の移転などは、管理ルールを示すことで省略してもよい</span></div></li>
+      <li><div><b>必要な制度的保護措置（場）を整理</b><span>法律と契約の観点から設定する。1つのデータに複数の場が重なることがある</span></div></li>
+      <li><div><b>属性を具体化</b><span>管理上あるべき属性を特定する。その途中で場やイベントの漏れに気づいたら追加する</span></div></li>
+      <li><div><b>イベントごとのリスクポイントを洗い出す</b><span>場の観点からイベントごとのリスクを抽出し、属性をレビューする。機密性・完全性・可用性に加え、法制度への適合も見る</span></div></li>
+    </ol>
+  </section>
+
+  <section class="blk">
+    <h2>使い道1：ルール間のギャップを見る（GDPRの例）</h2>
+    <div class="vs">
+      <div class="a"><h3>欧州 → 日本</h3><dl>
+        <dt>場の変化</dt><dd>GDPRから日本の個人情報保護法制へ</dd>
+        <dt>結果</dt><dd>日本は<strong>十分性認定</strong>を受けているので、GDPRが求める保護が日本の法制で確保されているとみなされる。属性の変化はデータ管理主体が加わるだけ</dd>
+      </dl></div>
+      <div class="b"><h3>欧州 → 米国</h3><dl>
+        <dt>場の変化</dt><dd>米国の各種法制度へ。安全保障目的の政府機関のアクセスがありうる</dd>
+        <dt>結果</dt><dd>属性に<strong>潜在的なアクセス主体として米国政府</strong>が加わる。SchremsⅡ判決でプライバシーシールドが無効とされたため、<strong>標準的契約条項</strong>の締結などが求められる</dd>
+      </dl></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>使い道2：クラウドサプライチェーン（ユースケースA-3）</h2>
+    <p class="lead">クラウドのセキュリティは向上した一方、<strong>責任分界の認識不足</strong>による設定ミスなどのインシデントや、データの地理的所在が分かりにくいといった課題が残っている、という問題意識。</p>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th>登場人物</th><th>役割</th></tr></thead>
+        <tbody>
+          <tr><td>顧客</td><td>A社のポータルサイトで画像・動画をダウンロードし、関連商品を買う</td></tr>
+          <tr><td>A社（クラウドサービスカスタマ）</td><td>サービス・物販事業者。B社・C社のクラウドでポータルと顧客管理を構築・運用</td></tr>
+          <tr><td>B社（クラウドサービスプロバイダ）</td><td>ポータル向けのWebアプリ基盤を<strong>PaaS</strong>で、販売管理・顧客管理を<strong>SaaS</strong>で提供</td></tr>
+          <tr><td>C社（クラウドサービスプロバイダ）</td><td>画像・動画のオンラインストレージをSaaSで提供。さらにB社のサービスの下で使われている<strong>IaaS</strong>も提供（ピアクラウドサービス）</td></tr>
+          <tr><td>クラウドサービスパートナー</td><td>B社PaaS上にポータルを構築し、サービス間の連携部分を開発</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><h3>起きうる問題</h3><p>直接の契約先（B社）に問題がなくても、その配下のPaaSやIaaSで問題が起きると<strong>連鎖的に巻き込まれる</strong>。障害で損害が出たとき、事業者間の責任の所在が曖昧になる</p></div>
+      <div class="tile" style="background:var(--s-soft);border-color:var(--s)"><h3>対策</h3><p>プロバイダとカスタマの間で、適宜の<strong>情報開示</strong>と、<strong>契約に基づく監査</strong>などを行う。用語はISO/IEC 17789に基づく</p></div>
+    </div>
+    <p class="lead" style="margin-top:12px">ほかのユースケース：A-1 POSデータの分析、A-2 高齢者生活支援事業、A-4 国内のITサービスを海外で開発・運用、A-5 ATM・金融端末の生産ラインの板金加工データ。添付Bにはイベントごとのリスク洗い出しの例がある。</p>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li>3要素は<strong>属性・場・イベント</strong>。イベントは生成・取得、加工・利用、移転・提供、保管、廃棄の5つで、移転・提供には<strong>機器間</strong>の通信も含まれる</li>
+      <li>属性で特に大事なのは<strong>データ管理主体</strong>と<strong>データ権利者</strong>の区別。データが移ると管理主体は変わるが、権利者の権利は残る</li>
+      <li>場には法令だけでなく<strong>契約、利用規約、暗黙の共通認識</strong>も入る。データが組織や国をまたぐたびに場が変わり、属性も変わる</li>
+      <li>ERABに当てはめると、機器データが需要家の家からRA・AC・小売に渡るたびに、管理主体と場（個人情報保護法、各社の契約）が変わる。需要家は権利者として残る</li>
+      <li>A-3は、PaaSとして他社にサービスを提供し、その下で別のクラウドを使う構造。責任分界と、配下のクラウドで起きた障害の連鎖をどう扱うかの整理にそのまま使える</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= Appendix A3 ERABガイドライン ================= -->
+<article class="unit" id="u-a3" data-view="a3">
+  <span class="appx">Appendix：研修の問題範囲外の参考資料</span>
+  <div class="unit-head">
+    <div class="unit-num">A3</div>
+    <h1 class="unit-title">ERABガイドライン（令和7年11月改定）</h1>
+    <p class="unit-sub">資源エネルギー庁「エネルギー・リソース・アグリゲーション・ビジネスに関するガイドライン」。<strong>セキュリティGLとは別物</strong>で、DRの評価・精算・小売との調整のルールを定める</p>
+  </div>
+
+  <section class="blk">
+    <h2>改定の経緯</h2>
+    <ul class="tl">
+      <li><b>2015年3月30日</b>策定（平成27年）</li>
+      <li><b>2016年9月1日</b>改定</li>
+      <li><b>2017年11月29日</b>改定</li>
+      <li><b>2019年4月1日</b>改定（発電機等計測の設定方法を記載）</li>
+      <li><b>2020年6月1日</b>改定</li>
+      <li><b>2025年11月19日</b>改定（最新）</li>
+    </ul>
+  </section>
+
+  <section class="blk">
+    <h2>用語とERABの定義</h2>
+    <div class="grid g3">
+      <div class="tile"><h3>DSR / DER</h3><p>DSR＝需要家側エネルギーリソース。DER＝分散型エネルギーリソース</p></div>
+      <div class="tile"><h3>DR / VPP</h3><p>電力供給状況に応じて需要パターンを変える＝DR。リソースを束ねて発電所のように使う＝VPP</p></div>
+      <div class="tile"><h3>ERAB</h3><p>VPPやDRを用いて、一般送配電・小売・需要家・再エネ発電事業者に、<strong>調整力、供給力、インバランス回避、電力料金削減、出力制御回避</strong>などを提供する事業</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile l3"><h3>需要抑制（下げDR）</h3><p>ピークカットで需給ひっ迫を解消。非効率な火力の焚き増しやピーク電源の新設が不要になり、中長期では発電容量の合理化につながる</p></div>
+      <div class="tile l2"><h3>需要創出（上げDR）</h3><p>再エネで供給過多のときに消費を増やしてもらい、再エネを有効活用しつつ需給調整に役立てる</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>対象範囲と全体構成</h2>
+    <p class="lead">制度や取引実務の熟度を考慮し、現時点で定めるのは<strong>インセンティブ型DRの下げDR、上げDRの一部、逆潮流の一部</strong>だけ。各市場や公募の要綱が定めていない部分を補う位置づけ。類型2（送配電が調達）は、需給調整市場の機器個別計測など、送配電の要綱が優先する。</p>
+    <div class="grid g3">
+      <div class="tile"><h3>第2章 制御量の評価方法</h3><p>計測方法、評価基準（ベースライン）、評価時間</p></div>
+      <div class="tile"><h3>第3章 報酬・ペナルティ</h3><p>基本報酬と従量報酬、ペナルティ</p></div>
+      <div class="tile"><h3>第4章 供給元小売との調整</h3><p>情報共有、ネガワット調整金</p></div>
+    </div>
+    <p class="lead" style="margin-top:10px">参考資料：参考1 ベースラインの種類、参考2 ベースラインテスト、参考3 代替ベースライン適用の考え方、参考4 モデル契約書。</p>
+  </section>
+
+  <section class="blk">
+    <h2>下げDRの類型</h2>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th>類型</th><th>買い手</th><th>需要家は誰の顧客か</th><th>供給元小売との情報共有・調整金</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1①</strong></td><td>小売（計画値同時同量のため）</td><td>自社の需要家</td><td>不要</td></tr>
+          <tr><td><strong>1②</strong></td><td>小売</td><td><strong>他の小売</strong>の需要家</td><td>必要</td></tr>
+          <tr><td><strong>2①</strong>（GC前／GC後）</td><td>一般送配電（需給調整のため）</td><td>小売自身の需要家を小売から直接調達</td><td>不要</td></tr>
+          <tr><td><strong>2②</strong>（GC前／GC後）</td><td>一般送配電</td><td><strong>アグリゲーター経由</strong>で調達</td><td>必要</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">GC＝ゲートクローズ。1②は民民の取引だが他社の需要家を使うので、1①より正確性と公平性が強く求められ、このガイドラインの活用が特に期待される。</p>
+  </section>
+
+  <section class="blk">
+    <h2>計測：受電点計測と個別計測</h2>
+    <div class="vs">
+      <div class="a"><h3>受電点計測</h3><dl>
+        <dt>どこで</dt><dd>受電点（構内への入口）から屋内の分電盤までの間の計量器</dd>
+        <dt>位置づけ</dt><dd>基本の方法</dd>
+      </dl></div>
+      <div class="b"><h3>個別計測</h3><dl>
+        <dt>どこで</dt><dd>受電点以外。個別計測地点の計量器や、機器に接続した計量器</dd>
+        <dt>条件</dt><dd>関係者の<strong>合意</strong>がある場合に限り、<strong>按分計量</strong>（1つの地点にある全ての発電・蓄電・負荷設備ごとに電力量を計量すること）を前提に使える</dd>
+        <dt>計量器</dt><dd>検定を受けた特定計量器。機器接続型は特定計量制度で届け出た特例計量器も可</dd>
+      </dl></div>
+    </div>
+    <p class="lead" style="margin-top:10px">計測間隔は、評価間隔が30分単位であることを踏まえて関係者間で協議する。</p>
+  </section>
+
+  <section class="blk">
+    <h2>ベースライン（制御がなかった場合の想定電力量）</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>個別管理と群管理</h3><p>基本は需要家単位（個別管理）だが、複数の需要家をまとめた群単位（群管理）も妨げない。<strong>低圧需要家は群管理が期待される</strong>。類型1②の群は、同じ小売と契約している需要家で作る</p></div>
+      <div class="tile"><h3>端数処理と類型ごとの扱い</h3><p>計算途中は小数点以下まで正確に出し、最後はkW単位の整数に四捨五入。類型1①は当事者間で協議。類型1②は標準ベースラインを使う。確定数量契約がある場合は確定数量をベースラインにする</p></div>
+    </div>
+    <figure class="dg"><div class="dgs"><svg viewBox="0 0 820 240" role="img" aria-label="ベースラインと実際の需要の差が需要抑制量。当日調整はDR開始の5時間前から2時間前の差で行う" style="min-width:660px"><defs><marker id="f6a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:currentColor"/></marker><marker id="f6r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--k)"/></marker><marker id="f6g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--s)"/></marker><marker id="f6t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--trap)"/></marker><marker id="f6b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--l3)"/></marker></defs><rect x="280" y="34" width="156" height="176" style="fill:var(--l3-soft);opacity:.7"/><text class="bk sm2" x="358" y="52" text-anchor="middle">当日調整に使う時間</text><text class="sm" x="358" y="66" text-anchor="middle">（DR開始の5〜2時間前）</text><line class="ln" x1="60" y1="210" x2="792" y2="210"/><line class="ln" x1="60" y1="210" x2="60" y2="28"/><text class="sm" x="66" y="26" text-anchor="start">需要（kW）</text><text class="sm" x="792" y="230" text-anchor="end">時刻（30分ごと）</text><polygon points="540,98 620,105 700,115 700,124 680,155 620,158 560,150 540,106" style="fill:var(--trap);opacity:.45"/><polyline class="ln dash" points="60,150 140,140 220,125 300,110 380,100 460,95 540,98 620,105 700,115 790,125" style="fill:none;stroke-width:2"/><polyline points="60,156 140,147 220,132 300,118 380,108 460,103 540,106 560,150 620,158 680,155 700,124 790,131" style="fill:none;stroke:var(--l3);stroke-width:2.5"/><line class="ln dash" x1="540" y1="34" x2="540" y2="210"/><line class="ln dash" x1="700" y1="34" x2="700" y2="210"/><text class="b" x="620" y="52" text-anchor="middle">DR実施</text><text class="tk b" x="620" y="132" text-anchor="middle">需要抑制量</text><text class="sm2" x="712" y="106" text-anchor="start">ベースライン</text><text class="bk sm2" x="712" y="152" text-anchor="start">実際の需要</text><text class="sm" x="76" y="184" text-anchor="start">過去5日のうち需要の多い4日の平均</text><text class="sm" x="76" y="199" text-anchor="start">＋当日調整＝ベースライン</text></svg></div><figcaption>模式図（実データではない）。点線のベースラインは「DRをしなかったらこう使ったはず」の線で、実際の需要との差（黄色）が評価される需要抑制量。過去の平均だけだと当日の暑さ寒さがずれるので、DR開始の5〜2時間前に実際とどれだけずれていたかを足して補正する</figcaption></figure><p class="lead" style="margin-top:12px"><strong>標準ベースライン：High 4 of 5（当日調整あり）</strong>の計算</p>
+    <ol class="flow">
+      <li><div><b>過去の平均を出す</b><span>平日のDR実施日なら、直近5日間（当日を除く）のうち、DR時間帯の平均需要が多い<strong>4日間</strong>について30分コマごとの平均を出す。土日祝は直近3日間のうち多い<strong>2日間（High 2 of 3）</strong></span></div></li>
+      <li><div><b>当日のずれを調整する</b><span>DR開始の<strong>5時間前から2時間前</strong>の30分×6コマで「当日の需要 − 1の値」の平均を出し、1に加える</span></div></li>
+      <li><div><b>補正する</b><span>マイナスになる時間帯はゼロに補正。DR時間帯の需要平均が総平均の25％未満の日は除外日にする</span></div></li>
+    </ol>
+    <p class="lead" style="margin-top:12px"><strong>代替ベースライン</strong></p>
+    <div class="grid g2">
+      <div class="tile"><h3>High 4 of 5（当日調整なし）</h3><p>上の1の値をそのまま使う</p></div>
+      <div class="tile"><h3>同等日採用法</h3><p>過去30日以内でDRを実施しなかった日のうち、DR時間帯と前後1時間の実需要の誤差二乗和が最も小さい3日間の平均</p></div>
+      <div class="tile"><h3>事前計測</h3><p>当日のDR開始の4時間前から1時間前の6コマの平均。<strong>低圧など需要の変動が大きい需要家には推奨されない</strong></p></div>
+      <div class="tile"><h3>発電機等計測</h3><p>個別計測などの制度検討を踏まえて設定。2019年版では、普段使わず単体で動く発電機や蓄電池について、ベースラインを常にゼロとし専用計量器の値で取引する方法を定めていた</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>ベースラインテスト</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>いつ・何で</h3><p>新規にDRを行うときのベースライン登録時。DR実施日を除く直近の夏期と冬期、それぞれ60日以上の、午前8時〜午後8時の30分データを使う（特定の季節だけのDRならその季節だけ）</p></div>
+      <div class="tile"><h3>どう測るか</h3><p>8〜11時、11〜14時、14〜17時、17〜20時の時間帯ごとに、<strong>相対平均二乗誤差（RRMSE）</strong>を計算し、その平均をベースラインの誤差とする</p></div>
+      <div class="tile" style="background:var(--s-soft);border-color:var(--s)"><h3>判定</h3><p>誤差<strong>20％以下</strong>なら原則として標準ベースライン。20％を超えたら、希望する代替ベースラインで再テストし、20％以下ならそれを設定。それでも超えるなら当事者間で合意したものにする</p></div>
+      <div class="tile"><h3>誰がやるか</h3><p>実施者はアグリゲーター。類型1②は<strong>供給元小売が承認</strong>。類型2は送配電の調達要綱に従う（供給元小売への共有は必要）</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>上げDR・逆潮流・評価時間・報酬</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>上げDR</h3><p>下げDRの標準ベースライン（High 4 of 5 当日調整あり）を使うことも考えられるが、状況を踏まえて関係者で協議</p></div>
+      <div class="tile"><h3>逆潮流</h3><p>計画値同時同量の下で取引されるので、関係者で協議</p></div>
+      <div class="tile"><h3>評価時間</h3><p>評価間隔は<strong>30分単位</strong>。評価対象時間に、持続時間だけでなく<strong>起動時間</strong>（指令から持続開始まで）と<strong>回復時間</strong>（終了から通常運転まで）を含めるかは協議で決める</p></div>
+      <div class="tile"><h3>報酬・ペナルティ</h3><p>容量としての価値＝<strong>基本報酬</strong>、電力量としての価値＝<strong>従量報酬</strong>を定める。ペナルティは安定供給のため、需要家やアグリゲーターに過度な負担にならない程度で</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>供給元小売との調整：情報共有とネガワット調整金</h2><figure class="dg"><div class="dgs"><svg viewBox="0 0 820 290" role="img" aria-label="他社の需要家を使うDRでは、アグリゲーターが供給元小売に発動を連絡し、ネガワット調整金を払う" style="min-width:680px"><defs><marker id="f5a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:currentColor"/></marker><marker id="f5r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--k)"/></marker><marker id="f5g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--s)"/></marker><marker id="f5t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--trap)"/></marker><marker id="f5b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--l3)"/></marker></defs><rect class="bx" x="20" y="30" width="200" height="54" rx="8"/><text class="b" x="120.0" y="54.0" text-anchor="middle">DRの買い手</text><text class="sm" x="120.0" y="70.0" text-anchor="middle">送配電（2②）／小売（1②）</text><rect class="bx" x="310" y="30" width="200" height="54" rx="8"/><text class="b" x="410.0" y="61.0" text-anchor="middle">アグリゲーター</text><rect class="bx" x="600" y="30" width="200" height="54" rx="8"/><text class="b" x="700.0" y="54.0" text-anchor="middle">供給元小売</text><text class="sm" x="700.0" y="70.0" text-anchor="middle">需要家に電気を売る会社</text><rect class="bx" x="310" y="220" width="200" height="54" rx="8"/><text class="b" x="410.0" y="244.0" text-anchor="middle">需要家</text><text class="sm" x="410.0" y="260.0" text-anchor="middle">供給元小売と契約</text><line class="ln" x1="220" y1="46" x2="308" y2="46" marker-end="url(#f5a)"/><text class="sm2" x="264" y="38" text-anchor="middle">① 発動指令</text><line class="ln lb" x1="220" y1="70" x2="308" y2="70" marker-end="url(#f5b)"/><text class="bk sm2" x="264" y="98" text-anchor="middle">⑤ 対価を払う</text><line class="ln" x1="380" y1="84" x2="380" y2="218" marker-end="url(#f5a)"/><text class="sm2" x="372" y="156" text-anchor="end">② 機器を制御</text><line class="ln lb" x1="440" y1="84" x2="440" y2="218" marker-end="url(#f5b)"/><text class="bk sm2" x="448" y="156" text-anchor="start">⑥ 報酬</text><line class="ln" x1="510" y1="46" x2="598" y2="46" marker-end="url(#f5a)"/><text class="sm2" x="554" y="38" text-anchor="middle">③ 発動を連絡</text><line class="ln lt" x1="510" y1="70" x2="598" y2="70" marker-end="url(#f5t)"/><text class="tk b" x="554" y="98" text-anchor="middle">④ ネガワット調整金</text><polyline class="ln dash" points="510,247 700,247 700,86" style="fill:none"/><text class="sm" x="605" y="240" text-anchor="middle">電気の契約はそのまま</text><text class="sm" x="712" y="140" text-anchor="start">調達済みの電気が</text><text class="sm" x="712" y="156" text-anchor="start">売れ残る分を</text><text class="sm" x="712" y="172" text-anchor="start">調整金で埋める</text></svg></div><figcaption>類型1②・2②（他社の需要家を使うDR）のお金と情報の流れ。<span class="bk">青＝お金</span>、<span class="tk">黄＝ネガワット調整金</span>。需要家が節電すると、供給元小売は調達済みの電気を売れなくなる。その穴をアグリゲーターが調整金で埋める。自社の需要家を使う①の類型では③④が要らない</figcaption></figure>
+    <div class="grid g2">
+      <div class="tile"><h3>情報共有</h3><p><strong>他社が供給している需要家</strong>から需要抑制量を調達する場合にだけ必要。アグリゲーターは発動指令を受けるか自ら発動を決めたら、速やかに供給元小売にDR実施を知らせる</p></div>
+      <div class="tile" style="background:var(--trap-soft);border-color:var(--trap)"><h3>ネガワット調整金の趣旨</h3><p>需要抑制で供給元小売の販売量が減り、調達済みの電気の費用を回収できない。一方アグリゲーターはその分でビジネスをする。この<strong>費用と便益の不一致</strong>を埋めるため、アグリゲーターが供給元小売に払う</p></div>
+    </div>
+    <p class="lead" style="margin-top:12px">調整金の単価の選択肢（需要抑制量は合意した計測地点の計量値で評価）</p>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th></th><th>単価</th><th>補足</th></tr></thead>
+        <tbody>
+          <tr><td>a</td><td>電力料金単価（実績値）− 託送料金</td><td>その需要家の実際の小売価格</td></tr>
+          <tr style="background:var(--s-soft)"><td><strong>b（基本）</strong></td><td>電力料金単価（参考値）− 託送料金</td><td>想定の小売価格。例：旧一般電気事業者の小売部門が公表している単価</td></tr>
+          <tr><td>c</td><td>JEPXの平均価格</td><td>スポット市場のシステムプライスかエリアプライス。ピーク時（夏季平日10〜17時）、非ピーク時・昼、非ピーク時・夜の区分ごとに、過去5日間か昨年度の平均</td></tr>
+          <tr><td>d</td><td>JEPXのDR実施時間のスポット価格</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">bが基本とされる理由は、<strong>取引コストの低減、予見可能性の確保、金銭面での中立性</strong>。特定の事業者に極端な損得が出る場合は、合理的な理由と両者の合意があれば補正してよい。調整金が不要なのは、類型1①・2①と、確定数量契約がある場合。契約締結は類型1②なら遅くともDR発動前。</p>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li>このガイドラインは<strong>取引と精算</strong>のルール。セキュリティはERABサイバーセキュリティGLが担う</li>
+      <li>類型の分かれ目は「誰が買うか（小売／送配電）」と「他社の需要家を使うか」。<strong>他社の需要家を使う②だけ</strong>、供給元小売との情報共有と調整金が要る</li>
+      <li>標準ベースラインは<strong>High 4 of 5（当日調整あり）</strong>。当日調整はDR開始の5時間前〜2時間前。土日祝はHigh 2 of 3</li>
+      <li>ベースラインテストは<strong>RRMSEで20％</strong>が境目。実施はアグリゲーター、類型1②の承認は供給元小売</li>
+      <li>低圧は<strong>群管理</strong>が期待され、事前計測は推奨されない。機器単位の計測は<strong>合意＋按分計量</strong>が前提。低圧リソースを束ねるビジネスの前提条件になる</li>
+      <li>ネガワット調整金の基本は「参考値の小売単価 − 託送料金」</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= Appendix A4 JC-STAR スマートホーム ================= -->
+<article class="unit" id="u-a4" data-view="a4">
+  <span class="appx">Appendix：研修の問題範囲外の参考資料</span>
+  <div class="unit-head">
+    <div class="unit-num">A4</div>
+    <h1 class="unit-title">JC-STAR スマートホーム向けセキュリティ要件案</h1>
+    <p class="unit-sub">産業サイバーセキュリティ研究会WG1 スマートホームSWG「セキュリティ要件適合評価及びラベリング制度 特定分野システム（スマートホーム）向けセキュリティ要件案（修正版）」令和8年1月。★2の要件の<strong>案</strong></p>
+  </div>
+
+  <section class="blk">
+    <h2>位置づけ</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>何の文書か</h3><p>JC-STARの特定分野の1つであるスマートホームについて、<strong>★2のセキュリティ要件</strong>の考え方を示す。経済産業省とIPAが進める制度の有効性を高めるために整備。参入企業がこの要件を守り、健全な市場を作ることを狙う</p></div>
+      <div class="tile"><h3>スマートホームの定義</h3><p>住宅内の家電・住宅設備・IoT機器がネットワークにつながり、生活情報がクラウドで集約・分析され、便利で快適なサービスが提供されるもの。2021年4月の「スマートホームの安心・安全に向けたサイバー・フィジカル・セキュリティ対策ガイドライン」の定義を引く</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>なぜ優先度の高い分野なのか</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>管理者がいない</h3><p>家庭には企業のような専任の管理者がおらず、セキュリティを考えた管理・運用がされていないことが多い</p></div>
+      <div class="tile"><h3>セーフティに及ぶ</h3><p>個人情報の漏えいに加え、玄関ドアの開錠や空調の不正操作など、フィジカル空間の<strong>安全</strong>にまで影響しうる</p></div>
+      <div class="tile"><h3>踏み台になる</h3><p>乗っ取られた機器が、社会全体への攻撃の踏み台として悪用される</p></div>
+      <div class="tile"><h3>関係者も製品も多い</h3><p>住まい手を含む多様なステークホルダーがそれぞれ対応する必要がある。対策が要る製品の数は膨大。利用者が安心して選べる基準が要る</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>検討体制と進め方</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>体制</h3><p>スマートホームSWG（事務局はJEITA）。11社、8団体、2研究機関、経済産業省がオブザーバー。SWGは計4回。幹事会はJEITA、<strong>エコーネットコンソーシアム</strong>、住宅生産団体連合会、日本建材・住宅設備産業協会、重要生活機器連携セキュリティ協議会の5団体</p></div>
+      <div class="tile"><h3>進め方</h3><p>①ネットワーク構成・通信方式・機器の特定 → ②セキュリティ脅威の検討 → ③IoT製品類型ごとの要件の検討。消費者向けなので★1以上は必須。海外の制度動向も踏まえ、IoT製品だけでなくサービスの要件も示す</p></div>
+    </div>
+    <p class="lead" style="margin-top:10px">JC-STARはインターネットに直接つながらない製品も含め、IPで通信する機器とその<strong>付随サービス</strong>を合わせた「IoT製品」を対象にする。この考え方をスマートホーム編も踏襲する。</p>
+  </section>
+
+  <section class="blk">
+    <h2>ネットワーク構成と通信方式</h2><figure class="dg"><div class="dgs"><svg viewBox="0 0 820 264" role="img" aria-label="スマートホームのネットワーク構成の3類型：ゲートウェイ型、クラウド直接通信型、機器間通信型" style="min-width:680px"><defs><marker id="f7a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:currentColor"/></marker><marker id="f7r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--k)"/></marker><marker id="f7g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--s)"/></marker><marker id="f7t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--trap)"/></marker><marker id="f7b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--l3)"/></marker></defs><rect class="zone" x="10" y="8" width="260" height="248" rx="10"/><text class="b" x="140" y="30" text-anchor="middle">ゲートウェイ型</text><rect class="bx" x="60" y="42" width="160" height="34" rx="8"/><text class="b" x="140.0" y="63.0" text-anchor="middle">クラウド</text><line class="ln dash" x1="18" y1="104" x2="262" y2="104"/><text class="sm" x="22" y="98" text-anchor="start">家の境界</text><rect class="bx" x="30" y="206" width="100" height="34" rx="8"/><text class="b" x="80.0" y="227.0" text-anchor="middle">機器</text><rect class="bx" x="150" y="206" width="100" height="34" rx="8"/><text class="b" x="200.0" y="227.0" text-anchor="middle">機器</text><rect class="zone" x="280" y="8" width="260" height="248" rx="10"/><text class="b" x="410" y="30" text-anchor="middle">クラウド直接通信型</text><rect class="bx" x="330" y="42" width="160" height="34" rx="8"/><text class="b" x="410.0" y="63.0" text-anchor="middle">クラウド</text><line class="ln dash" x1="288" y1="104" x2="532" y2="104"/><text class="sm" x="292" y="98" text-anchor="start">家の境界</text><rect class="bx" x="300" y="206" width="100" height="34" rx="8"/><text class="b" x="350.0" y="227.0" text-anchor="middle">機器</text><rect class="bx" x="420" y="206" width="100" height="34" rx="8"/><text class="b" x="470.0" y="227.0" text-anchor="middle">機器</text><rect class="zone" x="550" y="8" width="260" height="248" rx="10"/><text class="b" x="680" y="30" text-anchor="middle">機器間通信型</text><rect class="bx" x="600" y="42" width="160" height="34" rx="8"/><text class="b" x="680.0" y="63.0" text-anchor="middle">クラウド</text><line class="ln dash" x1="558" y1="104" x2="802" y2="104"/><text class="sm" x="562" y="98" text-anchor="start">家の境界</text><rect class="bx" x="570" y="206" width="100" height="34" rx="8"/><text class="b" x="620.0" y="227.0" text-anchor="middle">機器</text><rect class="bx" x="690" y="206" width="100" height="34" rx="8"/><text class="b" x="740.0" y="227.0" text-anchor="middle">機器</text><rect class="bx" x="80" y="128" width="120" height="34" rx="8"/><text class="b" x="140.0" y="149.0" text-anchor="middle">G/W</text><line class="ln" x1="140" y1="76" x2="140" y2="126" marker-end="url(#f7a)" marker-start="url(#f7a)"/><text class="sm" x="148" y="116" text-anchor="start">各社独自</text><line class="ln lb" x1="120" y1="162" x2="80" y2="204" marker-end="url(#f7b)" marker-start="url(#f7b)"/><line class="ln lb" x1="160" y1="162" x2="200" y2="204" marker-end="url(#f7b)" marker-start="url(#f7b)"/><text class="bk sm2 halo" x="140" y="190" text-anchor="middle">ECHONET Lite等</text><line class="ln" x1="390" y1="76" x2="350" y2="204" marker-end="url(#f7a)" marker-start="url(#f7a)"/><line class="ln" x1="430" y1="76" x2="470" y2="204" marker-end="url(#f7a)" marker-start="url(#f7a)"/><text class="sm" x="410" y="150" text-anchor="middle">メーカー独自</text><rect class="bx" x="620" y="128" width="120" height="34" rx="8"/><text class="b" x="680.0" y="142.0" text-anchor="middle">操作端末</text><text class="sm" x="680.0" y="158.0" text-anchor="middle">コントローラ</text><line class="ln lb" x1="660" y1="162" x2="620" y2="204" marker-end="url(#f7b)" marker-start="url(#f7b)"/><line class="ln lb" x1="700" y1="162" x2="740" y2="204" marker-end="url(#f7b)" marker-start="url(#f7b)"/><text class="bk sm2 halo" x="680" y="190" text-anchor="middle">Matter等</text><path class="ln dash" d="M610,76 C570,120 570,170 600,204" style="fill:none" marker-end="url(#f7a)"/><text class="sm" x="564" y="150" text-anchor="start">F/W</text></svg></div><figcaption>3つの基本類型。ゲートウェイ型は宅内のG/Wが機器をまとめ、機器とG/Wの間はECHONET Liteなど。クラウド直接通信型は機器がメーカーのクラウドと直接つながる。機器間通信型は宅内の操作端末やコントローラがMatterなどで直接制御する。どの類型でも、ファームウェア（F/W）は機器がクラウドから取得する</figcaption></figure>
+    <p class="lead">守るべきは、構成要素の間でやりとりされる<strong>データ・制御・ファームウェア</strong>。どの類型でも、ファームウェアは機器がクラウドから取得する。</p>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th>類型</th><th>つながり方</th><th>制御とデータ</th><th>通信方式の例</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ゲートウェイ型</strong></td><td>機器 ⇄ 宅内G/W ⇄ クラウド</td><td>G/Wが直接制御、宅外からはクラウドとG/W経由。データはG/W内かクラウドに保存</td><td>機器〜G/Wは<strong>ECHONET Lite</strong>など</td></tr>
+          <tr><td><strong>クラウド直接通信型</strong></td><td>機器 ⇄ 機器メーカー独自のクラウド</td><td>クラウドから直接制御。データはクラウドに保存</td><td>各社独自</td></tr>
+          <tr><td><strong>機器間通信型</strong></td><td>機器 ⇄ 宅内の操作端末・コントローラ</td><td>操作端末かコントローラが直接制御し、データもそこに保存</td><td><strong>Matter</strong>など</td></tr>
+          <tr><td>応用：クラウド間連携型</td><td>各社のクラウド同士が連携</td><td>データを共有し、相互に機器を制御。片方向のケースもある</td><td><strong>ECHONET Lite Web API</strong>が共通仕様として想定される</td></tr>
+          <tr><td>応用：ゲートウェイ間連携型</td><td>G/W同士が連携</td><td>—</td><td>各社が選ぶ</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">G/Wや操作端末、機器とクラウドの間は、基本的に各社独自の通信方式。</p>
+  </section>
+
+  <section class="blk">
+    <h2>脅威分析と対策の基本方針</h2>
+    <p class="lead">具体ユースケースとして、<strong>エアコンの遠隔操作とモニター機能</strong>（クラウド経由で人の在不在なども表示）を脅威分析した。</p>
+    <div class="grid g2">
+      <div class="tile"><h3>守るべき資産（★1との違い）</h3><p>セーフティを含む「モノ」本来の機能は対象外だが、ネットワーク経由の<strong>制御指示</strong>は守る。機器の動作情報やセンサー情報は、プライバシーの感じ方が人や時代で変わり機密性のレベル付けができないので、<strong>すべて</strong>守る対象。さらに<strong>初期ネットワーク設定情報</strong>と<strong>ファームウェア</strong>自体も特記する</p></div>
+      <div class="tile"><h3>アタックサーフェス</h3><p>IoT機器、モバイルアプリ、クラウドサービス、そしてそれらをつなぐ<strong>通信経路</strong></p></div>
+    </div>
+    <p class="lead" style="margin-top:12px"><strong>対策の基本方針は3つ</strong></p>
+    <div class="grid g3">
+      <div class="tile l3"><h3>通信経路を保護する</h3></div>
+      <div class="tile l3"><h3>ストレージを保護する</h3></div>
+      <div class="tile l3"><h3>ファームウェアを保護する</h3></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>スマートホーム特有の5つの脅威</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>初期ネットワーク設定</h3><p>画面のない機器はWPSやアプリで設定する。<strong>Matter</strong>はQRコードを読み、BLE上でパスコードによる認証と鍵交換（PAKE）をしてSSIDなどを渡す。QRコードが漏れると、BLEの届く範囲から攻撃者が設定して機器を自由に操作できてしまう</p></div>
+      <div class="tile"><h3>カスタマーエンジニアのメンテナンス</h3><p>大型家電や住宅設備はネットワーク経由で状況確認やソフト保守をすることが増えている。遠隔管理者用に<strong>特別な通信ポートやコマンド</strong>を用意している場合は要注意</p></div>
+      <div class="tile"><h3>不要ポート</h3><p>機器は普通サーバにならないので、FTP（20）、SSH（22）、SMTP（25）、HTTP（80）などは閉じているのが一般的。レコーダや<strong>HEMSゲートウェイ</strong>のようにサーバとして動く機器も、本当に必要なポート以外は閉じる</p></div>
+      <div class="tile"><h3>廃棄・譲渡時の残存データ</h3><p>利用者自身が廃棄することが多いので、取扱説明書で消去方法を説明し、特殊な道具なしで一般の人が消せるようにする</p></div>
+      <div class="tile"><h3>未知の脆弱性</h3><p>コードが大きくなりバグを根絶して出荷するのは難しい。出荷後に通信・暗号方式やOSSの脆弱性が判明するリスクを想定する</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>要件の作り方：101項目から32項目へ</h2>
+    <ol class="flow">
+      <li><div><b>ロングリスト101項目</b><span>ETSI EN 303 645、NISTIR 8425、EU CRA、端末設備等規則などの国内外の要件を整理した全体リスト（WG3の最終とりまとめ別添1）</span></div></li>
+      <li><div><b>★1に該当する25項目</b><span>全IoT機器に共通なので、スマートホームでも準ずる。解釈が難しいところは補足を付けた</span></div></li>
+      <li><div><b>基本方針に関わる38項目を抽出</b><span>通信経路・ストレージ・ファームウェアの保護に関わるもの（★1該当の12項目を含む）</span></div></li>
+      <li><div><b>ETSIの必須6項目を追加</b><span>★1非該当の26項目のうち、ETSI EN 303 645で<strong>Mandatory</strong>のもの。国際連携を見据えて</span></div></li>
+      <li><div><b>ログの記録1項目を追加</b><span>NIST IR 8425の「Cybersecurity State Awareness」に基づく</span></div></li>
+    </ol>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile"><span class="big">32<small>項目（IoT製品）</small></span><p>★1に準じる25＋★2で追加6＋その他1</p></div>
+      <div class="tile"><span class="big">6<small>項目（システム・サービス）</small></span><p>本文5.3節は技術要件3＋非技術要件3。サマリーでは「13項目」と書かれていて、本文と数が合っていない</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>★2で追加される機器の要件</h2>
+    <p class="lead">★1にはない要件なので、適合基準と評価ガイドを新たに作る必要がある。</p>
+    <div class="grid g2">
+      <div class="tile"><h3>4-2 物理的な改ざんへの耐性</h3><p>機器固有の身元情報をセキュリティ目的で使うなら、物理的・電気的・ソフトウェアによる改ざんに耐える実装にする。サプライチェーンでの接触は想定しないが、<strong>廃棄時の物理的接触</strong>は想定する</p></div>
+      <div class="tile"><h3>4-3 ハードコード禁止</h3><p>ソースコードに重要なセキュリティパラメータを書かない。難読化しても解析されることが知られている</p></div>
+      <div class="tile"><h3>4-4 鍵・証明書は機器ごとに固有</h3><p>通信保護やアップデート検証に使う重要パラメータは機器ごとに固有にし、製品クラス全体への自動化攻撃のリスクを下げる方法で生成する。機器証明書と秘密鍵が固有であることを求める。<strong>署名検証用の公開鍵は固有でなくてよい</strong></p></div>
+      <div class="tile"><h3>5-8 パラメータの管理プロセス</h3><p>提供事業者は、重要なセキュリティパラメータをセキュアな管理プロセスに従って扱う。鍵や証明書を不正なアクセスや変更から守る</p></div>
+      <div class="tile"><h3>8-2 IoTデータの暗号化</h3><p>機器の動作情報やセンサー情報の機密性を、他の機器や必須付随サービスとの通信で暗号技術により保護する。機密の個人データの例：防犯カメラの映像、支払い情報、通信内容、時刻付きの位置情報</p></div>
+      <div class="tile"><h3>8-3 外部感知機能の開示</h3><p>光学センサーや音響センサーなど、機器が何を感知できるかを、利用者に分かりやすく示す</p></div>
+      <div class="tile" style="background:var(--trap-soft);border-color:var(--trap)"><h3>追加要件 状態の記録</h3><p>機器への攻撃や機器を使った攻撃に関わる状態を、機器が収集・記録する（接続先のサーバに記録してもよい）。家庭では管理者の監視が望めないので、ログを残してアップロードし、必要なら専門家が解析できるようにする</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>BtoBtoCモデルの運用要件</h2>
+    <p class="lead">機器がOEMやODMで<strong>ハウスメーカーやスマートホームのサービス事業者</strong>を通して利用者に届く形では、メーカーとの間でセキュリティ運用の基準がなく、責任があいまいになりやすい。更新ソフトの提供主体やインシデント時の役割分担を事前に確認・合意しておくことが利用者の安全につながる。</p>
+    <div class="grid g2">
+      <div class="tile"><h3>主体はサービス事業者</h3><p>この節の要件の主体は、顧客に製品を提供する<strong>スマートホームの提供事業者</strong>。メーカーが満たす必要はない。対象は機器、必須付随サービス、製品が扱う情報の管理プロセス</p></div>
+      <div class="tile"><h3>確認の方法</h3><p>第三者監査レベルの証跡は求めず、事業者の<strong>自己評価・自己宣言</strong>が基本。確認・合意の結果はチェックリストなどで記録すればよい</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile"><h3>ソフトウェアの更新</h3><p>メーカーと連携し、最新のソフトウェアへ更新できる体制とプロセスを作る。リリースとバージョンの管理の仕組みを明確にする</p></div>
+      <div class="tile"><h3>利用者が変わるとき</h3><p>設定や収集・蓄積した情報を初期化する。転売や退去などで住まい手が変わる場合への対応</p></div>
+      <div class="tile"><h3>既知の脆弱性の診断</h3><p>既知の脆弱性の有無を診断するプロセスと実施方針を整える</p></div>
+      <div class="tile"><h3>インシデント対応</h3><p>体制とプロセス、再発防止策を検討する仕組みを整える</p></div>
+    </div>
+    <p class="lead" style="margin-top:10px">課題として、サービス事業者が要件を満たすにはメーカーから一定の情報提供を受ける必要がある点が挙げられている。</p>
+  </section>
+
+  <section class="blk">
+    <h2>システム・サービスとしての要件</h2>
+    <p class="lead">家全体を1つのスマートホームシステムとして扱う場合の要件。CCDS「分野別セキュリティガイドライン スマートホーム編」、ロングリスト、NISTIR 8425を参考にした。</p>
+    <div class="vs">
+      <div class="a"><h3>技術要件</h3><dl>
+        <dt>1</dt><dd><strong>構成要素間のデータ保護</strong>：多くの関係者がいて責任分解があいまいになりやすい。通信経路のデータを保護し、受け渡し（Web APIなど）の責任を明確にする</dd>
+        <dt>2</dt><dd><strong>サービス契約者の本人認証</strong>：住宅の転売や賃貸の退去で利用者が変わる。今の利用者が契約者とは限らない</dd>
+        <dt>3</dt><dd><strong>管理担当者のアクセス権限管理</strong>：管理担当者（オペレーター含む）になりすまして管理用クラウドに不正アクセスされるのを防ぐ。最小権限</dd>
+      </dl></div>
+      <div class="b"><h3>非技術要件</h3><dl>
+        <dt>1</dt><dd><strong>一定の基準を満たしたIoT製品の利用</strong></dd>
+        <dt>2</dt><dd><strong>安全な利用方法のガイダンス</strong>：利用者がサービス対象外の機器を追加するなど、想定外の使い方が障害やインシデントの原因になる。手順を示し、責任範囲外を明確にする</dd>
+        <dt>3</dt><dd><strong>管理担当者のアクセス権限管理</strong>（運用面）</dd>
+      </dl></div>
+    </div>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li>政策動向の「DRready機器に★2を求める」の中身がこの要件。まだ<strong>案</strong>の段階</li>
+      <li>★2の要件は<strong>ロングリスト101項目</strong>から作られ、軸はETSI EN 303 645（必須項目）とNIST IR 8425</li>
+      <li>★1との差は、<strong>機器ごとに固有の鍵・証明書</strong>、<strong>物理的改ざんへの耐性</strong>、<strong>IoTデータの暗号化</strong>、<strong>ログの記録</strong>。ECHONET Liteの「平文」「なりすまし」の弱点（体感動画の②④）にそのまま対応する</li>
+      <li>守るべき資産に<strong>制御指示</strong>と<strong>全てのIoTデータ</strong>が入る。DRの制御指令もこれに当たる</li>
+      <li>BtoBtoCの運用要件は、機器を自社で作らず他社を通してサービスを届ける事業者にかかる。電力会社やCATVに提供するPaaSは、この構造に入る可能性が高い</li>
+      <li>HEMSゲートウェイは「サーバとして動く例外」として名指しされている。開けるポートを最小限にすることが求められる</li>
+      <li>クラウド間連携の共通仕様として<strong>ECHONET Lite Web API</strong>が挙げられている</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ================= Appendix A5 ERABセキュリティGL原本 ================= -->
+<article class="unit" id="u-a5" data-view="a5">
+  <span class="appx">Appendix：研修③の原本。研修に出なかった部分も含めて全体を整理</span>
+  <div class="unit-head">
+    <div class="unit-num">A5</div>
+    <h1 class="unit-title">ERABサイバーセキュリティガイドライン Ver3.0（原本）</h1>
+    <p class="unit-sub">資源エネルギー庁・IPA「エネルギー・リソース・アグリゲーション・ビジネスに関するサイバーセキュリティガイドライン Ver3.0」令和7年5月22日（23ページ）。各節の【勧告】【推奨】は原本の表記どおり</p>
+  </div>
+
+  <nav class="toc" aria-label="この単元の目次"><p class="toc-h">この単元の目次</p><ol><li><button type="button" data-go="a5s1">版の履歴：何を足してきたか</button></li><li><button type="button" data-go="a5s2">なぜこのガイドラインがあるのか</button></li><li><button type="button" data-go="a5s3">Ver3.0で追加された新しいユースケース</button></li><li><button type="button" data-go="a5s4">位置づけ（2章）</button></li><li><button type="button" data-go="a5s5">ERABシステムの構成（3.1）</button></li><li><button type="button" data-go="a5s6">基本方針（3.2）と想定すべき脅威（3.3）</button></li><li><button type="button" data-go="a5s7">維持すべきサービスレベル（3.4）と重要度（3.5）</button></li><li><button type="button" data-go="a5s8">共通のサイバーセキュリティ対策（3.6）勧告</button></li><li><button type="button" data-go="a5s9">インターフェース別の対策（3.6.1〜3.6.6）</button></li><li><button type="button" data-go="a5s10">取扱情報と動作環境の違いによる設計（3.7）勧告</button></li><li><button type="button" data-go="a5s11">標準対策要件と詳細対策要件（3.8）、継続的改善（3.9）勧告</button></li><li><button type="button" data-go="a5s12">事業者の対策の在り方（4.1）勧告</button></li><li><button type="button" data-go="a5s13">監視・対応体制（4.1.4）</button></li><li><button type="button" data-go="a5s14">低圧DRのプラットフォームとして読むと</button></li></ol></nav>
+
+  <section class="blk">
+    <h2 id="a5s1">版の履歴：何を足してきたか</h2>
+    <ul class="tl">
+      <li><b>Ver1.0</b>2017年4月26日。ERABに参画する事業者が取り組むべき<strong>標準対策要件</strong>を記載</li>
+      <li><b>Ver1.1</b>2017年11月29日。<strong>送配電事業者から発動指令を受ける</strong>ことを想定した対策を追加</li>
+      <li><b>Ver2.0</b>2019年12月27日。送配電の<strong>簡易指令システムにAC・RAのシステムが接続</strong>することを想定した対策を追加（特定卸供給の指針が参照している版）</li>
+      <li><b>Ver3.0</b>2025年5月22日。<strong>クラウド上のコントローラー、GWを介さない直接制御、複数事業者による制御</strong>などの新しいユースケースへの対策を追加</li>
+    </ul>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s2">なぜこのガイドラインがあるのか</h2>
+    <div class="grid g2">
+      <div class="tile"><h3>出発点は総理指示</h3><p>2015年11月26日の「未来投資に向けた官民対話」で、節電した電力量を売買する「ネガワット取引市場」を2017年までに作り、そのために2016年度中に<strong>事業者間の取引ルール</strong>と<strong>機器を遠隔制御する通信規格</strong>を整えると指示された。取引ルールがA3のERABガイドライン、セキュリティがこのガイドライン</p></div>
+      <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><h3>ERABシステムの特徴</h3><p>公衆網、VPN、専用線など<strong>性質の違うネットワーク</strong>で多様なシステムが相互接続される。特に、これまで家や建物の中で閉じていた<strong>エネルギー機器が外部につながる</strong>のが大きな特徴。どこか1社の対策が弱いと、需要家の電気の利用に影響しかねない</p></div>
+    </div>
+    <p class="lead" style="margin-top:12px">資源エネルギー庁のERAB検討会の下に置かれた<strong>サイバーセキュリティWG</strong>が、アグリゲーターのサービスモデルごとに付加価値と脅威・リスクを比較して、次の4点を確認した。</p>
+    <ol class="flow">
+      <li><div><b>ERABはサイバー・フィジカル・システム</b><span>機器の物理的・電気的な特性と、サイバーからの制御を組み合わせたもの。一般的なITシステムとは対策要件が大きく違い、データの保護だけでなく<strong>物理システムが動き続けるレジリエンス</strong>も要る。だからCPSFの三層構造で考える</span></div></li>
+      <li><div><b>脅威はサービスモデルによって大きく違う</b><span>だから各事業者（送配電、小売、AC、RA、エネルギー機器メーカー、再エネ発電事業者）が<strong>独自に</strong>脅威・リスクを評価する。小売がACやRAの役割まで担うなら、その立場からも評価する</span></div></li>
+      <li><div><b>優先度の高いものは事業者間で共有する</b><span>ERAB全体への影響と発生頻度で優先度が高いと判断したものは、参画事業者の間で共有する</span></div></li>
+      <li><div><b>他の取組と同期させる</b><span>「IoTセキュリティガイドライン ver1.0」（IoT推進コンソーシアム・総務省・経済産業省）などと十分に同期させることで実効性が上がる</span></div></li>
+    </ol>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s3">Ver3.0で追加された新しいユースケース</h2>
+    <p class="lead">前回の改定（Ver2.0）からの変化として報告されたもの。低圧の家庭向けサービスに直接関わる部分。</p>
+    <div class="grid g2">
+      <div class="tile l3"><h3>複数のクラウド上のコントローラー</h3><p>需要家側のネットワークに置かれたコントローラーだけでなく、<strong>複数のクラウド環境上のコントローラー</strong>を経由して機器とつながり、全体で1つのERABシステムになる</p></div>
+      <div class="tile l3"><h3>1台の機器を複数の事業者が制御</h3><p>1台の機器に<strong>仕様の違う複数のプロトコルスタック</strong>を共存させ、RAと機器メーカー、あるいはRAと連携する別のRAなど、<strong>複数の事業者</strong>が遠隔制御する</p></div>
+      <div class="tile l2"><h3>GWを介さない通信</h3><p>需要家側GWを通らずに機器と<strong>直接通信</strong>する、または<strong>需要家側のルーター経由</strong>で間接的に通信する</p></div>
+      <div class="tile l2"><h3>コントローラーがGWの外側に</h3><p>機器を管理するコントローラーが、従来のようにGWの内側ではなく、<strong>GWの外側</strong>に一部または全部置かれる</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile"><h3>評価の結果</h3><p>IPA「制御システムのセキュリティリスク分析ガイド 第2版」の考え方でリスクアセスメントをしたところ、不正アクセス、不正操作、機能停止、情報の窃取・改ざん、プロセスの不正な実行、高負荷攻撃、不正送信、バックドアの悪用、マルウェア、ランサムウェア、盗聴、異常動作（誤動作）など、<strong>危険が多数</strong>あることが確認された</p></div>
+      <div class="tile" style="background:var(--trap-soft);border-color:var(--trap)"><h3>だからシステム全体で設計する</h3><p>CPSFの考え方で経済合理性のある対策を選んだ。その際、<strong>機器が十分な計算資源を持たない</strong>ことが多く、機器や宅内ルーターを含め<strong>各部品の管理主体がばらばら</strong>なので、ERABシステム全体でセキュリティを設計する必要があることを確認した</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s4">位置づけ（2章）</h2>
+    <div class="grid g3">
+      <div class="tile"><h3>土台にした3つ</h3><p>「電力制御システムセキュリティガイドライン」（日本電気協会、JESC規格）、「IoT開発におけるセキュリティ設計の手引き」（IPA）、CPSF</p></div>
+      <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><h3>【勧告】</h3><p>参画事業者に<strong>実装を必須として義務付ける</strong>内容</p></div>
+      <div class="tile" style="background:var(--s-soft);border-color:var(--s)"><h3>【推奨】</h3><p>参画事業者が<strong>各自の責任範囲で実装を検討すべき</strong>内容</p></div>
+    </div>
+    <p class="lead" style="margin-top:10px">ERABのサービスレベルを維持するために実施すべき<strong>最低限</strong>の要求事項。各事業者はこれを踏まえ、自らの責任で対策を講じる。</p>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s5">ERABシステムの構成（3.1）</h2>
+    <p class="lead">構成要素：送配電の簡易指令システム、小売のシステム、AC、RA、HEMS・BEMSなどのEMS、需要家側GW、コントローラー、ERAB制御対象のエネルギー機器。</p>
+    <div class="grid g2">
+      <div class="tile"><h3>コントローラーの置き場所</h3><p>需要家側GWの<strong>内側</strong>か<strong>外側</strong>。外側の場合は、<strong>アグリゲーターが保有</strong>するものと、<strong>機器メーカーなどサードパーティが保有</strong>するものがある</p></div>
+      <div class="tile"><h3>大きく2つのユースケース</h3><p>①GWとコントローラーの組合せで機器のデータを集めてアグリゲーターに送る（クラウドを含むアグリゲーターのシステムがGWやコントローラーを管理）。②GWを介さず、機器から直接またはルーター経由で集め、アグリゲーターかサードパーティのコントローラーを経てアグリゲーターに送る</p></div>
+    </div>
+    <p class="lead" style="margin-top:12px"><strong>6つのインターフェース</strong>（原本の定義どおり）</p>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th></th><th>区間</th><th>区分</th><th>補足</th></tr></thead>
+        <tbody>
+          <tr><td><strong>R1</strong></td><td>簡易指令システム ⇄ AC</td><td><span class="pill pk">勧告</span></td><td>OpenADR。系統運用に直結</td></tr>
+          <tr><td><strong>R2</strong></td><td>小売 ⇄ AC または RA</td><td><span class="pill pk">勧告</span></td><td>—</td></tr>
+          <tr><td><strong>R3</strong></td><td>AC ⇄ RA</td><td><span class="pill pk">勧告</span></td><td>—</td></tr>
+          <tr><td><strong>R4</strong></td><td>RA ⇄ GW、またはHEMS・BEMSなどのEMS</td><td><span class="pill pk">勧告</span></td><td>EMSを介する場合も含む。接続点は、EMSのサービス連携機能が<strong>サーバー上</strong>にある場合と、機器のある<strong>HAN（宅内ネットワーク）内</strong>にある場合がある（日本電機工業会の定義）</td></tr>
+          <tr><td><strong>R5</strong></td><td>需要家側GW ⇄ GW配下の機器</td><td><span class="pill ps">推奨</span></td><td>機器に加え<strong>センサー</strong>も含む。GWとエンドポイントの間、またはHEMS・BEMSコントローラーとその配下の機器の間</td></tr>
+          <tr><td><strong>R6</strong></td><td>RA ⇄ 機器（GWを介さず直接）</td><td><span class="pill pk">勧告</span></td><td>GWの外側に置いたアグリゲーターのコントローラー、またはサードパーティのコントローラーを経由して直接通信する</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile" style="background:var(--trap-soft);border-color:var(--trap)"><h3>R4かR6かの分かれ目（図1の注記）</h3><p>サードパーティのコントローラーを経由して<strong>GWと</strong>通信するなら<strong>R4</strong>、サードパーティのコントローラーを経由して<strong>機器と</strong>通信するなら<strong>R6</strong></p></div>
+      <div class="tile"><h3>その他の注記</h3><p>アグリゲーターは役割によりACとRAに分かれ、小売が自らその役割を担うこともある。HEMSやBEMSと連携することもある。1台の機器に仕様の違う複数のプロトコルスタックが共存する場合がある</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s6">基本方針（3.2）と想定すべき脅威（3.3）</h2>
+    <div class="grid g2">
+      <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><h3>3.2【勧告】</h3><p>自組織が管理するERABシステムの<strong>利用者（機器が置かれた需要家を含む）</strong>に、脆弱性対策情報・脅威情報を<strong>通知</strong>する。通知方法は各事業者の詳細対策要件で決める。IPAの脆弱性対策情報データベース<strong>JVN iPedia</strong>（製品名やバージョンで脆弱性を検索できる）が使える。あわせて、情報共有の取組を定めて協力する</p></div>
+      <div class="tile" style="background:var(--s-soft);border-color:var(--s)"><h3>3.2【推奨】</h3><p>ハードウェアとそれが持つデータの<strong>機密性・完全性・可用性</strong>に留意して設計する。NISC「安全なIoTシステムのためのセキュリティに関する一般的枠組み」（2016年8月）は、これに<strong>安全性</strong>を加えた4項目を求めており、このガイドラインはその基本方針に準拠している</p></div>
+    </div>
+    <p class="lead" style="margin-top:12px"><strong>3.3【推奨】対策を考えるときの前提</strong></p>
+    <div class="grid g2">
+      <div class="tile"><h3>多様なリスクを想定する</h3><p>標的型攻撃、不正アクセス、不正操作、機能停止、情報の窃取・改ざん、プロセスの不正な実行、高負荷攻撃（バッファーオーバーフロー、DoS/DDoS）、不正送信、バックドアの悪用、マルウェア、ランサムウェア、盗聴、異常動作（誤動作）</p></div>
+      <div class="tile"><h3>3つの心構え</h3><p>インシデント検知のために<strong>ログを取得</strong>する。<strong>閉域網だから安全という考えに立たない</strong>。安全な状態が完全に達成されることはないので、<strong>継続的に改善</strong>する</p></div>
+    </div>
+    <p class="lead" style="margin-top:12px"><strong>R5（宅内）で論じられている脅威</strong>。このため、ERABシステムには<strong>IoTシステムとしてのセキュリティ</strong>が求められる。</p>
+    <div class="grid g3">
+      <div class="tile l2"><p>攻撃者がネットワークからGWを越えて、HEMS・BEMSコントローラーや機器・センサーに不正データを送り、誤作動、機能停止、データ取得不能にする</p></div>
+      <div class="tile l2"><p>機器やセンサーの内部データが改ざん・盗難される</p></div>
+      <div class="tile l2"><p>機器やセンサーの不正改造で、誤作動や機能停止が起きる</p></div>
+      <div class="tile l2"><p>乗っ取った機器やセンサーからサーバーにデータを送りつけ、処理負荷を上げてERABサービス全体を止める</p></div>
+      <div class="tile l2"><p>乗っ取った機器やセンサーを、GW経由で外部システムへのDoS攻撃に加担させる</p></div>
+      <div class="tile" style="background:var(--k-soft);border-color:var(--k)"><p>機器の破壊や停止の結果、ERABサービスが止まり、<strong>人命に関わる動作</strong>が誘発される</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s7">維持すべきサービスレベル（3.4）と重要度（3.5）</h2>
+    <p class="lead">3.4【勧告】簡易指令システムとACのシステムは相互接続されるので、<strong>サイバー攻撃の影響が系統ネットワークに広がるリスク</strong>の管理に留意する。そのうえで次のサービスレベルを確保する。</p>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th>誰が</th><th>求められるサービスレベル</th></tr></thead>
+        <tbody>
+          <tr><td>全体</td><td><strong>容量市場、需給調整市場などの要求事項</strong>に準拠</td></tr>
+          <tr><td>簡易指令システムを持つ事業者</td><td>電力制御システムセキュリティGL</td></tr>
+          <tr><td>ACとそのシステム</td><td>本GL。簡易指令システムとの<strong>直接的な接続部</strong>は、電力制御GLに加えて、送配電が電力制御GLと本GLに基づいて別途定めた要件にも準拠</td></tr>
+          <tr><td>RAとそのシステム</td><td>ACと接続する場合、本GLに加えて、ACが本GLに基づいて別途定めた要件にも準拠</td></tr>
+          <tr><td>機器やGW</td><td>JC-STARのIoT製品の要件。現時点は<strong>★1以上</strong>。★2の詳細要件が決まれば★2以上が望ましい</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile" style="background:var(--trap-soft);border-color:var(--trap)"><h3>ACの「分離設計」（脚注）</h3><p>ACは「簡易指令システムとの直接的な接続部」と「そうでない部分」を論理的・物理的に分けて設計できる。<strong>分けられない場合は、ACの全システム</strong>が電力制御GLと送配電の別途要件に準拠しなければならない</p></div>
+      <div class="tile"><h3>3.5【勧告】システム重要度</h3><p>電力制御GLに基づき、各事業者が自分のシステムを分類する。<br><strong>重要度A</strong>：制御対象の需要規模が<strong>50万kW以上</strong>。電力の安定供給への影響が比較的大きい<br><strong>重要度B</strong>：50万kW未満。影響が限定的<br>重要度Aには第三者認証が強く推奨される（4.1.3）</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s8">共通のサイバーセキュリティ対策（3.6）<span class="pill pk">勧告</span></h2>
+    <p class="lead">9ステップ（「分2 分析の概要」の単元を参照）に加えて、全事業者に共通して求められる4つの対策。</p>
+    <div class="grid g2">
+      <div class="tile"><h3>相互接続の中止</h3><p>接続相手に勧告内容の実装が確認できなければ、ERAB全体の被害を最小化するため、そのシステム間の相互接続を<strong>速やかに中止</strong>する。確認方法は各社が詳細対策要件に基づいて<strong>相対</strong>で行う。係争時の扱いは継続協議</p></div>
+      <div class="tile"><h3>なりすまし対策</h3><p>攻撃者がなりすまして意図しない指令を出し、機器が<strong>不正に制御される</strong>、または<strong>制御不能になる</strong>脅威を想定して対策する</p></div>
+      <div class="tile"><h3>データ等の改ざん対策</h3><p>通信機器や通信路が盗聴・中間者攻撃を受けて情報が改ざんされ、機器が不正に制御される脅威を想定して対策する</p></div>
+      <div class="tile"><h3>マルウェアへの対策</h3><p>脆弱性に対処する<strong>セキュリティパッチ</strong>の適用。機器や<strong>外部記憶媒体</strong>へのマルウェア対策。<strong>管理者権限</strong>の適切な割当と悪用防止（アカウントのライフサイクル管理、端末認証との連携）。不正なプログラムの実行を防ぐ仕組み。機器・媒体・データを把握して管理・保護。ランサムウェアに備え、<strong>バックアップを定期的に取って安全な場所で管理</strong></p></div>
+    </div>
+    <p class="lead" style="margin-top:10px">ベストプラクティスを導くにはCPSFが一助になる、と脚注で示されている。</p>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s9">インターフェース別の対策（3.6.1〜3.6.6）</h2>
+    <p class="lead">R1〜R6すべてに共通：外部との相互接続点を<strong>ホワイトリスト等での通信先の制限・認証・通信の暗号化</strong>で保護し、開いているポートを確認して<strong>不要なポートを物理的または論理的に閉塞</strong>する。</p>
+    <div class="chain">
+      <div class="link"><div class="rid">R1</div><div><div class="ends"><span class="n">ACのシステム</span><span class="w">⇄</span><span class="n">簡易指令システム</span><span class="pill pk">勧告</span></div><p>【事業者】ACは送配電と調整力契約を結ぶにあたり、自分に加え<strong>RAのセキュリティを含むサービス品質</strong>を確保し、送配電に責任を持つ。直接的な接続部は、送配電が定める相互接続のセキュリティ要求事項に準拠。【インターフェース】直接的な接続部は不特定多数がアクセスできるネットワークと<strong>原則分離</strong>し、他ネットワークとの<strong>接続点を最小化</strong>して<strong>防御措置</strong>を講じる</p></div></div>
+      <div class="link"><div class="rid">R2</div><div><div class="ends"><span class="n">AC・RA</span><span class="w">⇄</span><span class="n">小売</span><span class="pill pk">勧告</span></div><p>【インターフェース】ACやRAが小売のシステムと接続する場合、小売に対して本GLへの準拠と、本GLに基づいて別途定義した要件への準拠を<strong>求める</strong></p></div></div>
+      <div class="link"><div class="rid">R3</div><div><div class="ends"><span class="n">RAのシステム</span><span class="w">⇄</span><span class="n">AC</span><span class="pill pk">勧告</span></div><p>【事業者】RAはACと接続する場合、本GLへの準拠が必須で、加えて<strong>ACが別途定義した要件</strong>に準拠する</p></div></div>
+      <div class="link"><div class="rid">R4</div><div><div class="ends"><span class="n">RA</span><span class="w">⇄</span><span class="n">GW / HEMS・BEMS</span><span class="pill pk">勧告</span></div><p>【事業者】機器、GW、HEMS・BEMSは、ACのシステムと接続する場合、本GLとACの別途要件に準拠。<strong>通信路は公衆網を前提</strong>にしている。RA・EMSとGWを端点とする<strong>エンドツーエンドで安全性・信頼性が確保されたネットワーク</strong>なら、その担保を条件に<strong>対策の強度に一定の裁量</strong>が認められうる。RAは機器とのネットワーク構成を確認し、コントローラーが<strong>GWの内側か外側か</strong>を分類してそれぞれ対策する。【インターフェース】<strong>管理組織を特定でき、脆弱性対策を設計できるプロトコル</strong>を採用。新たに導入するIoT製品は<strong>JC-STAR★1以上</strong></p></div></div>
+      <div class="link sui"><div class="rid">R5</div><div><div class="ends"><span class="n">GW</span><span class="w">⇄</span><span class="n">配下の機器・センサー</span><span class="pill ps">推奨</span></div><p>【事業者】機器やセンサーには<strong>リソース制約</strong>のあるものや、セキュリティ機能の追加・更新が難しい<strong>既設の設備</strong>もあるので、「IoT開発におけるセキュリティ設計の手引き」などを参照した対策をとる。【インターフェース】R4・R6と同じ項目（通信先制限・認証・暗号化、管理組織を特定できるプロトコル、★1以上、ポート閉塞）が並ぶが、<strong>すべて推奨</strong></p></div></div>
+      <div class="link"><div class="rid">R6</div><div><div class="ends"><span class="n">RA</span><span class="w">⇄</span><span class="n">機器（GWを介さず直接）</span><span class="pill pk">勧告</span></div><p>【事業者】R4と同じく、本GLとACの別途要件に準拠。<strong>公衆網が前提</strong>で、RAのシステムと機器を端点とするエンドツーエンドで安全なネットワークなら強度に裁量。RAは機器とのネットワーク構成を確認して適切に対策する。【インターフェース】R4と同じ（プロトコル、★1以上、ポート閉塞）</p></div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s10">取扱情報と動作環境の違いによる設計（3.7）<span class="pill pk">勧告</span></h2>
+    <p class="lead">扱う情報の違いをはっきりさせ、それに見合ったシステムを設計する。脅威・リスクは<strong>アグリゲーターが作る付加価値によって大きく違う</strong>。また、自社で管理するオンプレミスと、クラウドを使うシステムでは、<strong>クラウド事業者の約款や利用規約</strong>によってセキュリティの水準・条件や責任分担が異なる。</p>
+    <div class="vs">
+      <div class="a"><h3>3.7.1 センサーデータを使うIoTに近いサービス</h3><dl>
+        <dt>前提</dt><dd>盗聴・改ざんへの対策が必要。個人情報でない情報に法律上の明示的な管理義務はないが、NISCの一般的枠組みに照らせば、<strong>個人情報でなくても適切に管理するのは当然</strong></dd>
+        <dt>明確化すること</dt><dd>IoTシステムの範囲と対象、リスクに基づく分類と対応／機密性・完全性・可用性と<strong>モノの動作に関する利用者の安全</strong>の要件／機能保証を含む確実な動作と<strong>障害時の迅速な回復</strong>／接続するモノとネットワークに求められる安全水準（法令・慣習）／故障やサイバー攻撃が起きても4項目を確保し迅速に復旧すること／<strong>責任分界点と、情報の所有権を含むデータの扱い</strong></dd>
+      </dl></div>
+      <div class="b"><h3>3.7.2 個人情報を使うサービス</h3><dl>
+        <dt>前提</dt><dd>盗聴・改ざん対策に加え、<strong>個人情報保護法に準拠</strong>した対策をとる</dd>
+        <dt>根拠</dt><dd>個人情報保護法は事業者に<strong>個人データの安全管理措置義務</strong>を課している</dd>
+        <dt>実施すること</dt><dd>個人情報保護委員会の「個人情報の保護に関する法律についてのガイドライン（通則編）」と他3編（外国にある第三者への提供編、第三者提供時の確認・記録義務編、匿名加工情報編）、「個人データの漏えい等の事案が発生した場合等の対応について」に基づく対策。さらに各種ガイドラインを参照して自主的に必要な対策をとる</dd>
+      </dl></div>
+    </div>
+    <div class="tile l3" style="margin-top:12px"><h3>3.7.3 クラウドを使うサービス</h3><p>ACやRAのシステムを外部のクラウドで構築・運用する場合や、機器から取得した情報をクラウドに保存する場合は、そのクラウドが<strong>マルウェア対策（3.6）、個人情報の管理（3.7.2）、監視・対応体制（4.1.4）</strong>に適合していることを確認する。<strong>ISMAPクラウドサービスリスト</strong>の登録サービスなら、この確認は省略できる。そのうえで、NISC「クラウドを利用したシステム運用に関するガイダンス（詳細版）」などを参照し、<strong>管理者を認証する強固な認証基盤</strong>と、<strong>ログインできる管理用端末の制限</strong>が提供されていることを確認して、その機能を使う</p></div>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s11">標準対策要件と詳細対策要件（3.8）、継続的改善（3.9）<span class="pill pk">勧告</span></h2>
+    <div class="vs">
+      <div class="a"><h3>標準対策要件（＝このガイドライン）</h3><dl>
+        <dt>中身</dt><dd>事故は起こりうる前提で継続的に改善することを踏まえた、<strong>基本的な考え方</strong>と、各要求事項の<strong>目的・考え方</strong></dd>
+        <dt>水準</dt><dd>サービスレベル維持のために実施すべき<strong>最低限</strong>の対策</dd>
+      </dl></div>
+      <div class="b"><h3>詳細対策要件（＝各事業者が作る）</h3><dl>
+        <dt>誰が</dt><dd>各事業者が、実運用に耐えるよう<strong>自らの責任で</strong>策定</dd>
+        <dt>中身</dt><dd>構成要素ごとの脅威と事業リスクの相関を踏まえ、<strong>（ⅰ）抑止、（ⅱ）内部防御・情報保護、（ⅲ）侵入・攻撃検知、（ⅳ）被害把握・事業継続</strong>の各フェーズの対策。加えて、標的型攻撃、サイバーと物理の複合攻撃など<strong>テーマ別の対策</strong></dd>
+        <dt>前提とする文書</dt><dd>本GL、IoT開発におけるセキュリティ設計の手引き、電力制御GL、CPSF</dd>
+      </dl></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile"><h3>3.9 更新のルール</h3><p>詳細対策要件は<strong>少なくとも定期的に</strong>点検・更新し、脆弱性が顕在化するなど早急な対策が必要なときは<strong>随時</strong>更新する。具体策を書く詳細対策要件は、標準対策要件より更新頻度が高くなる</p></div>
+      <div class="tile"><h3>連動させる</h3><p>標準と詳細は相互に連携しているので、一方を見直したら他方も見直しが必要か判断する。社会の変化やインシデントに応じて更新し、最終的に求められる水準に近づけていく</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s12">事業者の対策の在り方（4.1）<span class="pill pk">勧告</span></h2>
+    <div class="grid g2">
+      <div class="tile"><h3>体制と責任</h3><p><strong>経営層の責任</strong>の下で、現状と目指す姿を明確にし、詳細対策要件とその実現プロセスを決める。<strong>セキュリティ管理責任者</strong>を任命し、管理者間で情報共有できる体制を作る。<strong>セキュリティ管理責任組織</strong>を置き、その下でPDCAを回す</p></div>
+      <div class="tile"><h3>PDCA</h3><p>①対策の設定 → ②実施 → ③評価 → ④改善策の設定・実施。自らの責任で、自主的かつ継続的に「更なる高み」を目指す</p></div>
+      <div class="tile"><h3>役割・文書・報告・教育</h3><p>社内や取引先との<strong>役割</strong>を明確にする。関連情報を<strong>文書化</strong>して管理する。実施状況の<strong>報告事項</strong>を定めて適時報告する。<strong>教育・訓練</strong>を計画・実施し、その効果も確認する</p></div>
+      <div class="tile"><h3>コストの考え方</h3><p>対策には<strong>上限がない</strong>ので、コストも勘案し、<strong>過剰な投資をせず必要十分な範囲</strong>で講じる</p></div>
+    </div>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="tile"><h3>4.1.1 設定・実施【勧告】</h3><p>事業者ごとに発生するリスクも許容できるリスクも違うので、経営上のリスクを評価したうえで、<strong>本GLの要求事項にとどまらず</strong>自社が満たすべき対策を設定する</p></div>
+      <div class="tile"><h3>4.1.2 検証・改善【勧告】</h3><p>対策を踏まえてシステムを構築し、対策の<strong>実施状況</strong>と<strong>有効性</strong>を評価して改善する</p></div>
+      <div class="tile"><h3>4.1.3 第三者認証【推奨】</h3><p>一定以上の品質の<strong>内部監査</strong>などを受ける。<strong>重要度A</strong>は第三者認証が強く推奨。実施状況は内部監査、有効性は内部監査に加えて国際標準に準じた<strong>外部監査</strong>が望ましい。参考になる国際標準：CC（ISO/IEC 15408）、CSMS（IEC 62443-2）、ISMS（ISO/IEC 27001）、クラウドのISO/IEC 27017</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s13">監視・対応体制（4.1.4）</h2>
+    <p class="lead"><span class="pill pk">勧告</span></p>
+    <div class="grid g2">
+      <div class="tile"><h3>脆弱性情報の共有・管理</h3><p>事業者、システムの構築メーカー、事業者間の調整機関、脆弱性情報の分析機関の間で共有・管理する。<strong>JVN iPedia</strong>が使える</p></div>
+      <div class="tile"><h3>監視とインシデント対応</h3><p>システムの状況を監視し、インシデントに対応できる体制。被害が大きな事故に発展しないよう<strong>異常を最小限にとどめる</strong>対応。体制を作るだけでなく、事故が実際に起きる前提で<strong>有事の対応計画</strong>を作り、それに基づく<strong>訓練</strong>を継続する</p></div>
+      <div class="tile"><h3>定期的に確認する2つ</h3><p>自組織のシステムで使う機器・ソフトウェア・<strong>プロトコル</strong>に、対処が必要な<strong>脆弱性</strong>がないか。機能や権限の<strong>設定ミス</strong>がないか</p></div>
+      <div class="tile"><h3>ログと共有</h3><p>異常の<strong>予兆</strong>を検知し、発生時に要因を特定できるよう、<strong>収集すべきログを選別</strong>して恒常的に分析する。自組織の資産の脆弱性を文書化して<strong>RAと共有</strong>する。異常を検知したら<strong>接続先の事業者と速やかに共有</strong>する</p></div>
+    </div>
+    <div class="tile" style="margin-top:12px;background:var(--trap-soft);border-color:var(--trap)"><h3>機器やGWは外から入れる、という前提</h3><p>監視・対応体制は、機器やGWと外部が相互にアクセスできるという認識で考える。想定する外部からのアクセスは3つ：<strong>外部ともつながっている宅内の機器を経由</strong>して他の機器へ、<strong>無線LANルーター経由</strong>で、<strong>有線LANポート経由</strong>で。リスク分析編「はじめに」の体感動画①〜③そのもの</p></div>
+    <p class="lead" style="margin-top:12px"><span class="pill ps">推奨</span> 施設や設備について保護すべき<strong>セキュリティ区画</strong>を明確にし、許可された者だけが入れるよう<strong>入退管理</strong>する。システム調達時に<strong>セキュリティ仕様</strong>を明確にし、設計・製造時に準拠を確認し、仕様変更時には対策を再構築する。</p>
+    <p class="lead" style="margin-top:12px">参考：<strong>スマートメーターシステムのセキュリティ運用体制の例</strong>（表2）</p>
+    <div class="scroll">
+      <table class="mini">
+        <thead><tr><th>機能</th><th>平時</th><th>有事</th></tr></thead>
+        <tbody>
+          <tr><td><strong>セキュリティ統括</strong></td><td>社内全体の取組の統括（リスク評価、ペネトレーションテストの計画・実施・管理）。経営層や関係部署への情報提供</td><td>経営層や関係部署への事故情報の提供。行政機関など外部への説明、広報部門への情報提供</td></tr>
+          <tr><td><strong>セキュリティ事故対応</strong></td><td>有事の対応計画の策定と訓練。攻撃情報の提供・受領・分析。ログの横断的な分析</td><td>インシデントへの二次対応・応援。必要に応じ調査のための外部リソースの調達。分析と報告書の作成</td></tr>
+          <tr><td><strong>セキュリティ監視</strong></td><td>運用監視機能への作業指示と結果管理。ログの定型分析</td><td>運用監視からの連絡を受けた一次対応。運用監視への緊急作業指示と結果管理</td></tr>
+          <tr><td><strong>運用監視</strong></td><td>システムの監視（性能、死活、イベント）。インシデント検知時のセキュリティ監視への連絡。通常の運用業務</td><td>セキュリティ監視の指示による対応作業。必要に応じ事故対応に要るログの収集</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 id="a5s14">低圧DRのプラットフォームとして読むと</h2>
+    <p class="lead">ここからはガイドラインの記載を、低圧の家庭向けリソースを束ねるクラウドプラットフォームの立場に当てはめた読み方。ガイドライン自体の記載ではなく、構成や契約次第で変わる点に注意。</p><figure class="dg"><div class="dgs"><svg viewBox="0 0 820 320" role="img" aria-label="R4型は宅内のGWまでが勧告で宅内区間は推奨。R6型はGWを通らず機器まで勧告がかかる" style="min-width:680px"><defs><marker id="f2a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:currentColor"/></marker><marker id="f2r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--k)"/></marker><marker id="f2g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--s)"/></marker><marker id="f2t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--trap)"/></marker><marker id="f2b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" style="fill:var(--l3)"/></marker></defs><rect class="zone" x="10" y="10" width="390" height="300" rx="10"/><text class="b" x="205" y="34" text-anchor="middle">R4型：宅内のGW・HEMSを経由</text><rect class="bx" x="95" y="50" width="220" height="44" rx="8"/><text class="b" x="205.0" y="69.0" text-anchor="middle">プラットフォーム</text><text class="sm" x="205.0" y="85.0" text-anchor="middle">クラウドのコントローラー</text><line class="ln dash" x1="20" y1="134" x2="390" y2="134"/><text class="sm" x="26" y="128" text-anchor="start">家の境界</text><rect class="zone" x="420" y="10" width="390" height="300" rx="10"/><text class="b" x="615" y="34" text-anchor="middle">R6型：GWを通らず機器へ直接</text><rect class="bx" x="505" y="50" width="220" height="44" rx="8"/><text class="b" x="615.0" y="69.0" text-anchor="middle">プラットフォーム</text><text class="sm" x="615.0" y="85.0" text-anchor="middle">クラウドのコントローラー</text><line class="ln dash" x1="430" y1="134" x2="800" y2="134"/><text class="sm" x="436" y="128" text-anchor="start">家の境界</text><rect class="bx" x="110" y="166" width="190" height="40" rx="8"/><text class="b" x="205.0" y="190.0" text-anchor="middle">GW / HEMS</text><rect class="bx" x="110" y="250" width="190" height="40" rx="8"/><text class="b" x="205.0" y="267.0" text-anchor="middle">機器</text><text class="sm" x="205.0" y="283.0" text-anchor="middle">給湯機・蓄電池など</text><line class="ln lk" x1="205" y1="94" x2="205" y2="164" marker-end="url(#f2r)"/><text class="rk b" x="215" y="126" text-anchor="start">R4 勧告</text><text class="sm" x="215" y="150" text-anchor="start">公衆網が前提</text><line class="ln lg" x1="205" y1="206" x2="205" y2="248" marker-end="url(#f2g)"/><text class="gk sm2" x="215" y="232" text-anchor="start">R5 推奨（ECHONET Lite等）</text><rect class="bx mute" x="450" y="166" width="150" height="40" rx="8"/><text class="b" x="525.0" y="183.0" text-anchor="middle">ルーター</text><text class="sm" x="525.0" y="199.0" text-anchor="middle">通過するだけ</text><rect class="bx" x="560" y="250" width="190" height="40" rx="8"/><text class="b" x="655.0" y="267.0" text-anchor="middle">機器</text><text class="sm" x="655.0" y="283.0" text-anchor="middle">EV充電器など</text><line class="ln lk" x1="560" y1="94" x2="530" y2="164" marker-end="url(#f2r)"/><line class="ln lk" x1="540" y1="206" x2="610" y2="248" marker-end="url(#f2r)"/><text class="rk b" x="620" y="150" text-anchor="start">R6 勧告</text><text class="sm" x="620" y="168" text-anchor="start">機器まで勧告</text><text class="sm" x="620" y="184" text-anchor="start">機器にJC-STAR★1以上</text></svg></div><figcaption>同じ機器を動かすのでも、経路で要求が変わる。<strong>R4型</strong>はGW・HEMSまでが勧告で、宅内の区間（R5）は推奨。<strong>R6型</strong>はクラウドから機器までが勧告。宅内ルーターを通っても、GWとして機能していなければR6になる。どちらも、エンドツーエンドで安全な網なら対策の強度に裁量が認められうる</figcaption></figure>
+    <div class="grid g2">
+      <div class="tile l3"><h3>1. まず自分の立場を決める</h3><p>プラットフォームがRAのシステムそのものか、RAが使う<strong>GWの外側のコントローラー</strong>か、<strong>サードパーティのコントローラー</strong>かで、効く条文が変わる。いずれにしても、ACと接続するRA側に入るなら、本GLに加えて<strong>ACが別途定義する要件</strong>に従うことになる。パートナーの電力会社やCATVがAC・RAのどちらの役割を担うかも合わせて確認が要る</p></div>
+      <div class="tile l3"><h3>2. R4かR6か</h3><p>宅内のHEMSやGWを経由して制御するなら<strong>R4</strong>、クラウドから機器に直接届くなら<strong>R6</strong>。どちらも勧告で、<strong>管理組織を特定でき脆弱性対策を設計できるプロトコル</strong>と、新規導入機器の<strong>★1以上</strong>が要る。宅内のGW〜機器（ECHONET Lite）だけが<strong>R5で推奨</strong>にとどまる</p></div>
+      <div class="tile l2"><h3>3. 閉域網と裁量の関係</h3><p>R4とR6は<strong>公衆網が前提</strong>。CATVの網のようにエンドツーエンドで安全性が担保された網を使えば、<strong>対策の強度に裁量</strong>が認められうる。一方で3.3は「<strong>閉域網だから安全と考えない</strong>」としている。裁量を使うなら、端点から端点までの担保を説明できることが条件になる</p></div>
+      <div class="tile l2"><h3>4. 重要度は束ねた規模で決まる</h3><p>重要度は<strong>制御対象の需要規模が50万kW以上</strong>かどうか。低圧1件は小さくても、プラットフォームとして束ねた量が大きくなるとAに入り、<strong>第三者認証が強く推奨</strong>される</p></div>
+      <div class="tile l1"><h3>5. 需要家への通知義務</h3><p>3.2は、機器が置かれた<strong>需要家を含む利用者</strong>に脆弱性・脅威情報を通知することを<strong>勧告</strong>している。電力会社やCATVを通してサービスを届ける場合、<strong>誰が需要家に通知するか</strong>を契約で決めておく必要がある（A4のBtoBtoC要件とも重なる）</p></div>
+      <div class="tile l1"><h3>6. データの扱い</h3><p>需要家と結びついた電力使用データや機器の稼働データを扱うなら<strong>3.7.2（個人情報保護法）</strong>、結びつかないセンサーデータでも<strong>3.7.1</strong>で適切な管理が当然とされる。クラウドに保存するなら<strong>3.7.3</strong>（ISMAP、管理者認証、管理端末の制限）</p></div>
+      <div class="tile" style="background:var(--trap-soft);border-color:var(--trap)"><h3>7. 複数事業者が同じ機器を制御する</h3><p>Ver3.0の新ユースケースそのもの。給湯機やEV充電器を自社と機器メーカーのクラウドが同時に制御する構成では、<strong>リクエスト頻度の調整</strong>（体感動画⑤のサービスフラッド）や、<strong>どちらの指令を優先するか</strong>の取り決めが要る</p></div>
+      <div class="tile" style="background:var(--trap-soft);border-color:var(--trap)"><h3>8. 監視体制は宅内LANを前提に</h3><p>4.1.4は、機器やGWに<strong>無線LANルーターや有線LANポート経由で外から入れる</strong>前提で監視体制を考えることを勧告している。宅内のECHONET Lite（R5）は推奨止まりでも、そこを入口にした攻撃を検知・共有する体制は勧告の範囲に入る</p></div>
+    </div>
+  </section>
+
+  <aside class="trap point">
+    <h2>ここがポイント</h2>
+    <h3>重要な事</h3>
+    <ul>
+      <li>版の流れ：Ver1.0（標準対策要件）→ Ver1.1（送配電の発動指令）→ Ver2.0（簡易指令システムへの接続）→ <strong>Ver3.0（クラウド上のコントローラー、GWを介さない直接制御、複数事業者による制御）</strong></li>
+      <li>Ver3.0の背景：機器は<strong>計算資源が乏しく</strong>、部品ごとに<strong>管理主体がばらばら</strong>なので、<strong>システム全体でセキュリティを設計</strong>する</li>
+      <li>R4とR6の分かれ目：サードパーティのコントローラー経由で<strong>GWへ</strong>ならR4、<strong>機器へ</strong>ならR6。R5（GW〜配下の機器・センサー）だけが推奨</li>
+      <li>R4とR6は<strong>公衆網が前提</strong>。エンドツーエンドで安全な網なら強度に裁量。ただし「閉域網だから安全」とは考えない</li>
+      <li>重要度は<strong>50万kW</strong>が境目。重要度Aは第三者認証が強く推奨</li>
+      <li>ACは簡易指令システムとの接続部を<strong>分離設計</strong>できる。できなければ全システムが電力制御GL準拠</li>
+      <li>共通の勧告：<strong>相互接続の中止、なりすまし対策、改ざん対策、マルウェア対策</strong>（パッチ、外部記憶媒体、管理者権限、バックアップ）</li>
+      <li>需要家を含む利用者への<strong>脆弱性情報の通知</strong>と、異常検知時の<strong>接続先への速やかな共有</strong>は勧告</li>
+      <li>監視は「機器やGWに<strong>外から入れる</strong>」前提。経路は宅内の他の機器、無線LANルーター、有線LANポートの3つ</li>
+    </ul>
+  </aside>
+</article>
+
+</main>
+<footer>出典：資源エネルギー庁「ERABに関連する政策動向」（2026年9月）、IPA ERABサイバーセキュリティトレーニング ガイドライン編①〜⑥、リスク分析編「はじめに」・①〜④の講義資料を要約。Appendix：経済産業省「サイバー・フィジカル・セキュリティ対策フレームワーク Ver1.0」（2019年4月）、同「協調的なデータ利活用に向けたデータマネジメント・フレームワーク Ver1.1」（2024年2月）、資源エネルギー庁「ERABに関するガイドライン」（2025年11月改定）、スマートホームSWG「特定分野システム（スマートホーム）向けセキュリティ要件案（修正版）」（2026年1月）、資源エネルギー庁・IPA「ERABに関するサイバーセキュリティガイドライン Ver3.0」（2025年5月22日）。</footer>
+
+<script>
+(function(){
+  var views=["home","glossary","policy","g1","g2","g3","g4","g5","g6","r0","r1","r2","r3","r4","a1","a2","a3","a4","a5"];
+  function show(){
+    var h=(location.hash||"").replace("#","");
+    if(views.indexOf(h)<0) h="home";
+    views.forEach(function(v){
+      var el=document.getElementById("u-"+v);
+      if(el) el.classList.toggle("on",v===h);
+    });
+    document.querySelectorAll("nav a").forEach(function(a){
+      if(a.getAttribute("href")==="#"+h) a.setAttribute("aria-current","page");
+      else a.removeAttribute("aria-current");
+    });
+    window.scrollTo(0,0);
+  }
+  document.addEventListener("click",function(e){var b=e.target.closest("[data-go]");if(!b)return;var t=document.getElementById(b.getAttribute("data-go"));if(t){var hd=document.querySelector("header");var off=(hd?hd.getBoundingClientRect().bottom:0)+12;window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-off,left:0,behavior:"smooth"});}});
+  window.addEventListener("hashchange",show);
+  show();
+})();
+</script>
+</body>
+</html>
+
+</body></html>
